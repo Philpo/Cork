@@ -1,11 +1,18 @@
 #pragma once
 #include "Utils.h"
-#include "IMessage.h"
+#include "IMessageable.h"
+#include <map>
+
+using namespace std;
 
 class MessageHandler {
 public:
-  MessageHandler();
-  ~MessageHandler();
+  MessageHandler() {}
+  ~MessageHandler() {}
 
-  void forwardMessage(const IMessage& message) const {}
+  static inline void addForwardingMapping(MessageType type, IMessageable* const target) { forwardingMappings.insert(pair<MessageType, IMessageable* const>(type, target)); }
+
+  static void forwardMessage(const IMessage& message);
+private:
+  static map<MessageType, IMessageable* const> forwardingMappings;
 };

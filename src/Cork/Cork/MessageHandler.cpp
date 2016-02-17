@@ -1,7 +1,9 @@
 #include "MessageHandler.h"
 
-MessageHandler::MessageHandler() {
-}
+map<MessageType, IMessageable* const> MessageHandler::forwardingMappings;
 
-MessageHandler::~MessageHandler() {
+void MessageHandler::forwardMessage(const IMessage& message) {
+  if (forwardingMappings.find(message.getType()) != forwardingMappings.end()) {
+    forwardingMappings[message.getType()]->receiveMessage(message);
+  }
 }

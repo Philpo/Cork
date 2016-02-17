@@ -15,7 +15,7 @@ enum ComponentType {
 , INPUT_COMPONENT = 2
 };
 
-enum InputEvents {
+enum InputEvent {
   NONE = 0
 , MOVE_UP = 1
 , MOVE_DOWN = 2

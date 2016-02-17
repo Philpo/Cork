@@ -1,19 +1,22 @@
 #pragma once
 #include "IComponent.h"
 #include "Window.h"
+#include "MessageHandler.h"
+#include "PollInputMessage.h"
 #include <vector>
+#include <functional>
 
 using namespace std;
 
-typedef void (* gameLoopFunction)(double);
+typedef function<void (double)> gameLoopFunction;
 
 class Scheduler {
 public:
   Scheduler();
   Scheduler(const Window& window, double frameRateTarget, const wstring caption);
-  ~Scheduler() {}
+  ~Scheduler();
 
-  inline void registerPollComponent(IComponent& component) { pollEveryFrame.push_back(&component); }
+  inline void registerPollComponent(IComponent* const component) { pollEveryFrame.push_back(component); }
   inline void setGameLoopFunction(gameLoopFunction function) { this->function = function; }
 
   WPARAM gameLoop();
