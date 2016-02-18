@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BasicMovementComponent.cpp" />
     <ClCompile Include="ConsoleGraphicsComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -76,6 +77,7 @@
     <ClCompile Include="TestInputComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicMovementComponent.h" />
     <ClInclude Include="ConsoleGraphicsComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Player.h" />

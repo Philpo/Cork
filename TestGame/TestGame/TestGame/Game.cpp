@@ -9,6 +9,9 @@ Game::~Game() {
   if (player) {
     delete player;
   }
+  if (entity) {
+    delete entity;
+  }
 }
 
 HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
@@ -21,7 +24,10 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   scheduler->setGameLoopFunction(std::bind(&Game::loopFunction, this, std::placeholders::_1));
 
   player = new Player(Vector3<float>());
-  scheduler->registerPollComponent(new TestInputComponent(*player));
+  entity = new GameObject(Vector3<float>());
+  entity->addFunctionalComponent(INPUT_RECEIVED_MESSAGE, new BasicMovementComponent(*entity));
+  entity->addFunctionalComponent(DRAW_MESSAGE, new ConsoleGraphicsComponent());
+  scheduler->registerPollComponent(new TestInputComponent(*entity));
 }
 
 WPARAM Game::startGame() {
@@ -29,7 +35,12 @@ WPARAM Game::startGame() {
 }
 
 void Game::loopFunction(double timeSinceLastFrame) {
-  if (player) {
-    player->draw();
+  if (entity) {
+    DrawMessage m;
+    m.setData(&entity->getPositon());
+    entity->receiveMessage(m);
   }
+  //if (player) {
+  //  player->draw();
+  //}
 }

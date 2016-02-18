@@ -4,6 +4,8 @@
 #include "Window.h"
 #include "Player.h"
 #include "TestInputComponent.h"
+#include "BasicMovementComponent.h"
+#include "ConsoleGraphicsComponent.h"
 
 class Game {
 public:
@@ -18,4 +20,5 @@ private:
   Window window;
   Scheduler* scheduler;
   Player* player;
+  GameObject* entity;
 };
