@@ -48,12 +48,6 @@
     <ClInclude Include="IMessageable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DrawMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PollInputMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
