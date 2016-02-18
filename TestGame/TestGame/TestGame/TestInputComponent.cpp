@@ -1,15 +1,18 @@
 #include "TestInputComponent.h"
 
-TestInputComponent::TestInputComponent(IMessageable& player) {
-  MessageHandler::addForwardingMapping(POLL_INPUT_MESSAGE, this);
-  MessageHandler::addForwardingMapping(INPUT_RECEIVED_MESSAGE, &player);
+TestInputComponent::TestInputComponent(IMessageable& player) : player(player) {
+  //MessageHandler::addForwardingMapping(POLL_INPUT_MESSAGE, this);
+  //MessageHandler::addForwardingMapping(INPUT_RECEIVED_MESSAGE, &player);
 }
 
 TestInputComponent::~TestInputComponent() {}
 
-void TestInputComponent::receiveMessage(const IMessage& message) {
-  InputMessage returnMessage;
+void TestInputComponent::receiveMessage(IMessage& message) {
+  Message returnMessage;
   InputEvent event;
+  
+  returnMessage.setType(INPUT_RECEIVED_MESSAGE);
+  returnMessage.setTarget(&player);
 
   if (message.getType() == POLL_INPUT_MESSAGE) {
     if (GetAsyncKeyState('W')) {

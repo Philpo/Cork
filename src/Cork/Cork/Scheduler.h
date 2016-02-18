@@ -2,7 +2,7 @@
 #include "IComponent.h"
 #include "Window.h"
 #include "MessageHandler.h"
-#include "PollInputMessage.h"
+#include "Message.h"
 #include <vector>
 #include <functional>
 

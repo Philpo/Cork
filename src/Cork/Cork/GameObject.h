@@ -3,6 +3,7 @@
 #include "Vector3.h"
 #include <vector>
 #include <map>
+#include "MessageHandler.h"
 
 using namespace std;
 
@@ -18,11 +19,12 @@ public:
 
   inline void addComponent(IComponent* const component) { components.push_back(component); }
   inline void addFunctionalComponent(MessageType type, IComponent* const component) { functionalComponents.insert(pair<MessageType, IComponent* const>(type, component)); }
-
-  void receiveMessage(const IMessage& message) override;
+  inline IComponent* const getMessageHandler(MessageType type) const { return functionalComponents.find(type) != functionalComponents.end() ? functionalComponents.at(type) : nullptr; }
 protected:
   Vector3<float> position;
 
   vector<IComponent* const> components;
   map<MessageType, IComponent* const> functionalComponents;
+private:
+  void receiveMessage(IMessage& message) override;
 };

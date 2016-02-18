@@ -1,7 +1,10 @@
 #pragma once
 #include "IMessage.h"
 
+class MessageHandler;
+
 class IMessageable {
-public:
-  virtual void receiveMessage(const IMessage& message) = 0;
+  friend class MessageHandler;
+private:
+  virtual void receiveMessage(IMessage& message) = 0;
 };

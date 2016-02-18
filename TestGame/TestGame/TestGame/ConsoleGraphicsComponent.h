@@ -9,5 +9,6 @@ public:
   ~ConsoleGraphicsComponent() {}
 
   ComponentType getType() const override { return GRAPHICS_COMPONENT; }
-  void receiveMessage(const IMessage& message) override;
+private:
+  void receiveMessage(IMessage& message) override;
 };

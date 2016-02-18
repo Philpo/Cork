@@ -10,9 +10,9 @@ public:
   MessageHandler() {}
   ~MessageHandler() {}
 
-  static inline void addForwardingMapping(MessageType type, IMessageable* const target) { forwardingMappings.insert(pair<MessageType, IMessageable* const>(type, target)); }
+  //static inline void addForwardingMapping(MessageType type, IMessageable* const target) { forwardingMappings.insert(pair<MessageType, IMessageable* const>(type, target)); }
 
-  static void forwardMessage(const IMessage& message);
+  static void forwardMessage(IMessage& message);
 private:
   static map<MessageType, IMessageable* const> forwardingMappings;
 };

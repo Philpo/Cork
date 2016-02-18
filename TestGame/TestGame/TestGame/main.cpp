@@ -10,8 +10,6 @@
 #include <fstream>
 #include "Game.h"
 
-Player* player;
-
 UINT min(UINT lhs, UINT rhs) {
   return lhs <= rhs ? lhs : rhs;
 }

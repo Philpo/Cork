@@ -8,7 +8,7 @@ public:
   ~BasicMovementComponent() {}
 
   ComponentType getType() const override { return INPUT_COMPONENT; }
-  void receiveMessage(const IMessage& message) override;
 private:
   GameObject& target;
+  void receiveMessage(IMessage& message) override;
 };

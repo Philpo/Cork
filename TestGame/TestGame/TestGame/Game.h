@@ -2,7 +2,7 @@
 #include "MessageHandler.h"
 #include "Scheduler.h"
 #include "Window.h"
-#include "Player.h"
+#include "Message.h"
 #include "TestInputComponent.h"
 #include "BasicMovementComponent.h"
 #include "ConsoleGraphicsComponent.h"
@@ -19,6 +19,5 @@ public:
 private:
   Window window;
   Scheduler* scheduler;
-  Player* player;
   GameObject* entity;
 };

@@ -11,8 +11,10 @@ GameObject::~GameObject() {
   }
 }
 
-void GameObject::receiveMessage(const IMessage& message) {
+void GameObject::receiveMessage(IMessage& message) {
   if (functionalComponents.find(message.getType()) != functionalComponents.end()) {
-    functionalComponents[message.getType()]->receiveMessage(message);
+    message.setTarget(functionalComponents[message.getType()]);
+    MessageHandler::forwardMessage(message);
+    //functionalComponents[message.getType()]->receiveMessage(message);
   }
 }

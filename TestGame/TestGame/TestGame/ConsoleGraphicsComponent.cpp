@@ -3,10 +3,10 @@
 #include <Windows.h>
 
 ConsoleGraphicsComponent::ConsoleGraphicsComponent() {
-  MessageHandler::addForwardingMapping(DRAW_MESSAGE, this);
+  //MessageHandler::addForwardingMapping(DRAW_MESSAGE, this);
 }
 
-void ConsoleGraphicsComponent::receiveMessage(const IMessage& message) {
+void ConsoleGraphicsComponent::receiveMessage(IMessage& message) {
   COORD topLeft = { 0, 0 };
   HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
   CONSOLE_SCREEN_BUFFER_INFO screen;

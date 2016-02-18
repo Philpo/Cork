@@ -40,7 +40,7 @@ WPARAM Scheduler::gameLoop() {
       //TODO figure out how to poll components every frame; is there a better way than the below?
       for (auto component : pollEveryFrame) {
         if (component->getType() == INPUT_COMPONENT) {
-          MessageHandler::forwardMessage(PollInputMessage());
+          MessageHandler::forwardMessage(Message(POLL_INPUT_MESSAGE, nullptr, component));
           //component->receiveMessage(InputPollMessage());
         }
       }

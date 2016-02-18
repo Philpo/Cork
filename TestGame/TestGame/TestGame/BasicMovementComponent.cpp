@@ -1,6 +1,6 @@
 #include "BasicMovementComponent.h"
 
-void BasicMovementComponent::receiveMessage(const IMessage& message) {
+void BasicMovementComponent::receiveMessage(IMessage& message) {
   if (message.getType() == INPUT_RECEIVED_MESSAGE) {
     InputEvent* event = (InputEvent*) message.getData(); 
     Vector3<float> newPosition = target.getPositon();

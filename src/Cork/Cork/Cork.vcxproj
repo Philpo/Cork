@@ -19,6 +19,7 @@
     <ClInclude Include="IMessageable.h" />
     <ClInclude Include="InputMessage.h" />
     <ClInclude Include="IUpdateable.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="PollInputMessage.h" />
     <ClInclude Include="Scheduler.h" />
