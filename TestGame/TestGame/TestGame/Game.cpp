@@ -24,6 +24,8 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   entity->addFunctionalComponent(INPUT_RECEIVED_MESSAGE, new BasicMovementComponent(*entity));
   entity->addFunctionalComponent(DRAW_MESSAGE, new ConsoleGraphicsComponent());
   scheduler->registerPollComponent(new TestInputComponent(*entity));
+
+  return 1;
 }
 
 WPARAM Game::startGame() {

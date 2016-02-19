@@ -26,6 +26,8 @@ public:
   inline Vector3<T> operator/(T scalar) const;
   inline void operator+=(const Vector3<T>& rhs);
   inline void operator-=(const Vector3<T> & rhs);
+  inline void operator*=(T scalar);
+  inline void operator/=(T scalar);
   inline Vector3<T> operator=(T scalar);
   inline Vector3<T> operator=(const Vector3<T>& rhs);
 private:
@@ -103,6 +105,20 @@ void Vector3<T>::operator-=(const Vector3<T>& rhs) {
   this->x -= rhs.x;
   this->y -= rhs.y;
   this->z -= rhs.z;
+}
+
+template <class T>
+void Vector3<T>::operator*=(T scalar) {
+  this->x *= rhs.x;
+  this->y *= rhs.y;
+  this->z *= rhs.z;
+}
+
+template <class T>
+void Vector3<T>::operator/=(T scalar) {
+  this->x /= rhs.x;
+  this->y /= rhs.y;
+  this->z /= rhs.z;
 }
 
 template <class T>
