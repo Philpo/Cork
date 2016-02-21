@@ -17,7 +17,7 @@ public:
 
   Vector3<T> normalise() const;
   void clamp(T maxValue);
-  inline T magnitude() const { return sqrt(pow(x, 2) + pow(y, 2)); }
+  inline T magnitude() const { return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2)); }
   inline static T dotProduct(Vector3<T>& lhs, Vector3<T>& rhs) { return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z); }
 
   inline Vector3<T> operator+(const Vector3<T>& rhs) const;
@@ -36,17 +36,19 @@ private:
 
 template <class T>
 Vector3<T> Vector3<T>::normalise() const {
-  float magnitude = magnitude();
-  if (magnitude == 0) {
+  float m = magnitude();
+  if (m == 0 || m == 1) {
     return *this;
   }
   else {
-    return Vector3(x / magnitude, y / magnitude, z / magnitude);
+    return Vector3(x / m, y / m, z / m);
   }
 }
 
 template <class T>
 void Vector3<T>::clamp(T maxValue) {
+  maxValue = abs(maxValue);
+
   if (abs(x) > maxValue) {
     if (x < 0) {
       x = maxValue * -1;
@@ -90,7 +92,7 @@ Vector3<T> Vector3<T>::operator*(T scalar) const {
 
 template <class T>
 Vector3<T> Vector3<T>::operator/(T scalar) const {
-  return Vector3<T>(x / scalar, y / scalar, z / scalar);
+  return scalar == 0 ? *this : Vector3<T>(x / scalar, y / scalar, z / scalar);
 }
 
 template <class T>
@@ -109,16 +111,20 @@ void Vector3<T>::operator-=(const Vector3<T>& rhs) {
 
 template <class T>
 void Vector3<T>::operator*=(T scalar) {
-  this->x *= rhs.x;
-  this->y *= rhs.y;
-  this->z *= rhs.z;
+  this->x *= scalar;
+  this->y *= scalar;
+  this->z *= scalar;
 }
 
 template <class T>
 void Vector3<T>::operator/=(T scalar) {
-  this->x /= rhs.x;
-  this->y /= rhs.y;
-  this->z /= rhs.z;
+  if (scalar == 0) {
+    return;
+  }
+
+  this->x /= scalar;
+  this->y /= scalar;
+  this->z /= scalar;
 }
 
 template <class T>
