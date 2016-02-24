@@ -2,32 +2,29 @@
 #include <string>
 #include <sstream>
 
-enum MessageType {
-  DRAW_MESSAGE = 0
-, ADD_FORCE_MESSAGE = 1
-, POLL_INPUT_MESSAGE = 2
-, INPUT_RECEIVED_MESSAGE = 3
-};
+// general message types for use in any game
+const std::string DRAW_MESSAGE = "DrawMessage";
+const std::string ADD_FORCE_MESSAGE = "AddForceMessage";
+const std::string POLL_INPUT_MESSAGE = "PollInputMessage";
+const std::string INPUT_RECEIVED_MESSAGE = "InputReceivedMessage";
 
-enum ComponentType {
-  GRAPHICS_COMPONENT = 0
-, PHYSICS_COMPONENT = 1
-, INPUT_COMPONENT = 2
-};
+// general component types for use in any game
+const std::string GRAPHICS_COMPONENT = "GraphicsComponent";
+const std::string PHYSICS_COMPONENT = "PhysicsComponent";
+const std::string INPUT_COMPONENT = "InputComponent";
 
-enum InputEvent {
-  NONE = 0
-, MOVE_UP = 1
-, MOVE_DOWN = 2
-, MOVE_LEFT = 3
-, MOVE_RIGHT = 4
-, STRAFE_LEFT = 5
-, STRAFE_RIGHT = 6
-, ROTATE_YAW_CLOCKWISE = 7
-, ROTATE_YAW_ANTICLOCKWISE = 8
-, ROTATE_PITCH_UP = 9
-, ROTATE_PITCH_DOWN = 10
-};
+// general input events for use in any game
+const std::string NONE = "None";
+const std::string MOVE_UP = "MoveUp";
+const std::string MOVE_DOWN = "MoveDown";
+const std::string MOVE_LEFT = "MoveLeft";
+const std::string MOVE_RIGHT = "MoveRight";
+const std::string STRAFE_LEFT = "StrafeLeft";
+const std::string STRAFE_RIGHT = "StrafeRight";
+const std::string ROTATE_YAW_CLOCKWISE = "RotateYawClockwise";
+const std::string ROTATE_YAW_ANTICLOCKWISE = "RotateYawAntiClockwise";
+const std::string ROTATE_PITCH_UP = "RotatePitchUp";
+const std::string ROTATE_PITCH_DOWN = "RotatePitchDown";
 
 inline bool convertStringToBool(const std::string& toConvert) {
   if (toConvert == "true") {

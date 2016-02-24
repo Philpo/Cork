@@ -10,7 +10,7 @@ public:
   TestInputComponent(IMessageable& player);
   ~TestInputComponent();
 
-  ComponentType getType() const override { return INPUT_COMPONENT; }
+  const string& getType() const override { return INPUT_COMPONENT; }
 private:
   IMessageable& player;
   void receiveMessage(IMessage& message) override;

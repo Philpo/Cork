@@ -3,7 +3,7 @@
 #include "Window.h"
 #include "MessageHandler.h"
 #include "Message.h"
-#include <vector>
+#include <map>
 #include <functional>
 
 using namespace std;
@@ -16,7 +16,7 @@ public:
   Scheduler(const Window& window, double frameRateTarget, const wstring caption);
   ~Scheduler();
 
-  inline void registerPollComponent(IComponent* const component) { pollEveryFrame.push_back(component); }
+  inline void registerPollComponent(const string& messageType, IComponent* const component) { pollEveryFrame.insert(pair<string, IComponent* const>(messageType, component)); }
   inline void setGameLoopFunction(gameLoopFunction function) { this->function = function; }
 
   WPARAM gameLoop();
@@ -26,7 +26,7 @@ private:
   wstring caption;
   Window window;
   gameLoopFunction function;
-  vector<IComponent* const> pollEveryFrame;
+  map<string, IComponent* const> pollEveryFrame;
 
   HRESULT startCounter();
   double getCounter();

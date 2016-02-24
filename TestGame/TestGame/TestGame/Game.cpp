@@ -23,7 +23,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   entity = new GameObject(Vector3<float>());
   entity->addFunctionalComponent(INPUT_RECEIVED_MESSAGE, new BasicMovementComponent(*entity));
   entity->addFunctionalComponent(DRAW_MESSAGE, new ConsoleGraphicsComponent());
-  scheduler->registerPollComponent(new TestInputComponent(*entity));
+  scheduler->registerPollComponent(POLL_INPUT_MESSAGE, new TestInputComponent(*entity));
 
   return 1;
 }

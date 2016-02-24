@@ -9,7 +9,7 @@ TestInputComponent::~TestInputComponent() {}
 
 void TestInputComponent::receiveMessage(IMessage& message) {
   Message returnMessage;
-  InputEvent event;
+  string event;
   
   returnMessage.setType(INPUT_RECEIVED_MESSAGE);
   returnMessage.setTarget(&player);

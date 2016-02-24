@@ -8,7 +8,7 @@ public:
   ConsoleGraphicsComponent();
   ~ConsoleGraphicsComponent() {}
 
-  ComponentType getType() const override { return GRAPHICS_COMPONENT; }
+  const std::string& getType() const override { return GRAPHICS_COMPONENT; }
 private:
   void receiveMessage(IMessage& message) override;
 };

@@ -7,11 +7,7 @@ Scheduler::Scheduler(const Window& window, double frameRateTarget, const wstring
   startCounter();
 }
 
-Scheduler::~Scheduler() {
-  for (auto component : pollEveryFrame) {
-    delete component;
-  }
-}
+Scheduler::~Scheduler() {}
 
 WPARAM Scheduler::gameLoop() {
   MSG msg = { 0 };
@@ -38,11 +34,8 @@ WPARAM Scheduler::gameLoop() {
       double elapsedTime = currentTime - timeLastFrame;
 
       //TODO figure out how to poll components every frame; is there a better way than the below?
-      for (auto component : pollEveryFrame) {
-        if (component->getType() == INPUT_COMPONENT) {
-          MessageHandler::forwardMessage(Message(POLL_INPUT_MESSAGE, nullptr, component));
-          //component->receiveMessage(InputPollMessage());
-        }
+      for (auto kvp : pollEveryFrame) {
+        MessageHandler::forwardMessage(Message(kvp.first, nullptr, kvp.second));
       }
 
       if (function) {
