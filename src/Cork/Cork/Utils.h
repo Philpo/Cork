@@ -41,6 +41,6 @@ inline bool convertStringToBool(const std::string& toConvert) {
 template <class T>
 inline T convertStringToNumber(const std::string& toConvert) {
   T r;
-  stringstream(toConvert) >> r;
+  std::stringstream(toConvert) >> r;
   return r;
 }
