@@ -7,5 +7,4 @@ public:
   virtual ~IComponent() {}
 
   inline virtual const std::string& getType() const = 0;
-  //virtual void sendMessage(const MessageHandler& messageHandler) const = 0;
 };

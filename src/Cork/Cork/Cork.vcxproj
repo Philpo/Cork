@@ -11,24 +11,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BasicMovementComponent.h" />
+    <ClInclude Include="ConsoleGraphicsComponent.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="IFactory.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
     <ClInclude Include="IUpdateable.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="Scheduler.h" />
+    <ClInclude Include="ServiceLocator.h" />
+    <ClInclude Include="TestInputComponent.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicMovementComponent.cpp" />
+    <ClCompile Include="ConsoleGraphicsComponent.cpp" />
+    <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="Scheduler.cpp" />
+    <ClCompile Include="ServiceLocator.cpp" />
+    <ClCompile Include="TestInputComponent.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

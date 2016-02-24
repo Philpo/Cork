@@ -7,11 +7,13 @@
 
 class TestInputComponent : public IComponent {
 public:
-  TestInputComponent(IMessageable& player);
+  TestInputComponent();
   ~TestInputComponent();
 
   const string& getType() const override { return INPUT_COMPONENT; }
+
+  inline void setPlayer(IMessageable* const player) { this->player = player; }
 private:
-  IMessageable& player;
+  IMessageable* player;
   void receiveMessage(IMessage& message) override;
 };

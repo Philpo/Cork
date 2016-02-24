@@ -3,9 +3,8 @@
 #include "Scheduler.h"
 #include "Window.h"
 #include "Message.h"
-#include "TestInputComponent.h"
-#include "BasicMovementComponent.h"
-#include "ConsoleGraphicsComponent.h"
+#include "ServiceLocator.h"
+#include "Factory.h"
 
 class Game {
 public:
@@ -20,4 +19,5 @@ private:
   Window window;
   Scheduler* scheduler;
   GameObject* entity;
+  const Factory* factory;
 };

@@ -1,9 +1,9 @@
 #include "BasicMovementComponent.h"
 
 void BasicMovementComponent::receiveMessage(IMessage& message) {
-  if (message.getType() == INPUT_RECEIVED_MESSAGE) {
+  if (message.getType() == INPUT_RECEIVED_MESSAGE && target) {
     string* event = (string*) message.getData(); 
-    Vector3<float> newPosition = target.getPositon();
+    Vector3<float> newPosition = target->getPositon();
 
     if (event) {
       if (*event == MOVE_UP) {
@@ -19,6 +19,6 @@ void BasicMovementComponent::receiveMessage(IMessage& message) {
         newPosition.setX(newPosition.getX() + 1.0f);
       }
     }
-    target.setPosition(newPosition);
+    target->setPosition(newPosition);
   }
 }

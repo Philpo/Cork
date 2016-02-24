@@ -18,17 +18,18 @@ void ConsoleGraphicsComponent::receiveMessage(IMessage& message) {
   SetConsoleCursorPosition(console, topLeft);
 
   Vector3<float> position = *(Vector3<float>*) message.getData();
+  stringstream s;
 
-  std::cout << "Hello World" << std::endl;
   for (int i = 0; i < 10; i++) {
     for (int j = 0; j < 10; j++) {
       if (i == position.getY() && j == position.getX()) {
-        std::cout << "P";
+        s << "P";
       }
       else {
-        std::cout << "_";
+        s << "_";
       }
     }
-    std::cout << std::endl;
+    s << std::endl;
   }
+  std::cout << s.str();
 }

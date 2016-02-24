@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <sstream>
+#include <vector>
 
 // general message types for use in any game
 const std::string DRAW_MESSAGE = "DrawMessage";
@@ -12,6 +13,7 @@ const std::string INPUT_RECEIVED_MESSAGE = "InputReceivedMessage";
 const std::string GRAPHICS_COMPONENT = "GraphicsComponent";
 const std::string PHYSICS_COMPONENT = "PhysicsComponent";
 const std::string INPUT_COMPONENT = "InputComponent";
+const std::string BASIC_MOVE_COMPONENT = "BasicMoveComponent";
 
 // general input events for use in any game
 const std::string NONE = "None";
@@ -40,4 +42,23 @@ inline T convertStringToNumber(const std::string& toConvert) {
   T r;
   std::stringstream(toConvert) >> r;
   return r;
+}
+
+template <class T>
+bool contains(const std::vector<T>& toCheck, const T value) {
+  for (auto t : toCheck) {
+    if (t == value) {
+      return true;
+    }
+  }
+  return false;
+}
+
+template <class T>
+void remove(std::vector<T>& v, const T toRemove) {
+  for (vector<T>::iterator iter = v.begin(); iter != v.end(); iter++) {
+    if (*iter == toRemove) {
+      v.erase(iter, iter + 1);
+    }
+  }
 }
