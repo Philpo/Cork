@@ -9,6 +9,7 @@ Game::~Game() {
   if (entity) {
     delete entity;
   }
+
   Factory::deleteFactory();
   ServiceLocator::cleanup();
 }

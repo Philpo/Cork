@@ -13,7 +13,7 @@ public:
   static void cleanup();
   static void addFactoryFunction(const string& componentType, factoryFunction);
   static IComponent* const getComponent(const string& componentType);
-  static void deleteComponent(const string& componentType, IComponent* const toDelete);
+  static void deleteComponent(IComponent* toDelete);
 private:
   static map<string, factoryFunction> factoryFunctions;
   static map<string, vector<IComponent* const>> components;
