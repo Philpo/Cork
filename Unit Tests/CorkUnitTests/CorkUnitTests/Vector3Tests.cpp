@@ -1,13 +1,12 @@
 #include "stdafx.h"
-#include "..\..\Catch-master\include\catch.hpp"
-#include "..\..\..\src\Cork\Cork\Vector3.h"
+#include "catch.hpp"
+#include "Vector3.h"
+#include "TypeDefs.h"
 #include <limits>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace CorkUnitTests {
-  Approx approx(Approx::custom().epsilon(0.005));
-
   TEST_CASE("test constructors") {
     SECTION("test default constuctor") {
       Vector3<float> v;
