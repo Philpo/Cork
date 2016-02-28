@@ -10,14 +10,17 @@ typedef function<IComponent* const ()> factoryFunction;
 
 class ServiceLocator {
 public:
+  ServiceLocator() = delete;
+  ServiceLocator(ServiceLocator& toCoput) = delete;
+  ~ServiceLocator() = delete;
+
+  ServiceLocator& operator=(ServiceLocator& rhs) = delete;
+
   static void cleanup();
   static void addFactoryFunction(const string& componentType, factoryFunction);
   static IComponent* const getComponent(const string& componentType);
-  static void deleteComponent(IComponent* toDelete);
+  static void deleteComponent(IComponent*& toDelete);
 private:
   static map<string, factoryFunction> factoryFunctions;
   static map<string, vector<IComponent* const>> components;
-
-  ServiceLocator() {}
-  ~ServiceLocator() {}
 };

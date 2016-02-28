@@ -10,7 +10,6 @@ Game::~Game() {
     delete entity;
   }
 
-  Factory::deleteFactory();
   ServiceLocator::cleanup();
 }
 
@@ -31,9 +30,9 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
 
   BasicMovementComponent* m = (BasicMovementComponent*) ServiceLocator::getComponent(BASIC_MOVE_COMPONENT);
   m->setTarget(entity);
-  entity->addFunctionalComponent(INPUT_RECEIVED_MESSAGE, m);
+  entity->addComponent(INPUT_RECEIVED_MESSAGE, m);
 
-  entity->addFunctionalComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
+  entity->addComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
 
   TestInputComponent* t = (TestInputComponent*) ServiceLocator::getComponent(INPUT_COMPONENT);
   t->setPlayer(entity);

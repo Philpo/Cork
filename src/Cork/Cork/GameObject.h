@@ -17,7 +17,7 @@ public:
 
   inline void setPosition(const Vector3<float> position) { this->position = position; }
 
-  inline void addFunctionalComponent(const string& type, IComponent* const component) { components.insert(pair<string, IComponent* const>(type, component)); }
+  inline void addComponent(const string& type, IComponent* const component) { components.insert(pair<string, IComponent* const>(type, component)); }
   inline IComponent* const getMessageHandler(const string& type) const { return components.find(type) != components.end() ? components.at(type) : nullptr; }
 protected:
   Vector3<float> position;

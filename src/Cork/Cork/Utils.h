@@ -56,7 +56,7 @@ bool contains(const std::vector<T>& toCheck, const T value) {
 
 template <class T>
 bool remove(std::vector<T>& v, const T toRemove) {
-  for (vector<T>::iterator iter = v.begin(); iter != v.end(); iter++) {
+  for (std::vector<T>::iterator iter = v.begin(); iter != v.end(); iter++) {
     if (*iter == toRemove) {
       v.erase(iter, iter + 1);
       return true;

@@ -33,12 +33,6 @@
     <ClInclude Include="MessageHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IUpdateable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IDrawable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>

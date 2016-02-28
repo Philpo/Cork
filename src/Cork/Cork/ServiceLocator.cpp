@@ -35,7 +35,7 @@ IComponent* const ServiceLocator::getComponent(const string& componentType) {
   return component;
 }
 
-void ServiceLocator::deleteComponent(IComponent* toDelete) {
+void ServiceLocator::deleteComponent(IComponent*& toDelete) {
   if (components.find(toDelete->getType()) != components.end()) {
     if (remove<IComponent* const>(components[toDelete->getType()], toDelete)) {
       delete toDelete;

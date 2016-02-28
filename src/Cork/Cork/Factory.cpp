@@ -1,10 +1,10 @@
 #include "Factory.h"
 
-Factory* Factory::instance;
+std::unique_ptr<Factory> Factory::instance;
 
 const Factory& Factory::getFactory() {
   if (!instance) {
-    instance = new Factory();
+    instance.reset(new Factory());
   }
   return *instance;
 }

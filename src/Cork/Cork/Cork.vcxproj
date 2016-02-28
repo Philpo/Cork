@@ -16,11 +16,9 @@
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IComponent.h" />
-    <ClInclude Include="IDrawable.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
-    <ClInclude Include="IUpdateable.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="Scheduler.h" />
