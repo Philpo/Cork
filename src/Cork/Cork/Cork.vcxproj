@@ -13,12 +13,19 @@
   <ItemGroup>
     <ClInclude Include="BasicMovementComponent.h" />
     <ClInclude Include="ConsoleGraphicsComponent.h" />
+    <ClInclude Include="DirectX11Graphics.h" />
+    <ClInclude Include="DirectX11Texture.h" />
+    <ClInclude Include="DirectX11Vertex.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IFactory.h" />
+    <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
+    <ClInclude Include="ITexture.h" />
+    <ClInclude Include="IVertex.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="Scheduler.h" />
@@ -31,9 +38,13 @@
   <ItemGroup>
     <ClCompile Include="BasicMovementComponent.cpp" />
     <ClCompile Include="ConsoleGraphicsComponent.cpp" />
+    <ClCompile Include="DirectX11Graphics.cpp" />
+    <ClCompile Include="DirectX11Texture.cpp" />
+    <ClCompile Include="DirectX11Vertex.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
@@ -77,6 +88,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d2d1.lib;d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
