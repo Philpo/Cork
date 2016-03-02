@@ -20,3 +20,12 @@ IComponent* const Factory::getBasicInputComponent() const {
 IComponent* const Factory::getBasicMovementComponent() const {
   return new BasicMovementComponent();
 }
+
+IComponent* const Factory::getDirectX11Graphics() const {
+  try {
+    return &DirectX11Graphics::getGraphics();
+  }
+  catch (exception& e) {
+    throw;
+  }
+}

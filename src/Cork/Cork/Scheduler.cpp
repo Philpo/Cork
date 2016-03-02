@@ -2,8 +2,8 @@
 
 Scheduler::Scheduler() : timeLastFrame(0.0), frameRate(0.0), function(nullptr), caption(L"") {}
 
-Scheduler::Scheduler(const Window& window, double frameRateTarget, const wstring caption) : 
-  timeLastFrame(0.0), frameRate(1000.0 / frameRateTarget), function(nullptr), caption(caption), window(window) {
+Scheduler::Scheduler(double frameRateTarget, const wstring caption) : 
+  timeLastFrame(0.0), frameRate(1000.0 / frameRateTarget), function(nullptr), caption(caption) {
   startCounter();
 }
 
@@ -94,7 +94,7 @@ void Scheduler::calculateFrameRateStats() {
     wostringstream outs;
     outs.precision(6);
     outs  << L"Cork    " << L"FPS: " << fps << L"    " << L"Frame Time: " << mspf << L" (ms)";
-    window.setWindowCaption(outs);
+    Window::setWindowCaption(outs);
 
     frameCnt = 0;
     timeElapsed += 1000.0;

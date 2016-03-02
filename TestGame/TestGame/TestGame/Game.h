@@ -16,7 +16,6 @@ public:
 
   void loopFunction(double timeSinceLastFrame);
 private:
-  Window window;
   Scheduler* scheduler;
   GameObject* entity;
   const Factory* factory;

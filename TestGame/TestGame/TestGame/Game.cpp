@@ -14,16 +14,17 @@ Game::~Game() {
 }
 
 HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
-  HRESULT hr = window.initWindow(instance, cmdShow);
+  HRESULT hr = Window::initWindow(instance, cmdShow);
   if (FAILED(hr)) {
     return hr;
   }
 
-  scheduler = new Scheduler(window, 60.0, L"Test Game");
+  scheduler = new Scheduler(60.0, L"Test Game");
   scheduler->setGameLoopFunction(std::bind(&Game::loopFunction, this, std::placeholders::_1));
 
   ServiceLocator::addFactoryFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, factory));
-  ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getBasicGraphicsComponent, factory));
+  //ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getBasicGraphicsComponent, factory));
+  ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory));
   ServiceLocator::addFactoryFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory));
 
   entity = new GameObject(Vector3<float>());
@@ -32,13 +33,19 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   m->setTarget(entity);
   entity->addComponent(INPUT_RECEIVED_MESSAGE, m);
 
-  entity->addComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
-
   TestInputComponent* t = (TestInputComponent*) ServiceLocator::getComponent(INPUT_COMPONENT);
   t->setPlayer(entity);
   scheduler->registerPollComponent(POLL_INPUT_MESSAGE, t);
 
-  return 1;
+  try {
+    entity->addComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
+  }
+  catch (exception& e) {
+    cout << e.what() << endl;
+    return -1;
+  }
+
+  return S_OK;
 }
 
 WPARAM Game::startGame() {

@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Components\Graphics Component">
       <UniqueIdentifier>{29c8e479-1f29-4153-b520-0186cd1da232}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Graphics Component\DirectX11">
+      <UniqueIdentifier>{f02231c6-808f-48b8-9dd6-05ab906649b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Graphics Component\DirectX11">
+      <UniqueIdentifier>{b010c4a9-db4c-4a9d-9e1d-a083fd17ac75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h">
@@ -87,14 +93,17 @@
     <ClInclude Include="Mesh.h">
       <Filter>Components\Graphics Component</Filter>
     </ClInclude>
-    <ClInclude Include="DirectX11Texture.h">
-      <Filter>Components\Graphics Component</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectX11Vertex.h">
-      <Filter>Components\Graphics Component</Filter>
-    </ClInclude>
     <ClInclude Include="DirectX11Graphics.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Texture.h">
+      <Filter>Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Vertex.h">
+      <Filter>Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11TypeDefs.h">
+      <Filter>Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -125,20 +134,20 @@
     <ClCompile Include="ConsoleGraphicsComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DirectX11Texture.cpp">
-      <Filter>Source Files\Components\Graphics Component</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Components\Graphics Component</Filter>
     </ClCompile>
     <ClCompile Include="TestInputComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DirectX11Vertex.cpp">
-      <Filter>Source Files\Components\Graphics Component</Filter>
-    </ClCompile>
     <ClCompile Include="DirectX11Graphics.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11Texture.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11Vertex.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,7 @@
 #include "Window.h"
 
+HWND Window::window;
+
 LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 
 HRESULT Window::initWindow(HINSTANCE instance, int cmdShow) {

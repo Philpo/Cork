@@ -13,7 +13,7 @@ typedef function<void (double)> gameLoopFunction;
 class Scheduler {
 public:
   Scheduler();
-  Scheduler(const Window& window, double frameRateTarget, const wstring caption);
+  Scheduler(double frameRateTarget, const wstring caption);
   ~Scheduler();
 
   inline void registerPollComponent(const string& messageType, IComponent* const component) { pollEveryFrame.insert(pair<string, IComponent* const>(messageType, component)); }
@@ -24,7 +24,6 @@ private:
   double timeLastFrame, frameRate, freq;
   __int64 counterStart; 
   wstring caption;
-  Window window;
   gameLoopFunction function;
   map<string, IComponent* const> pollEveryFrame;
 

@@ -4,6 +4,7 @@
 #include "ConsoleGraphicsComponent.h"
 #include "TestInputComponent.h"
 #include "BasicMovementComponent.h"
+#include "DirectX11Graphics.h"
 
 class Factory : public IFactory {
 public:
@@ -14,6 +15,7 @@ public:
   IComponent* const getBasicGraphicsComponent() const override;
   IComponent* const getBasicInputComponent() const override;
   IComponent* const getBasicMovementComponent() const override;
+  IComponent* const getDirectX11Graphics() const override;
 protected:
   Factory() : IFactory() {}
 private:

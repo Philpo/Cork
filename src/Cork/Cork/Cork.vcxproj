@@ -18,6 +18,7 @@
     <ClInclude Include="DirectX11Vertex.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="DirectX11TypeDefs.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="IGraphics.h" />
@@ -79,7 +80,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>

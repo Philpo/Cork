@@ -21,14 +21,19 @@ IComponent* const ServiceLocator::getComponent(const string& componentType) {
   IComponent* component = nullptr;
 
   if (factoryFunctions.find(componentType) != factoryFunctions.end()) {
-     component = factoryFunctions[componentType]();
+    try {
+      component = factoryFunctions[componentType]();
 
-    if (components.find(componentType) != components.end()) {
-      components[componentType].push_back(component);
+      if (components.find(componentType) != components.end()) {
+        components[componentType].push_back(component);
+      }
+      else {
+        vector<IComponent* const> v = { component };
+        components.insert(pair<string, vector<IComponent* const>>(componentType, v));
+      }
     }
-    else {
-      vector<IComponent* const> v = { component };
-      components.insert(pair<string, vector<IComponent* const>>(componentType, v));
+    catch (exception& e) {
+      throw;
     }
   }
 
