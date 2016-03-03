@@ -7,10 +7,10 @@ void BasicMovementComponent::receiveMessage(IMessage& message) {
 
     if (event) {
       if (*event == MOVE_UP) {
-        newPosition.setY(newPosition.getY() - 1.0f);
+        newPosition.setZ(newPosition.getZ() + 1.0f);
       }
       else if (*event == MOVE_DOWN) {
-        newPosition.setY(newPosition.getY() + 1.0f);
+        newPosition.setZ(newPosition.getZ() - 1.0f);
       }
       else if (*event == MOVE_LEFT) {
         newPosition.setX(newPosition.getX() - 1.0f);

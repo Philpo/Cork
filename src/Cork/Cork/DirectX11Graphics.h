@@ -1,6 +1,8 @@
 #pragma once
 #include "IGraphics.h"
 #include "DirectX11TypeDefs.h"
+#include "DDSTextureLoader.h"
+#include "Vector3.h"
 #include <memory>
 #include <d3d11_1.h>
 #include <d3dcompiler.h>
@@ -27,13 +29,15 @@ private:
   HRESULT initDevice();
   HRESULT compileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
   HRESULT initShadersAndInputLayout();
-  void draw(int meshId) const override;
+  void beginFrame() override;
+  void draw(int meshId) override;
   void swap() const override;
 
   static unique_ptr<DirectX11Graphics> instance;
   bool initialised = false;
   map<int, ID3D11Buffer* const> vertexBuffers;
   map<int, ID3D11Buffer* const> indexBuffers;
+  map<int, UINT> indexCounts;
 
   HWND window;
   D3D_DRIVER_TYPE driverType;
@@ -50,4 +54,8 @@ private:
   ID3D11DepthStencilView* depthStencilView;
   ID3D11Texture2D* depthStencilBuffer;
   ID3D11RasterizerState* solidState;
+  ConstantBuffer cb;
+  ID3D11ShaderResourceView *diffuse, *specular, *normal;
+  XMMATRIX objectWorld;
+  Vector3<float> camPos;
 };

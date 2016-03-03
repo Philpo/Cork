@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="BasicMovementComponent.h" />
     <ClInclude Include="ConsoleGraphicsComponent.h" />
+    <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DirectX11Graphics.h" />
     <ClInclude Include="DirectX11Texture.h" />
     <ClInclude Include="DirectX11Vertex.h" />
@@ -39,6 +40,7 @@
   <ItemGroup>
     <ClCompile Include="BasicMovementComponent.cpp" />
     <ClCompile Include="ConsoleGraphicsComponent.cpp" />
+    <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DirectX11Graphics.cpp" />
     <ClCompile Include="DirectX11Texture.cpp" />
     <ClCompile Include="DirectX11Vertex.cpp" />
@@ -51,6 +53,11 @@
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="TestInputComponent.cpp" />
     <ClCompile Include="Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test_shader.fx">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2E29DBCE-9966-45DA-9040-056261FF73F3}</ProjectGuid>

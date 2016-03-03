@@ -15,6 +15,7 @@ public:
   virtual HRESULT loadMesh(const Mesh& mesh) = 0;
 private:
   virtual HRESULT initialise() = 0;
-  virtual void draw(int meshId) const = 0;
+  virtual void beginFrame() = 0;
+  virtual void draw(int meshId) = 0;
   virtual void swap() const = 0;
 };

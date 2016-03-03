@@ -25,7 +25,16 @@ DirectX11Graphics& DirectX11Graphics::getGraphics() {
 }
 
 void DirectX11Graphics::receiveMessage(IMessage& message) {
-
+  if (message.getType() == BEGIN_FRAME_MESSAGE) {
+    camPos = *((Vector3<float>*) message.getData());
+    beginFrame();
+  }
+  else if (message.getType() == SWAP_BUFFER_MESSAGE) {
+    swap();
+  }
+  else if (message.getType() == DRAW_MESSAGE) {
+    draw(0);
+  }
 }
 
 void DirectX11Graphics::cleanup() {
@@ -69,13 +78,183 @@ HRESULT DirectX11Graphics::initialise() {
     return hr;
   }
 
+  SimpleVertex vertices[] =
+  {
+    // front face vertices [0-3]
+    { XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f) },
+    { XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 0.0f) },
+    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 1.0f) },
+    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 1.0f) },
+    // back face vertices [4-7]
+    { XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f) },
+    { XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 0.0f) },
+    { XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(.0f, 0.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 1.0f) },
+    { XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 1.0f) },
+    // left face vertices [8-11]
+    { XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 0.0f) },
+    { XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(1.0f, 0.0f) },
+    { XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(0.0f, 1.0f) },
+    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f), XMFLOAT2(1.0f, 1.0f) },
+    // right face vertices [12-15]
+    { XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 0.0f) },
+    { XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f) },
+    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f) },
+    { XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 1.0f) },
+    // top face vertices [16-19]
+    { XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f) },
+    { XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 0.0f) },
+    { XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 1.0f) },
+    { XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 1.0f) },
+    // bottom face vertices [20-23]
+    { XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f) },
+    { XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 0.0f) },
+    { XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT2(0.0f, 1.0f) },
+    { XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f), XMFLOAT2(1.0f, 1.0f) }
+  };
+
+  D3D11_BUFFER_DESC bd;
+  ZeroMemory(&bd, sizeof(bd));
+  bd.Usage = D3D11_USAGE_DEFAULT;
+  bd.ByteWidth = sizeof(SimpleVertex) * 24;
+  bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+  bd.CPUAccessFlags = 0;
+
+  D3D11_SUBRESOURCE_DATA InitData;
+  ZeroMemory(&InitData, sizeof(InitData));
+  InitData.pSysMem = vertices;
+
+  ID3D11Buffer* vertexBuffer;
+  hr = d3dDevice->CreateBuffer(&bd, &InitData, &vertexBuffer);
+
+  if (FAILED(hr))
+    return hr;
+
+  WORD indices[] =
+  {
+    // front face
+    0, 1, 2,
+    2, 1, 3,
+    // back face
+    4, 5, 6,
+    6, 5, 7,
+    // top face
+    16, 17, 18,
+    18, 17, 19,
+    // bottom face
+    20, 21, 22,
+    22, 21, 23,
+    // left face
+    8, 9, 10,
+    10, 9, 11,
+    // right face
+    12, 13, 14,
+    14, 13, 15
+  };
+
+  ZeroMemory(&bd, sizeof(bd));
+
+  bd.Usage = D3D11_USAGE_DEFAULT;
+  bd.ByteWidth = sizeof(WORD) * 36;
+  bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+  bd.CPUAccessFlags = 0;
+
+  ZeroMemory(&InitData, sizeof(InitData));
+  InitData.pSysMem = indices;
+  ID3D11Buffer* indexBuffer;
+  hr = d3dDevice->CreateBuffer(&bd, &InitData, &indexBuffer);
+
+  if (FAILED(hr))
+    return hr;
+
+  CreateDDSTextureFromFile(d3dDevice, L"Crate_COLOR.dds", nullptr, &diffuse);
+  CreateDDSTextureFromFile(d3dDevice, L"Crate_SPEC.dds", nullptr, &specular);
+  CreateDDSTextureFromFile(d3dDevice, L"Crate_NRM.dds", nullptr, &normal);
+
+  vertexBuffers.insert(pair<int, ID3D11Buffer* const>(0, vertexBuffer));
+  indexBuffers.insert(pair<int, ID3D11Buffer* const>(0, indexBuffer));
+  indexCounts.insert(pair<int, UINT>(0, 36));
+
+  objectWorld = XMMatrixIdentity();
+
   return S_OK;
 }
 
-void DirectX11Graphics::draw(int meshId) const {
+void DirectX11Graphics::beginFrame() {
   float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; // red,green,blue,alpha
   immediateContext->ClearRenderTargetView(renderTargetView, ClearColor);
   immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+  XMMATRIX world = XMMatrixIdentity();
+  XMMATRIX view = XMMatrixLookToLH(XMLoadFloat4(&XMFLOAT4(camPos.getX(), camPos.getY(), camPos.getZ(), 0.0f)), XMLoadFloat4(&XMFLOAT4(0.0f, 0.0f, 1.0f, 0.0f)), XMLoadFloat4(&XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f)));
+  XMMATRIX projection = XMMatrixPerspectiveFovLH(XM_PIDIV2, 1.0f, 0.01f, 100.0f);
+
+  cb.mWorld = XMMatrixTranspose(world);
+  cb.mView = XMMatrixTranspose(view);
+  cb.mProjection = XMMatrixTranspose(projection);
+
+  LightStruct light;
+  light.type = POINT_LIGHT;
+
+  //light.ambient = XMFLOAT4(0.2f, 0.0f, 0.0f, 1.0f);
+  //light.diffuse = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+  //light.specular = XMFLOAT4(0.5f, 0.0f, 0.0f, 1.0f);
+  //light.attenuation = XMFLOAT3(0.0f, 0.1f, 0.0f);
+  //light.range = 1000.0f;
+  //light.exponent = 96.0f;
+  //light.position = XMFLOAT3(0.0f, 0.0f, -13.0f);
+  //light.direction = XMFLOAT3(0.0f, 0.0f, 1.0f);
+
+  light.ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+  light.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+  light.specular = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+  light.attenuation = XMFLOAT3(0.0f, 0.1f, 0.0f);
+  light.range = 1000.0f;
+  light.position = XMFLOAT3(0.0f, 5.0f, -10.0f);
+
+  //light.ambient = XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f);
+  //light.diffuse = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+  //light.specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+  //light.exponent = 20.0f;
+  //light.direction = XMFLOAT3(0.57735f, -0.57735f, 0.57735f);
+
+  light.enabled = true;
+  cb.lights[0] = light;
+
+  Material material;
+  material.diffuse = XMFLOAT4(0.8f, 0.5f, 0.5f, 1.0f);
+  material.ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+  material.specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
+  material.specularPower = 10.0f;
+  cb.material = material;
+
+  cb.eyePositionW = XMFLOAT3(0.0f, 2.0f, -10.0f);
+  cb.fogStart = 100.0f; -60.0f;
+  cb.fogRange = 50.0f;
+  XMStoreFloat4(&cb.fogColour, XMLoadFloat4(&XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f)));
+
+  immediateContext->VSSetShader(vertexShader, nullptr, 0);
+  immediateContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+  immediateContext->PSSetShader(pixelShader, nullptr, 0);
+  immediateContext->PSSetConstantBuffers(0, 1, &constantBuffer);
+  immediateContext->PSSetShaderResources(0, 1, &diffuse);
+  immediateContext->PSSetShaderResources(1, 1, &specular);
+  immediateContext->PSSetShaderResources(2, 1, &normal);
+}
+
+void DirectX11Graphics::draw(int meshId) {
+  UINT stride = sizeof(SimpleVertex);
+  UINT offset = 0;
+
+  //objectWorld *= XMMatrixRotationY(convertDegreesToRadians(1));
+  //cb.mWorld = XMMatrixTranspose(objectWorld);
+
+  cb.enableBumpMapping = 1;
+  cb.enableSpecularMapping = 1;
+  cb.enableTexturing = 1;
+  immediateContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb, 0, 0);
+  immediateContext->IASetVertexBuffers(0, 1, &vertexBuffers.at(meshId), &stride, &offset);
+  immediateContext->IASetIndexBuffer(indexBuffers.at(meshId), DXGI_FORMAT_R16_UINT, 0);
+  immediateContext->DrawIndexed(indexCounts.at(meshId), 0, 0);
 }
 
 void DirectX11Graphics::swap() const {

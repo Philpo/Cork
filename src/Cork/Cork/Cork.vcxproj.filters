@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Components\Graphics Component\DirectX11">
       <UniqueIdentifier>{b010c4a9-db4c-4a9d-9e1d-a083fd17ac75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\Graphics Component\DirectX11\shaders">
+      <UniqueIdentifier>{9b321706-10ff-4d9c-8db9-43d03e6b92fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h">
@@ -105,6 +108,9 @@
     <ClInclude Include="DirectX11TypeDefs.h">
       <Filter>Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
+    <ClInclude Include="DDSTextureLoader.h">
+      <Filter>Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -149,5 +155,13 @@
     <ClCompile Include="DirectX11Vertex.cpp">
       <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
     </ClCompile>
+    <ClCompile Include="DDSTextureLoader.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test_shader.fx">
+      <Filter>Components\Graphics Component\DirectX11\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -27,7 +27,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory));
   ServiceLocator::addFactoryFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory));
 
-  entity = new GameObject(Vector3<float>());
+  entity = new GameObject(Vector3<float>(0.0f, 2.0f, -10.0f));
 
   BasicMovementComponent* m = (BasicMovementComponent*) ServiceLocator::getComponent(BASIC_MOVE_COMPONENT);
   m->setTarget(entity);
@@ -39,6 +39,8 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
 
   try {
     entity->addComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
+    entity->addComponent(BEGIN_FRAME_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
+    entity->addComponent(SWAP_BUFFER_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
   }
   catch (exception& e) {
     cout << e.what() << endl;
@@ -54,7 +56,9 @@ WPARAM Game::startGame() {
 
 void Game::loopFunction(double timeSinceLastFrame) {
   if (entity) {
+    MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, &entity->getPositon(), entity->getMessageHandler(BEGIN_FRAME_MESSAGE)));
     MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &entity->getPositon(), entity->getMessageHandler(DRAW_MESSAGE)));
+    MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, &entity->getPositon(), entity->getMessageHandler(SWAP_BUFFER_MESSAGE)));
   }
   //if (player) {
   //  player->draw();
