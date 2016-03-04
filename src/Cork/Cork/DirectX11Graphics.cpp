@@ -174,7 +174,7 @@ HRESULT DirectX11Graphics::initialise() {
   indexBuffers.insert(pair<int, ID3D11Buffer* const>(0, indexBuffer));
   indexCounts.insert(pair<int, UINT>(0, 36));
 
-  buffer = new char[sizeof(XMMATRIX) * 3];
+  buffer = new char[sizeof(ConstantBuffer)];
 
   objectWorld = XMMatrixIdentity();
 
@@ -193,22 +193,6 @@ void DirectX11Graphics::beginFrame() {
   cb.mWorld = XMMatrixTranspose(world);
   cb.mView = XMMatrixTranspose(view);
   cb.mProjection = XMMatrixTranspose(projection);
-
-  XMMATRIX* matrix = (XMMATRIX*) buffer;
-  XMMATRIX& a = *matrix;
-  a = XMMatrixTranspose(world);
-  //XMMATRIX* matrix2 = (XMMATRIX*) buffer + sizeof(XMMATRIX);
-  XMMATRIX& b = *(XMMATRIX*) (buffer + sizeof(XMMATRIX));
-  b = XMMatrixTranspose(view);
-  //matrix += sizeof(XMMATRIX);
-  XMMATRIX& c = *(XMMATRIX*) (buffer + (sizeof(XMMATRIX) * 2));
-  c = XMMatrixTranspose(projection);
-
-  //cb1.data = &XMMatrixTranspose(world);
-  //void* a = ((char*) cb1.data) + sizeof(XMMATRIX);
-  //a = &XMMatrixTranspose(view);
-  //a = ((char*) cb1.data) + (sizeof(XMMATRIX) * 2);
-  //a = &XMMatrixTranspose(projection);
 
   LightStruct light;
   light.type = POINT_LIGHT;
@@ -245,8 +229,68 @@ void DirectX11Graphics::beginFrame() {
   material.specularPower = 10.0f;
   cb.material = material;
 
+  XMMATRIX* matrix = (XMMATRIX*) buffer;
+  XMMATRIX& a = *matrix;
+  a = XMMatrixTranspose(world);
+  XMMATRIX& b = *(XMMATRIX*) (buffer + sizeof(XMMATRIX));
+  b = XMMatrixTranspose(view);
+  XMMATRIX& c = *(XMMATRIX*) (buffer + (sizeof(XMMATRIX) * 2));
+  c = XMMatrixTranspose(projection);
+  LightStruct* lightP = (LightStruct*) (buffer + sizeof(XMMATRIX) * 3);
+  LightStruct& l = *lightP;
+  l = light;
+  Material* mat = (Material*) (buffer + (sizeof(XMMATRIX) * 3) + sizeof(LightStruct));
+  Material& m = *mat;
+  m = material;
+  XMFLOAT3* eyePosw = (XMFLOAT3*) (buffer + (sizeof(XMMATRIX) * 3) + sizeof(LightStruct) + sizeof(Material));
+  XMFLOAT3& e = *eyePosw;
+  e = XMFLOAT3(0.0f, 2.0f, -10.0f);
+  int z = 1;
+  int* enableTex = (int*) (buffer + (sizeof(XMMATRIX) * 3) + sizeof(LightStruct) + sizeof(Material) + sizeof(XMFLOAT3));
+  int& eT = *enableTex;
+  eT = z;
+  int* enableSpec = (int*) (buffer + (sizeof(XMMATRIX) * 3) + sizeof(LightStruct) + sizeof(Material) + sizeof(XMFLOAT3) + sizeof(int));
+  int& eS = *enableSpec;
+  eS = z;
+  int* enableBump = (int*) (buffer + (sizeof(XMMATRIX) * 3) + sizeof(LightStruct) + sizeof(Material) + sizeof(XMFLOAT3) + (sizeof(int) * 2));
+  int& eB = *enableBump;
+  eB = z;
+  float* fogStart = (float*) (buffer + (sizeof(XMMATRIX) * 3) + sizeof(LightStruct) + sizeof(Material) + sizeof(XMFLOAT3) + (sizeof(int) * 4));
+  float x = 40.0f;
+  float y = 50.0f;
+  float& fS = *fogStart;
+  fS = x;
+  float* fogRange = (float*) (buffer + (sizeof(XMMATRIX) * 3) + sizeof(LightStruct) + sizeof(Material) + sizeof(XMFLOAT3) + (sizeof(int) * 4) + sizeof(float));
+  float& fR = *fogRange;
+  fR = y;
+  XMFLOAT4* fogColour = (XMFLOAT4*) (buffer + (sizeof(XMMATRIX) * 3) + sizeof(LightStruct) + sizeof(Material) + sizeof(XMFLOAT3) + (sizeof(int) * 4) + (sizeof(float) * 2) + sizeof(XMFLOAT2));
+  XMFLOAT4& fC = *fogColour;
+  fC = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
+
+  //XMMATRIX mWorld;
+  //XMMATRIX mView;
+  //XMMATRIX mProjection;
+  //LightStruct lights[MAX_LIGHTS];
+  //Material material;
+  //XMFLOAT3 eyePositionW;
+  //int enableTexturing;
+  //int enableSpecularMapping;
+  //int enableBumpMapping;
+  //int enableClipTesting;
+  //float fogStart;
+  //float fogRange;
+  //XMFLOAT2 padding;
+  //XMFLOAT4 fogColour;
+
+
+  //cb1.data = &XMMatrixTranspose(world);
+  //void* a = ((char*) cb1.data) + sizeof(XMMATRIX);
+  //a = &XMMatrixTranspose(view);
+  //a = ((char*) cb1.data) + (sizeof(XMMATRIX) * 2);
+  //a = &XMMatrixTranspose(projection);
+
   cb.eyePositionW = XMFLOAT3(0.0f, 2.0f, -10.0f);
-  cb.fogStart = 100.0f; -60.0f;
+  cb.fogStart = 100.0f - 60.0f;
   cb.fogRange = 50.0f;
   XMStoreFloat4(&cb.fogColour, XMLoadFloat4(&XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f)));
 
