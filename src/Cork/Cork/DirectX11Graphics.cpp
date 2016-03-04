@@ -174,6 +174,8 @@ HRESULT DirectX11Graphics::initialise() {
   indexBuffers.insert(pair<int, ID3D11Buffer* const>(0, indexBuffer));
   indexCounts.insert(pair<int, UINT>(0, 36));
 
+  buffer = new char[sizeof(XMMATRIX) * 3];
+
   objectWorld = XMMatrixIdentity();
 
   return S_OK;
@@ -191,6 +193,22 @@ void DirectX11Graphics::beginFrame() {
   cb.mWorld = XMMatrixTranspose(world);
   cb.mView = XMMatrixTranspose(view);
   cb.mProjection = XMMatrixTranspose(projection);
+
+  XMMATRIX* matrix = (XMMATRIX*) buffer;
+  XMMATRIX& a = *matrix;
+  a = XMMatrixTranspose(world);
+  //XMMATRIX* matrix2 = (XMMATRIX*) buffer + sizeof(XMMATRIX);
+  XMMATRIX& b = *(XMMATRIX*) (buffer + sizeof(XMMATRIX));
+  b = XMMatrixTranspose(view);
+  //matrix += sizeof(XMMATRIX);
+  XMMATRIX& c = *(XMMATRIX*) (buffer + (sizeof(XMMATRIX) * 2));
+  c = XMMatrixTranspose(projection);
+
+  //cb1.data = &XMMatrixTranspose(world);
+  //void* a = ((char*) cb1.data) + sizeof(XMMATRIX);
+  //a = &XMMatrixTranspose(view);
+  //a = ((char*) cb1.data) + (sizeof(XMMATRIX) * 2);
+  //a = &XMMatrixTranspose(projection);
 
   LightStruct light;
   light.type = POINT_LIGHT;
@@ -251,7 +269,7 @@ void DirectX11Graphics::draw(int meshId) {
   cb.enableBumpMapping = 1;
   cb.enableSpecularMapping = 1;
   cb.enableTexturing = 1;
-  immediateContext->UpdateSubresource(constantBuffer, 0, nullptr, &cb, 0, 0);
+  immediateContext->UpdateSubresource(constantBuffer, 0, nullptr, buffer, 0, 0);
   immediateContext->IASetVertexBuffers(0, 1, &vertexBuffers.at(meshId), &stride, &offset);
   immediateContext->IASetIndexBuffer(indexBuffers.at(meshId), DXGI_FORMAT_R16_UINT, 0);
   immediateContext->DrawIndexed(indexCounts.at(meshId), 0, 0);

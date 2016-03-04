@@ -96,9 +96,6 @@
     <ClInclude Include="Mesh.h">
       <Filter>Components\Graphics Component</Filter>
     </ClInclude>
-    <ClInclude Include="DirectX11Graphics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DirectX11Texture.h">
       <Filter>Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
@@ -109,6 +106,9 @@
       <Filter>Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DDSTextureLoader.h">
+      <Filter>Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Graphics.h">
       <Filter>Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
   </ItemGroup>

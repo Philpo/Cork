@@ -55,6 +55,8 @@ private:
   ID3D11Texture2D* depthStencilBuffer;
   ID3D11RasterizerState* solidState;
   ConstantBuffer cb;
+  NewCB cb1;
+  char* buffer;
   ID3D11ShaderResourceView *diffuse, *specular, *normal;
   XMMATRIX objectWorld;
   Vector3<float> camPos;

@@ -24,12 +24,14 @@ IComponent* const ServiceLocator::getComponent(const string& componentType) {
     try {
       component = factoryFunctions[componentType]();
 
-      if (components.find(componentType) != components.end()) {
-        components[componentType].push_back(component);
-      }
-      else {
-        vector<IComponent* const> v = { component };
-        components.insert(pair<string, vector<IComponent* const>>(componentType, v));
+      if (componentType != GRAPHICS_COMPONENT) {
+        if (components.find(componentType) != components.end()) {
+          components[componentType].push_back(component);
+        }
+        else {
+          vector<IComponent* const> v = { component };
+          components.insert(pair<string, vector<IComponent* const>>(componentType, v));
+        }
       }
     }
     catch (exception& e) {

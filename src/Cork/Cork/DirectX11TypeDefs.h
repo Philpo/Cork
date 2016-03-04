@@ -11,6 +11,7 @@ const std::string BEGIN_FRAME_MESSAGE = "BeginFrameMessage";
 const std::string SWAP_BUFFER_MESSAGE = "SwapBufferMessage";
 
 const int MAX_LIGHTS = 1;
+const int cb_size = 3;
 
 inline const float convertDegreesToRadians(const float angleInDegrees) {
   return (angleInDegrees * XM_PI) / 180;
@@ -60,4 +61,9 @@ struct ConstantBuffer {
   float fogRange;
   XMFLOAT2 padding;
   XMFLOAT4 fogColour;
+};
+
+struct NewCB {
+  NewCB() : data(new byte[sizeof(XMMATRIX) * 3]) {}
+  void* data;
 };
