@@ -12,23 +12,17 @@ typedef function<HRESULT (const string&, vector<IVertex* const>&, vector<int>&, 
 class Mesh {
 public:
   Mesh(int id, const string& meshFile);
-  ~Mesh() {}
+  ~Mesh();
 
   inline int getId() const { return id; }
   inline const vector<IVertex* const>& getVertices() const { return vertices; }
   inline const vector<int>& getIndices() const { return indices; }
   inline const vector<int>& getTextures() const { return textures; }
 
-  inline void addMeshFileLoader(const string& fileExtension, meshLoadFunction function);
+  static void addMeshFileLoader(const string& fileExtension, meshLoadFunction function);
 private:
   int id;
   vector<IVertex* const> vertices;
   vector<int> indices, textures;
-  map<string, meshLoadFunction> meshFileLoaders;
+  static map<string, meshLoadFunction> meshFileLoaders;
 };
-
-void Mesh::addMeshFileLoader(const string& fileExtension, meshLoadFunction function) {
-  if (meshFileLoaders.find(fileExtension) == meshFileLoaders.end()) {
-    meshFileLoaders.insert(pair<string, meshLoadFunction>(fileExtension, function));
-  }
-}

@@ -3,6 +3,9 @@
 #include "Window.h"
 #include "MessageHandler.h"
 #include "Message.h"
+#include "ServiceLocator.h"
+#include "IGraphics.h"
+#include "ResourceManager.h"
 #include <map>
 #include <functional>
 

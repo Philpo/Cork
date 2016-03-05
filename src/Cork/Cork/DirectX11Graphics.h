@@ -3,6 +3,9 @@
 #include "DirectX11TypeDefs.h"
 #include "DDSTextureLoader.h"
 #include "Vector3.h"
+#include "DirectX11ConstantBuffer.h"
+#include "DirectX11Texture.h"
+#include "ResourceManager.h"
 #include <memory>
 #include <d3d11_1.h>
 #include <d3dcompiler.h>
@@ -34,6 +37,7 @@ private:
   void swap() const override;
 
   static unique_ptr<DirectX11Graphics> instance;
+  static int textureId;
   bool initialised = false;
   map<int, ID3D11Buffer* const> vertexBuffers;
   map<int, ID3D11Buffer* const> indexBuffers;
@@ -53,11 +57,12 @@ private:
   ID3D11SamplerState* anistropicSampler;
   ID3D11DepthStencilView* depthStencilView;
   ID3D11Texture2D* depthStencilBuffer;
+  ID3D11DepthStencilState* depthStencilState;
   ID3D11RasterizerState* solidState;
-  ConstantBuffer cb;
-  NewCB cb1;
-  char* buffer;
-  ID3D11ShaderResourceView *diffuse, *specular, *normal;
-  XMMATRIX objectWorld;
+  ID3D11Debug* debug;
+  IConstantBuffer* cb;
+  XMMATRIX* worldMatrix;
+  XMFLOAT4X4 objectWorld;
+  int t = 0;
   Vector3<float> camPos;
 };

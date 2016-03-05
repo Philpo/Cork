@@ -111,6 +111,18 @@
     <ClInclude Include="DirectX11Graphics.h">
       <Filter>Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
+    <ClInclude Include="IConstantBuffer.h">
+      <Filter>Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11XMLMeshLoader.h">
+      <Filter>Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11ConstantBuffer.h">
+      <Filter>Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Components\Graphics Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -157,6 +169,15 @@
     </ClCompile>
     <ClCompile Include="DDSTextureLoader.cpp">
       <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11ConstantBuffer.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11XMLMeshLoader.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\Components\Graphics Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

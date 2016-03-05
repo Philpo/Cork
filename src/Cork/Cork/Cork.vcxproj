@@ -14,13 +14,16 @@
     <ClInclude Include="BasicMovementComponent.h" />
     <ClInclude Include="ConsoleGraphicsComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="DirectX11ConstantBuffer.h" />
     <ClInclude Include="DirectX11Graphics.h" />
     <ClInclude Include="DirectX11Texture.h" />
     <ClInclude Include="DirectX11Vertex.h" />
+    <ClInclude Include="DirectX11XMLMeshLoader.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DirectX11TypeDefs.h" />
     <ClInclude Include="IComponent.h" />
+    <ClInclude Include="IConstantBuffer.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMessage.h" />
@@ -30,6 +33,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="TestInputComponent.h" />
@@ -41,14 +45,17 @@
     <ClCompile Include="BasicMovementComponent.cpp" />
     <ClCompile Include="ConsoleGraphicsComponent.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="DirectX11ConstantBuffer.cpp" />
     <ClCompile Include="DirectX11Graphics.cpp" />
     <ClCompile Include="DirectX11Texture.cpp" />
     <ClCompile Include="DirectX11Vertex.cpp" />
+    <ClCompile Include="DirectX11XMLMeshLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="TestInputComponent.cpp" />
@@ -89,7 +96,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>RapidXML;$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

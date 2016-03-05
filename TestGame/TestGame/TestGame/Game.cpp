@@ -9,8 +9,6 @@ Game::~Game() {
   if (entity) {
     delete entity;
   }
-
-  ServiceLocator::cleanup();
 }
 
 HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
@@ -47,6 +45,14 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
     return -1;
   }
 
+  Mesh::addMeshFileLoader(".xml", loadXMLMesh);
+  string meshFile = "cube_mesh.xml";
+  hr = ResourceManager::loadMesh(meshFile, meshId);
+
+  //mesh = new Mesh(1, "cube_mesh.xml");
+  //IGraphics* graphics = (IGraphics*) ServiceLocator::getComponent(GRAPHICS_COMPONENT);
+  //graphics->loadMesh(*mesh);
+
   return S_OK;
 }
 
@@ -57,7 +63,7 @@ WPARAM Game::startGame() {
 void Game::loopFunction(double timeSinceLastFrame) {
   if (entity) {
     MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, &entity->getPositon(), entity->getMessageHandler(BEGIN_FRAME_MESSAGE)));
-    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &entity->getPositon(), entity->getMessageHandler(DRAW_MESSAGE)));
+    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &meshId, entity->getMessageHandler(DRAW_MESSAGE)));
     MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, &entity->getPositon(), entity->getMessageHandler(SWAP_BUFFER_MESSAGE)));
   }
   //if (player) {

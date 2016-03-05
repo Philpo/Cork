@@ -1,19 +1,23 @@
 #pragma once
 #include "IVertex.h"
 #include <directxmath.h>
+#include <exception>
+#include <sstream>
 
 using namespace DirectX;
 
 class DirectX11Vertex : public IVertex {
 public:
-  DirectX11Vertex(XMFLOAT3 position, XMFLOAT3 normal, XMFLOAT3 tangent, XMFLOAT2 texCoords);
-  ~DirectX11Vertex() {}
+  DirectX11Vertex(int sizeInBytes);
+  ~DirectX11Vertex();
 
-  void* getPosition() const override { return (void*) &position; }
-  void* getNormal() const override { return (void*) &normal; }
-  void* getTangent() const override { return (void*) &tangent; }
-  void* getTexCoords() const override { return (void*) &texCoords; }
+  char* const getData() const override { return buffer; }
+  int getSizeInBytes() const override { return sizeInBytes; }
+
+  void addFloat2(void* toAdd) override;
+  void addFloat3(void* toAdd) override;
+  void addFloat4(void* toAdd) override;
 private:
-  XMFLOAT3 position, normal, tangent;
-  XMFLOAT2 texCoords;
+  int sizeInBytes, currentBufferSize;
+  char *buffer, *currentPosition;
 };

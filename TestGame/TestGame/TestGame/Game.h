@@ -5,6 +5,9 @@
 #include "Message.h"
 #include "ServiceLocator.h"
 #include "Factory.h"
+#include "Mesh.h"
+#include "DirectX11XMLMeshLoader.h"
+#include "ResourceManager.h"
 
 class Game {
 public:
@@ -19,4 +22,5 @@ private:
   Scheduler* scheduler;
   GameObject* entity;
   const Factory* factory;
+  int meshId;
 };

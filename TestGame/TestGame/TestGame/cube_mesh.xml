@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mesh num_vertices="24" num_indices="36" num_textures="3" vertex_size_in_bytes="44">
+  <vertices>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "1" z="-1" />
+      <normal num_attributes="3" x="0" y="0" z="-1" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "1" z="-1" />
+      <normal num_attributes="3" x="0" y="0" z="-1" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="0" y="0" z="-1" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="1" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="0" y="0" z="-1" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="1" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "1" z="1" />
+      <normal num_attributes="3" x="0" y="0" z="1" />
+      <tangent num_attributes="3" x="-1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "1" z="1" />
+      <normal num_attributes="3" x="0" y="0" z="1" />
+      <tangent num_attributes="3" x="-1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "-1" z="1" />
+      <normal num_attributes="3" x="0" y="0" z="1" />
+      <tangent num_attributes="3" x="-1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="1" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "-1" z="1" />
+      <normal num_attributes="3" x="0" y="0" z="1" />
+      <tangent num_attributes="3" x="-1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="1" />
+    </vertex>    
+    <vertex>
+      <position num_attributes="3" x="-1" y = "1" z="1" />
+      <normal num_attributes="3" x="-1" y="0" z="0" />
+      <tangent num_attributes="3" x="0" y="0" z="-1" />
+      <tex_coords num_attributes="2" u="0" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "1" z="-1" />
+      <normal num_attributes="3" x="-1" y="0" z="0" />
+      <tangent num_attributes="3" x="0" y="0" z="-1" />
+      <tex_coords num_attributes="2" u="1" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "-1" z="1" />
+      <normal num_attributes="3" x="-1" y="0" z="0" />
+      <tangent num_attributes="3" x="0" y="0" z="-1" />
+      <tex_coords num_attributes="2" u="0" v="1" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="-1" y="0" z="0" />
+      <tangent num_attributes="3" x="0" y="0" z="-1" />
+      <tex_coords num_attributes="2" u="1" v="1" />
+    </vertex>    
+    <vertex>
+      <position num_attributes="3" x="1" y = "1" z="-1" />
+      <normal num_attributes="3" x="1" y="0" z="0" />
+      <tangent num_attributes="3" x="0" y="0" z="1" />
+      <tex_coords num_attributes="2" u="0" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "1" z="1" />
+      <normal num_attributes="3" x="1" y="0" z="0" />
+      <tangent num_attributes="3" x="0" y="0" z="1" />
+      <tex_coords num_attributes="2" u="1" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="1" y="0" z="0" />
+      <tangent num_attributes="3" x="0" y="0" z="1" />
+      <tex_coords num_attributes="2" u="0" v="1" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "-1" z="1" />
+      <normal num_attributes="3" x="1" y="0" z="0" />
+      <tangent num_attributes="3" x="0" y="0" z="1" />
+      <tex_coords num_attributes="2" u="1" v="1" />
+    </vertex>    
+    <vertex>
+      <position num_attributes="3" x="-1" y = "1" z="1" />
+      <normal num_attributes="3" x="0" y="1" z="0" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "1" z="1" />
+      <normal num_attributes="3" x="0" y="1" z="0" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "1" z="-1" />
+      <normal num_attributes="3" x="0" y="1" z="0" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="1" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "1" z="-1" />
+      <normal num_attributes="3" x="0" y="1" z="0" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="1" />
+    </vertex>  
+    <vertex>
+      <position num_attributes="3" x="1" y = "-1" z="1" />
+      <normal num_attributes="3" x="0" y="-1" z="0" />
+      <tangent num_attributes="3" x="-1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="0" y="-1" z="0" />
+      <tangent num_attributes="3" x="-1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="0" y="-1" z="0" />
+      <tangent num_attributes="3" x="-1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="1" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="0" y="-1" z="0" />
+      <tangent num_attributes="3" x="-1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="1" />
+    </vertex>
+  </vertices>
+  <indices>
+    <index> 0 </index>
+    <index> 1 </index>
+    <index> 2 </index>
+    <index> 2 </index>
+    <index> 1 </index>
+    <index> 3 </index>
+    <index> 4 </index>
+    <index> 5 </index>
+    <index> 6 </index>
+    <index> 6 </index>
+    <index> 5 </index>
+    <index> 7 </index>
+    <index> 16 </index>
+    <index> 17 </index>
+    <index> 18 </index>
+    <index> 18 </index>
+    <index> 17 </index>
+    <index> 19 </index>
+    <index> 20 </index>
+    <index> 21 </index>
+    <index> 22 </index>
+    <index> 22 </index>
+    <index> 21 </index>
+    <index> 23 </index>
+    <index> 8 </index>
+    <index> 9 </index>
+    <index> 10 </index>
+    <index> 10 </index>
+    <index> 9 </index>
+    <index> 11 </index>
+    <index> 12 </index>
+    <index> 13 </index>
+    <index> 14 </index>
+    <index> 14 </index>
+    <index> 13 </index>
+    <index> 15 </index>
+  </indices>
+  <textures>
+    <texture file_path=".\Crate_COLOR.dds" />
+    <texture file_path=".\Crate_SPEC.dds" />
+    <texture file_path=".\Crate_NRM.dds" />
+  </textures>
+</mesh>

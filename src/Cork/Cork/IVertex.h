@@ -2,8 +2,12 @@
 
 class IVertex {
 public:
-  virtual void* getPosition() const = 0;
-  virtual void* getNormal() const = 0;
-  virtual void* getTangent() const = 0;
-  virtual void* getTexCoords() const = 0;
+  virtual ~IVertex() {}
+
+  virtual char* const getData() const = 0;
+  virtual int getSizeInBytes() const = 0;
+
+  virtual void addFloat2(void* toAdd) = 0;
+  virtual void addFloat3(void* toAdd) = 0;
+  virtual void addFloat4(void* toAdd) = 0;
 };

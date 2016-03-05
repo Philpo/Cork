@@ -9,6 +9,14 @@ Scheduler::Scheduler(double frameRateTarget, const wstring caption) :
 
 Scheduler::~Scheduler() {}
 
+void shutdown() {
+  ResourceManager::cleanup();
+  if (ServiceLocator::getComponent(GRAPHICS_COMPONENT)) {
+    ((IGraphics*) ServiceLocator::getComponent(GRAPHICS_COMPONENT))->cleanup();
+  }
+  ServiceLocator::cleanup();
+}
+
 WPARAM Scheduler::gameLoop() {
   MSG msg = { 0 };
 
@@ -49,6 +57,7 @@ WPARAM Scheduler::gameLoop() {
       timeLastFrame = currentTime;
     }
   }
+  shutdown();
   return msg.wParam;
 }
 
