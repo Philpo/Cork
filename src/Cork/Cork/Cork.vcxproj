@@ -22,8 +22,10 @@
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DirectX11TypeDefs.h" />
+    <ClInclude Include="GraphicsTypeDefs.h" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IConstantBuffer.h" />
+    <ClInclude Include="IDataComponent.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMessage.h" />
@@ -37,6 +39,7 @@
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="TestInputComponent.h" />
+    <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Window.h" />
@@ -59,6 +62,7 @@
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="TestInputComponent.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>

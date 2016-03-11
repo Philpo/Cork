@@ -20,7 +20,7 @@ public:
   void loopFunction(double timeSinceLastFrame);
 private:
   Scheduler* scheduler;
-  GameObject* entity;
+  GameObject* entity, *box;
   const Factory* factory;
   int meshId;
 };

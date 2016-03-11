@@ -123,6 +123,15 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>Components\Graphics Component</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicsTypeDefs.h">
+      <Filter>Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="IDataComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -178,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files\Components\Graphics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

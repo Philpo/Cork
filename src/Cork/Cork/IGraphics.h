@@ -1,6 +1,7 @@
 #pragma once
 #include "IComponent.h"
 #include "ITexture.h"
+#include "GraphicsTypeDefs.h"
 #include "Mesh.h"
 #include <windows.h>
 
@@ -16,6 +17,6 @@ public:
 private:
   virtual HRESULT initialise() = 0;
   virtual void beginFrame() = 0;
-  virtual void draw(int meshId) = 0;
+  virtual void draw(DrawInfo data) = 0;
   virtual void swap() const = 0;
 };

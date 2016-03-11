@@ -8,8 +8,7 @@
 
 using namespace DirectX;
 
-const std::string BEGIN_FRAME_MESSAGE = "BeginFrameMessage";
-const std::string SWAP_BUFFER_MESSAGE = "SwapBufferMessage";
+const std::string SET_INPUT_LAYOUT = "SetInputLayoutMessage";
 
 const int MAX_LIGHTS = 1;
 const int cb_size = 3;

@@ -35,8 +35,8 @@ void DirectX11Graphics::receiveMessage(IMessage& message) {
     swap();
   }
   else if (message.getType() == DRAW_MESSAGE) {
-    int meshId = *(int*) message.getData();
-    draw(meshId);
+    DrawInfo data = *(DrawInfo*) message.getData();
+    draw(data);
   }
 }
 
@@ -225,16 +225,21 @@ void DirectX11Graphics::beginFrame() {
   immediateContext->PSSetConstantBuffers(0, 1, &constantBuffer);
 }
 
-void DirectX11Graphics::draw(int meshId) {
+void DirectX11Graphics::draw(DrawInfo data) {
   UINT stride = sizeof(SimpleVertex);
   UINT offset = 0;
 
+  XMMATRIX world = XMMatrixIdentity();
+  XMMATRIX translation = XMMatrixTranslation(data.transform.position.getX(), data.transform.position.getY(), data.transform.position.getZ());
+  XMMATRIX scale = XMMatrixScaling(data.transform.scale.getX(), data.transform.scale.getY(), data.transform.scale.getZ());
+
   XMMATRIX temp = XMMatrixRotationY(convertDegreesToRadians(1 * t++));
-  XMStoreFloat4x4(&objectWorld, temp);
-  *worldMatrix = XMMatrixTranspose(XMLoadFloat4x4(&objectWorld));
+  world = world * scale * temp * translation;
+  //XMStoreFloat4x4(&objectWorld, temp);
+  *worldMatrix = XMMatrixTranspose(world);
   //cb.mWorld = XMMatrixTranspose(objectWorld);
 
-  Mesh* mesh = ResourceManager::getMesh(meshId);
+  Mesh* mesh = ResourceManager::getMesh(data.meshId);
   
   for (int i = 0; i < mesh->getTextures().size(); i++) {
     ID3D11ShaderResourceView* texture = (ID3D11ShaderResourceView*) ResourceManager::getTexture(mesh->getTextures()[i])->getTexture();
@@ -242,9 +247,9 @@ void DirectX11Graphics::draw(int meshId) {
   }
 
   immediateContext->UpdateSubresource(constantBuffer, 0, nullptr, cb->getData(), 0, 0);
-  immediateContext->IASetVertexBuffers(0, 1, &vertexBuffers.at(meshId), &stride, &offset);
-  immediateContext->IASetIndexBuffer(indexBuffers.at(meshId), DXGI_FORMAT_R32_UINT, 0);
-  immediateContext->DrawIndexed(indexCounts.at(meshId), 0, 0);
+  immediateContext->IASetVertexBuffers(0, 1, &vertexBuffers.at(data.meshId), &stride, &offset);
+  immediateContext->IASetIndexBuffer(indexBuffers.at(data.meshId), DXGI_FORMAT_R32_UINT, 0);
+  immediateContext->DrawIndexed(indexCounts.at(data.meshId), 0, 0);
 }
 
 void DirectX11Graphics::swap() const {

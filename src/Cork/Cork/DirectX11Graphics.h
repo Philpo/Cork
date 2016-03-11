@@ -1,5 +1,6 @@
 #pragma once
 #include "IGraphics.h"
+#include "GraphicsTypeDefs.h"
 #include "DirectX11TypeDefs.h"
 #include "DDSTextureLoader.h"
 #include "Vector3.h"
@@ -33,7 +34,7 @@ private:
   HRESULT compileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
   HRESULT initShadersAndInputLayout();
   void beginFrame() override;
-  void draw(int meshId) override;
+  void draw(DrawInfo data) override;
   void swap() const override;
 
   static unique_ptr<DirectX11Graphics> instance;

@@ -26,6 +26,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   ServiceLocator::addFactoryFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory));
 
   entity = new GameObject(Vector3<float>(0.0f, 2.0f, -10.0f));
+  box = new GameObject;
 
   BasicMovementComponent* m = (BasicMovementComponent*) ServiceLocator::getComponent(BASIC_MOVE_COMPONENT);
   m->setTarget(entity);
@@ -35,10 +36,26 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   t->setPlayer(entity);
   scheduler->registerPollComponent(POLL_INPUT_MESSAGE, t);
 
+  TransformComponent* transform = new TransformComponent;
+  Transform data;
+  data.position = Vector3<float>(0.0f, 2.0f, -10.0f);
+  transform->setData(&data);
+  entity->addDataComponent(TRANSFORM_COMPONENT, transform);
+
+  transform = new TransformComponent;
+  data.position = Vector3<float>();
+  data.scale = Vector3<float>(2.0f, 2.0f, 2.0f);
+  transform->setData(&data);
+  box->addDataComponent(TRANSFORM_COMPONENT, transform);
+
   try {
     entity->addComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
     entity->addComponent(BEGIN_FRAME_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
     entity->addComponent(SWAP_BUFFER_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
+
+    box->addComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
+    box->addComponent(BEGIN_FRAME_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
+    box->addComponent(SWAP_BUFFER_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
   }
   catch (exception& e) {
     cout << e.what() << endl;
@@ -63,7 +80,10 @@ WPARAM Game::startGame() {
 void Game::loopFunction(double timeSinceLastFrame) {
   if (entity) {
     MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, &entity->getPositon(), entity->getMessageHandler(BEGIN_FRAME_MESSAGE)));
-    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &meshId, entity->getMessageHandler(DRAW_MESSAGE)));
+    DrawInfo drawData;
+    drawData.meshId = meshId;
+    drawData.transform = *(Transform*) box->getDataComponent(TRANSFORM_COMPONENT)->getData();
+    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
     MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, &entity->getPositon(), entity->getMessageHandler(SWAP_BUFFER_MESSAGE)));
   }
   //if (player) {
