@@ -1,13 +1,13 @@
 #include "Game.h"
 
-Game::Game() : scheduler(nullptr), factory(&Factory::getFactory()) {}
+Game::Game() : scheduler(nullptr), factory(nullptr) {}
 
 Game::~Game() {
   if (scheduler) {
     delete scheduler;
   }
-  if (entity) {
-    delete entity;
+  if (factory) {
+    delete factory;
   }
 }
 
@@ -20,55 +20,44 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   scheduler = new Scheduler(60.0, L"Test Game");
   scheduler->setGameLoopFunction(std::bind(&Game::loopFunction, this, std::placeholders::_1));
 
-  ServiceLocator::addFactoryFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, factory));
+  factory = new Factory();
+
+  ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, factory, std::placeholders::_1));
   //ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getBasicGraphicsComponent, factory));
-  ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory));
-  ServiceLocator::addFactoryFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory));
-
-  entity = new GameObject(Vector3<float>(0.0f, 2.0f, -10.0f));
-  box = new GameObject;
-
-  BasicMovementComponent* m = (BasicMovementComponent*) ServiceLocator::getComponent(BASIC_MOVE_COMPONENT);
-  m->setTarget(entity);
-  entity->addComponent(INPUT_RECEIVED_MESSAGE, m);
-
-  TestInputComponent* t = (TestInputComponent*) ServiceLocator::getComponent(INPUT_COMPONENT);
-  t->setPlayer(entity);
-  scheduler->registerPollComponent(POLL_INPUT_MESSAGE, t);
-
-  TransformComponent* transform = new TransformComponent;
-  Transform data;
-  data.position = Vector3<float>(0.0f, 2.0f, -10.0f);
-  transform->setData(&data);
-  entity->addDataComponent(TRANSFORM_COMPONENT, transform);
-
-  transform = new TransformComponent;
-  data.position = Vector3<float>();
-  data.scale = Vector3<float>(2.0f, 2.0f, 2.0f);
-  transform->setData(&data);
-  box->addDataComponent(TRANSFORM_COMPONENT, transform);
-
-  try {
-    entity->addComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
-    entity->addComponent(BEGIN_FRAME_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
-    entity->addComponent(SWAP_BUFFER_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
-
-    box->addComponent(DRAW_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
-    box->addComponent(BEGIN_FRAME_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
-    box->addComponent(SWAP_BUFFER_MESSAGE, ServiceLocator::getComponent(GRAPHICS_COMPONENT));
-  }
-  catch (exception& e) {
-    cout << e.what() << endl;
-    return -1;
-  }
-
+  ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
+  ServiceLocator::addDataComponentFunction(TRANSFORM_COMPONENT, std::bind(&Factory::getTransformComponent, factory, std::placeholders::_1));
+  ServiceLocator::addDataComponentFunction(MESH_COMPONENT, std::bind(&Factory::getMeshComponent, factory, std::placeholders::_1));
+  ServiceLocator::addDataComponentFunction(CAMERA_COMPONENT, std::bind(&Factory::getCameraComponent, factory, std::placeholders::_1));
+  ServiceLocator::addDataComponentFunction(LIGHT_COMPONENT, std::bind(&Factory::getLightComponent, factory, std::placeholders::_1));
   Mesh::addMeshFileLoader(".xml", loadXMLMesh);
-  string meshFile = "cube_mesh.xml";
-  hr = ResourceManager::loadMesh(meshFile, meshId);
 
-  //mesh = new Mesh(1, "cube_mesh.xml");
-  //IGraphics* graphics = (IGraphics*) ServiceLocator::getComponent(GRAPHICS_COMPONENT);
-  //graphics->loadMesh(*mesh);
+  cb = new DirectX11ConstantBuffer(416);
+  cb->addMatrix("world", &XMMatrixIdentity());
+  cb->addMatrix("view", &XMMatrixIdentity());
+  cb->addMatrix("projection", &XMMatrixTranspose(XMMatrixPerspectiveFovLH(XM_PIDIV2, 1.0f, 0.01f, 100.0f)));
+  cb->addLight("light1", &LightStruct());
+  cb->addMaterial("material", &Material());
+  cb->addFloat3("eyePosW", &XMFLOAT3(0.0f, 2.0f, -10.0f));
+  cb->addInt("enableTexturing", 1);
+  cb->addInt("enableSpecularMapping", 1);
+  cb->addInt("enableBumpMapping", 1);
+  cb->addInt("enableClipTestig", 1);
+  cb->addFloat("fogStart", 40.0f);
+  cb->addFloat("fogRange", 50.0f);
+  cb->addFloat2("padding", &XMFLOAT2(0.0f, 0.0f));
+  cb->addFloat4("fogColour", &XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
+
+  camera = EntityLoader::loadEntity("camera.xml");
+  EntityLoader::loadEntities("lights.xml", lights);
+  EntityLoader::loadEntities("game_objects.xml", boxes);
+
+  scheduler->registerPollComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
+
+  for (auto light : lights) {
+    Light& lightData = *(Light*) lights[0]->getDataComponent(LIGHT_COMPONENT)->getData();
+    lightData.cbVariableName = "light1";
+  }
 
   return S_OK;
 }
@@ -78,15 +67,23 @@ WPARAM Game::startGame() {
 }
 
 void Game::loopFunction(double timeSinceLastFrame) {
-  if (entity) {
-    MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, &entity->getPositon(), entity->getMessageHandler(BEGIN_FRAME_MESSAGE)));
-    DrawInfo drawData;
-    drawData.meshId = meshId;
+  MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_CAMERA, camera->getDataComponent(CAMERA_COMPONENT)->getData(), ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+
+  for (auto light : lights) {
+    MessageHandler::forwardMessage(Message(SET_LIGHT, light->getDataComponent(LIGHT_COMPONENT)->getData(), ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  }
+
+  DrawInfo drawData;
+  Transform& transform = *(Transform*) boxes[0]->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  transform.localRotation.setY(transform.localRotation.getY() + 1);
+
+  for (auto box : boxes) {
+    drawData.meshId = *(int*) box->getDataComponent(MESH_COMPONENT)->getData();
     drawData.transform = *(Transform*) box->getDataComponent(TRANSFORM_COMPONENT)->getData();
     MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
-    MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, &entity->getPositon(), entity->getMessageHandler(SWAP_BUFFER_MESSAGE)));
   }
-  //if (player) {
-  //  player->draw();
-  //}
+
+  MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 }

@@ -13,26 +13,23 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Components">
-      <UniqueIdentifier>{62c44347-7ea9-4561-a18a-f95f6e466e31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Components\Graphics Component">
-      <UniqueIdentifier>{8c9b4e0e-8991-4ea6-8b4b-32f623a5a1fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Components">
       <UniqueIdentifier>{e9917254-4ba9-4e7a-b5cc-e4f1539967d4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Components\Graphics Component">
       <UniqueIdentifier>{29c8e479-1f29-4153-b520-0186cd1da232}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Graphics Component\DirectX11">
-      <UniqueIdentifier>{f02231c6-808f-48b8-9dd6-05ab906649b2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Components\Graphics Component\DirectX11">
       <UniqueIdentifier>{b010c4a9-db4c-4a9d-9e1d-a083fd17ac75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components\Graphics Component\DirectX11\shaders">
-      <UniqueIdentifier>{9b321706-10ff-4d9c-8db9-43d03e6b92fe}</UniqueIdentifier>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{62c44347-7ea9-4561-a18a-f95f6e466e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Graphics Component">
+      <UniqueIdentifier>{8c9b4e0e-8991-4ea6-8b4b-32f623a5a1fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Graphics Component\DirectX11">
+      <UniqueIdentifier>{f02231c6-808f-48b8-9dd6-05ab906649b2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,64 +70,76 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ConsoleGraphicsComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="BasicMovementComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TestInputComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="IGraphics.h">
-      <Filter>Components\Graphics Component</Filter>
+      <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="IVertex.h">
-      <Filter>Components\Graphics Component</Filter>
+      <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="ITexture.h">
-      <Filter>Components\Graphics Component</Filter>
+      <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Components\Graphics Component</Filter>
+      <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11Texture.h">
-      <Filter>Components\Graphics Component\DirectX11</Filter>
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11Vertex.h">
-      <Filter>Components\Graphics Component\DirectX11</Filter>
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11TypeDefs.h">
-      <Filter>Components\Graphics Component\DirectX11</Filter>
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DDSTextureLoader.h">
-      <Filter>Components\Graphics Component\DirectX11</Filter>
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11Graphics.h">
-      <Filter>Components\Graphics Component\DirectX11</Filter>
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="IConstantBuffer.h">
-      <Filter>Components\Graphics Component</Filter>
+      <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11XMLMeshLoader.h">
-      <Filter>Components\Graphics Component\DirectX11</Filter>
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11ConstantBuffer.h">
-      <Filter>Components\Graphics Component\DirectX11</Filter>
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
-      <Filter>Components\Graphics Component</Filter>
+      <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsTypeDefs.h">
-      <Filter>Components\Graphics Component</Filter>
+      <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="IDataComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LightComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityLoader.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,10 +200,20 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test_shader.fx">
-      <Filter>Components\Graphics Component\DirectX11\shaders</Filter>
-    </None>
+    <ClCompile Include="LightComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

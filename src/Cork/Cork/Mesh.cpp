@@ -4,11 +4,11 @@ map<string, meshLoadFunction> Mesh::meshFileLoaders;
 
 Mesh::Mesh(int id, const std::string& meshFile) : id(id) {
   // TODO add mesh loaders
-  int fileExtensionStartIndex = meshFile.find(".");
+  int fileExtensionStartIndex = meshFile.rfind(".");
   if (fileExtensionStartIndex != string::npos) {
     string fileExtension = meshFile.substr(fileExtensionStartIndex);
     if (meshFileLoaders.find(fileExtension) != meshFileLoaders.end()) {
-      meshFileLoaders[fileExtension](meshFile, vertices, indices, textures);
+      meshFileLoaders[fileExtension](meshFile, vertices, indices, textures, material);
     }
   }
 }

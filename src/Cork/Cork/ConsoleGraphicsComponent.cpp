@@ -17,7 +17,7 @@ void ConsoleGraphicsComponent::receiveMessage(IMessage& message) {
   FillConsoleOutputAttribute(console, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE, screen.dwSize.X * screen.dwSize.Y, topLeft, &written);
   SetConsoleCursorPosition(console, topLeft);
 
-  Vector3<float> position = *(Vector3<float>*) message.getData();
+  Vector3 position = *(Vector3*) message.getData();
   stringstream s;
 
   for (int i = 0; i < 10; i++) {

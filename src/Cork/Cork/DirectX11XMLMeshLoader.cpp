@@ -1,12 +1,17 @@
 #include "DirectX11XMLMeshLoader.h"
 
-HRESULT loadXMLMesh(const string& fileName, vector<IVertex* const>& vertices, vector<int>& indices, vector<int>& textures) {
+void addVertices(xml_node<>* verticesNode, vector<IVertex* const>& vertices, int vertexSize);
+void addIndices(xml_node<>* indicesNode, vector<int>& indices);
+HRESULT addTextures(xml_node<>* texturesNode, vector<int>& textures);
+void addMaterial(xml_node<>* materialNode, MeshMaterial& material);
+
+HRESULT loadXMLMesh(const string& fileName, vector<IVertex* const>& vertices, vector<int>& indices, vector<int>& textures, MeshMaterial& material) {
   HRESULT hr;
 
   try {
-    file<> tilesetFile(fileName.c_str());
+    file<> meshFile(fileName.c_str());
     xml_document<> doc;
-    doc.parse<0>(tilesetFile.data());
+    doc.parse<0>(meshFile.data());
     xml_node<>* rootNode = doc.first_node();
 
     int numVertices = convertStringToNumber<int>(rootNode->first_attribute("num_vertices")->value());
@@ -25,6 +30,8 @@ HRESULT loadXMLMesh(const string& fileName, vector<IVertex* const>& vertices, ve
     if (FAILED(hr)) {
       return hr;
     }
+
+    addMaterial(rootNode->first_node("material"), material);
   }
   catch (parse_error& e) {
     throw;
@@ -111,4 +118,24 @@ HRESULT addTextures(xml_node<>* texturesNode, vector<int>& textures) {
   }
 
   return S_OK;
+}
+
+void addMaterial(xml_node<>* materialNode, MeshMaterial& material) {
+  material.alpha = convertStringToNumber<float>(materialNode->first_attribute("a")->value());
+
+  xml_node<>* component = materialNode->first_node("ambient");
+  material.ambient.setX(convertStringToNumber<float>(component->first_attribute("r")->value()));
+  material.ambient.setY(convertStringToNumber<float>(component->first_attribute("g")->value()));
+  material.ambient.setZ(convertStringToNumber<float>(component->first_attribute("b")->value()));
+
+  component = materialNode->first_node("diffuse");
+  material.diffuse.setX(convertStringToNumber<float>(component->first_attribute("r")->value()));
+  material.diffuse.setY(convertStringToNumber<float>(component->first_attribute("g")->value()));
+  material.diffuse.setZ(convertStringToNumber<float>(component->first_attribute("b")->value()));
+
+  component = materialNode->first_node("specular");
+  material.specular.setX(convertStringToNumber<float>(component->first_attribute("r")->value()));
+  material.specular.setY(convertStringToNumber<float>(component->first_attribute("g")->value()));
+  material.specular.setZ(convertStringToNumber<float>(component->first_attribute("b")->value()));
+  material.specularPower = convertStringToNumber<float>(component->first_attribute("power")->value());
 }

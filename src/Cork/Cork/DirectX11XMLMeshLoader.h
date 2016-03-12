@@ -12,7 +12,4 @@
 using namespace std;
 using namespace rapidxml;
 
-void addVertices(xml_node<>* verticesNode, vector<IVertex* const>& vertices, int vertexSize);
-void addIndices(xml_node<>* indicesNode, vector<int>& indices);
-HRESULT addTextures(xml_node<>* texturesNode, vector<int>& textures);
-HRESULT loadXMLMesh(const string& fileName, vector<IVertex* const>& vertices, vector<int>& indices, vector<int>& textures);
+HRESULT loadXMLMesh(const string& fileName, vector<IVertex* const>& vertices, vector<int>& indices, vector<int>& textures, MeshMaterial& material);

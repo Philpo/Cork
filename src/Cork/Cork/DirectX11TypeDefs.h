@@ -17,8 +17,6 @@ inline const float convertDegreesToRadians(const float angleInDegrees) {
   return (angleInDegrees * XM_PI) / 180;
 }
 
-enum LightType { DIRECTIONAL_LIGHT = 0, POINT_LIGHT = 1, SPOT_LIGHT = 2 };
-
 struct SimpleVertex {
   XMFLOAT3 Pos;
   XMFLOAT3 normal;

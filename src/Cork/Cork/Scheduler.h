@@ -6,6 +6,7 @@
 #include "ServiceLocator.h"
 #include "IGraphics.h"
 #include "ResourceManager.h"
+#include "EntityLoader.h"
 #include <map>
 #include <functional>
 

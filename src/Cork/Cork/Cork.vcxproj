@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicMovementComponent.h" />
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ConsoleGraphicsComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DirectX11ConstantBuffer.h" />
@@ -19,6 +20,7 @@
     <ClInclude Include="DirectX11Texture.h" />
     <ClInclude Include="DirectX11Vertex.h" />
     <ClInclude Include="DirectX11XMLMeshLoader.h" />
+    <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DirectX11TypeDefs.h" />
@@ -32,7 +34,9 @@
     <ClInclude Include="IMessageable.h" />
     <ClInclude Include="ITexture.h" />
     <ClInclude Include="IVertex.h" />
+    <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -46,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicMovementComponent.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ConsoleGraphicsComponent.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DirectX11ConstantBuffer.cpp" />
@@ -53,22 +58,21 @@
     <ClCompile Include="DirectX11Texture.cpp" />
     <ClCompile Include="DirectX11Vertex.cpp" />
     <ClCompile Include="DirectX11XMLMeshLoader.cpp" />
+    <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="TestInputComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test_shader.fx">
-      <FileType>Document</FileType>
-    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2E29DBCE-9966-45DA-9040-056261FF73F3}</ProjectGuid>

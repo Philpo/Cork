@@ -11,8 +11,9 @@ Scheduler::~Scheduler() {}
 
 void shutdown() {
   ResourceManager::cleanup();
-  if (ServiceLocator::getComponent(GRAPHICS_COMPONENT)) {
-    ((IGraphics*) ServiceLocator::getComponent(GRAPHICS_COMPONENT))->cleanup();
+  EntityLoader::cleanup();
+  if (ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)) {
+    ((IGraphics*) ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT))->cleanup();
   }
   ServiceLocator::cleanup();
 }

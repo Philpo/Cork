@@ -4,10 +4,16 @@
 #include <functional>
 #include <windows.h>
 #include "IVertex.h"
+#include "Vector3.h"
 
 using namespace std;
 
-typedef function<HRESULT (const string&, vector<IVertex* const>&, vector<int>&, vector<int>&)> meshLoadFunction;
+struct MeshMaterial {
+  Vector3 ambient, diffuse, specular;
+  float alpha, specularPower;
+};
+
+typedef function<HRESULT(const string&, vector<IVertex* const>&, vector<int>&, vector<int>&, MeshMaterial&)> meshLoadFunction;
 
 class Mesh {
 public:
@@ -18,11 +24,13 @@ public:
   inline const vector<IVertex* const>& getVertices() const { return vertices; }
   inline const vector<int>& getIndices() const { return indices; }
   inline const vector<int>& getTextures() const { return textures; }
+  inline const MeshMaterial getMaterial() const { return material; }
 
   static void addMeshFileLoader(const string& fileExtension, meshLoadFunction function);
 private:
   int id;
   vector<IVertex* const> vertices;
   vector<int> indices, textures;
+  MeshMaterial material;
   static map<string, meshLoadFunction> meshFileLoaders;
 };

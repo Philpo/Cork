@@ -1,7 +1,5 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const Vector3<float> position) : position(position) {}
-
 GameObject::~GameObject() {}
 
 void GameObject::receiveMessage(IMessage& message) {

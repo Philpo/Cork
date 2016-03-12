@@ -18,6 +18,7 @@ void TransformComponent::setData(void* data) {
   Transform* toSet = (Transform*) data;
 
   transform->position = toSet->position;
-  transform->rotation = toSet->rotation;
+  transform->localRotation = toSet->localRotation;
   transform->scale = toSet->scale;
+  transform->parent = toSet->parent;
 }

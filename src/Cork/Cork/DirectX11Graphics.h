@@ -34,6 +34,9 @@ private:
   HRESULT compileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
   HRESULT initShadersAndInputLayout();
   void beginFrame() override;
+  void setConstantBuffer(IConstantBuffer* const cb) override { this->cb = cb; }
+  void setLight(Light light) override;
+  void setCamera(Camera camera) override;
   void draw(DrawInfo data) override;
   void swap() const override;
 
@@ -62,8 +65,4 @@ private:
   ID3D11RasterizerState* solidState;
   ID3D11Debug* debug;
   IConstantBuffer* cb;
-  XMMATRIX* worldMatrix;
-  XMFLOAT4X4 objectWorld;
-  int t = 0;
-  Vector3<float> camPos;
 };

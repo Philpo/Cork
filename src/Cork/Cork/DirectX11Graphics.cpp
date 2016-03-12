@@ -28,7 +28,7 @@ DirectX11Graphics& DirectX11Graphics::getGraphics() {
 
 void DirectX11Graphics::receiveMessage(IMessage& message) {
   if (message.getType() == BEGIN_FRAME_MESSAGE) {
-    camPos = *((Vector3<float>*) message.getData());
+    //camPos = *((Vector3<float>*) message.getData());
     beginFrame();
   }
   else if (message.getType() == SWAP_BUFFER_MESSAGE) {
@@ -38,7 +38,20 @@ void DirectX11Graphics::receiveMessage(IMessage& message) {
     DrawInfo data = *(DrawInfo*) message.getData();
     draw(data);
   }
+  else if (message.getType() == SET_CONSTANT_BUFFER) {
+    IConstantBuffer* cb = (IConstantBuffer*) message.getData();
+    setConstantBuffer(cb);
+  }
+  else if (message.getType() == SET_CAMERA) {
+    Camera camera = *(Camera*) message.getData();
+    setCamera(camera);
+  }
+  else if (message.getType() == SET_LIGHT) {
+    Light light = *(Light*) message.getData();
+    setLight(light);
+  }
 }
+
 
 void DirectX11Graphics::cleanup() {
   for (auto kvp : vertexBuffers) {
@@ -156,19 +169,40 @@ HRESULT DirectX11Graphics::initialise() {
     return hr;
   }
 
-  cb = new DirectX11ConstantBuffer(sizeof(ConstantBuffer));
+  //cb = new DirectX11ConstantBuffer(sizeof(ConstantBuffer));
 
   return S_OK;
+}
+
+void DirectX11Graphics::setLight(Light light) {
+  LightStruct toSet;
+
+  toSet.ambient = XMFLOAT4(light.ambient.getX(), light.ambient.getY(), light.ambient.getZ(), 1.0f);
+  toSet.diffuse = XMFLOAT4(light.diffuse.getX(), light.diffuse.getY(), light.diffuse.getZ(), 1.0f);
+  toSet.specular = XMFLOAT4(light.specular.getX(), light.specular.getY(), light.specular.getZ(), 1.0f);
+  toSet.position = XMFLOAT3(light.position.getX(), light.position.getY(), light.position.getZ());
+  toSet.range = light.range;
+  toSet.direction = XMFLOAT3(light.direction.getX(), light.direction.getY(), light.direction.getZ());
+  toSet.exponent = light.exponent;
+  toSet.attenuation = XMFLOAT3(light.attenuation.getX(), light.attenuation.getY(), light.attenuation.getZ());
+  toSet.enabled = light.enabled;
+  toSet.type = light.type;
+
+  cb->updateLight(light.cbVariableName, &toSet);
+}
+
+void DirectX11Graphics::setCamera(Camera camera) {
+  XMVECTOR eye = XMLoadFloat4(&XMFLOAT4(camera.position.getX(), camera.position.getY(), camera.position.getZ(), 0.0f));
+  XMVECTOR at = XMLoadFloat4(&XMFLOAT4(camera.look.getX(), camera.look.getY(), camera.look.getZ(), 0.0f));
+  XMVECTOR worldUp = XMLoadFloat4(&XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f));
+  cb->updateMatrix("view", &XMMatrixTranspose(XMMatrixLookToLH(eye, at, worldUp)));
+  cb->updateFloat3("eyePosW", &XMFLOAT3(camera.position.getX(), camera.position.getY(), camera.position.getZ()));
 }
 
 void DirectX11Graphics::beginFrame() {
   float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; // red,green,blue,alpha
   immediateContext->ClearRenderTargetView(renderTargetView, ClearColor);
   immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-  XMMATRIX world = XMMatrixIdentity();
-  XMMATRIX view = XMMatrixLookToLH(XMLoadFloat4(&XMFLOAT4(camPos.getX(), camPos.getY(), camPos.getZ(), 0.0f)), XMLoadFloat4(&XMFLOAT4(0.0f, 0.0f, 1.0f, 0.0f)), XMLoadFloat4(&XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f)));
-  XMMATRIX projection = XMMatrixPerspectiveFovLH(XM_PIDIV2, 1.0f, 0.01f, 100.0f);
 
   LightStruct light;
   light.type = POINT_LIGHT;
@@ -203,21 +237,21 @@ void DirectX11Graphics::beginFrame() {
   material.specular = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
   material.specularPower = 10.0f;
 
-  cb->clearBuffer();
-  worldMatrix = (XMMATRIX*) cb->addMatrix(&XMMatrixTranspose(world));
-  cb->addMatrix(&XMMatrixTranspose(view));
-  cb->addMatrix(&XMMatrixTranspose(projection));
-  cb->addLight(&light);
-  cb->addMaterial(&material);
-  cb->addFloat3(&XMFLOAT3(0.0f, 2.0f, -10.0f));
-  cb->addInt(1);
-  cb->addInt(1);
-  cb->addInt(1);
-  cb->addInt(1);
-  cb->addFloat(40.0f);
-  cb->addFloat(50.0f);
-  cb->addFloat2(&XMFLOAT2(0.0f, 0.0f));
-  cb->addFloat4(&XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
+  //cb->clearBuffer();
+  //cb->addMatrix("world", &XMMatrixTranspose(world));
+  //cb->addMatrix("view", &XMMatrixTranspose(view));
+  //cb->addMatrix("projection", &XMMatrixTranspose(projection));
+  //cb->addLight("light1", &light);
+  //cb->addMaterial("material", &material);
+  //cb->addFloat3("eyePosW", &XMFLOAT3(0.0f, 2.0f, -10.0f));
+  //cb->addInt("enableTexturing", 1);
+  //cb->addInt("enableSpecularMapping", 1);
+  //cb->addInt("enableBumpMapping", 1);
+  //cb->addInt("enableClipTestig", 1);
+  //cb->addFloat("fogStart", 40.0f);
+  //cb->addFloat("fogRange", 50.0f);
+  //cb->addFloat2("padding", &XMFLOAT2(0.0f, 0.0f));
+  //cb->addFloat4("fogColour", &XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
 
   immediateContext->VSSetShader(vertexShader, nullptr, 0);
   immediateContext->VSSetConstantBuffers(0, 1, &constantBuffer);
@@ -232,14 +266,39 @@ void DirectX11Graphics::draw(DrawInfo data) {
   XMMATRIX world = XMMatrixIdentity();
   XMMATRIX translation = XMMatrixTranslation(data.transform.position.getX(), data.transform.position.getY(), data.transform.position.getZ());
   XMMATRIX scale = XMMatrixScaling(data.transform.scale.getX(), data.transform.scale.getY(), data.transform.scale.getZ());
+  XMMATRIX xRotation = XMMatrixRotationX(convertDegreesToRadians(data.transform.localRotation.getX()));
+  XMMATRIX yRotation = XMMatrixRotationY(convertDegreesToRadians(data.transform.localRotation.getY()));
+  XMMATRIX zRotation = XMMatrixRotationZ(convertDegreesToRadians(data.transform.localRotation.getZ()));
+  XMMATRIX worldXRotation = XMMatrixRotationX(convertDegreesToRadians(data.transform.worldRotation.getX()));
+  XMMATRIX worldYRotation = XMMatrixRotationY(convertDegreesToRadians(data.transform.worldRotation.getY()));
+  XMMATRIX worldZRotation = XMMatrixRotationZ(convertDegreesToRadians(data.transform.worldRotation.getZ()));
+  world = world * scale * xRotation * yRotation * zRotation * translation * worldXRotation * worldYRotation * worldZRotation;
 
-  XMMATRIX temp = XMMatrixRotationY(convertDegreesToRadians(1 * t++));
-  world = world * scale * temp * translation;
+  Transform* parent = data.transform.parent;
+  while (parent) {
+    XMMATRIX parentTranslation = XMMatrixTranslation(parent->position.getX(), parent->position.getY(), parent->position.getZ());
+    XMMATRIX parentXRotation = XMMatrixRotationX(convertDegreesToRadians(parent->worldRotation.getX()));
+    XMMATRIX parentYRotation = XMMatrixRotationY(convertDegreesToRadians(parent->worldRotation.getY()));
+    XMMATRIX parentZRotation = XMMatrixRotationZ(convertDegreesToRadians(parent->worldRotation.getZ()));
+    world *= parentTranslation * parentXRotation * parentYRotation * parentZRotation;
+    parent = parent->parent;
+  }
+
   //XMStoreFloat4x4(&objectWorld, temp);
-  *worldMatrix = XMMatrixTranspose(world);
+  cb->updateMatrix("world", &XMMatrixTranspose(world));
+  //*worldMatrix = XMMatrixTranspose(world);
   //cb.mWorld = XMMatrixTranspose(objectWorld);
 
   Mesh* mesh = ResourceManager::getMesh(data.meshId);
+  MeshMaterial meshMaterial = mesh->getMaterial();
+
+  Material material;
+  material.ambient = XMFLOAT4(meshMaterial.ambient.getX(), meshMaterial.ambient.getY(), meshMaterial.ambient.getZ(), meshMaterial.alpha);
+  material.diffuse = XMFLOAT4(meshMaterial.diffuse.getX(), meshMaterial.diffuse.getY(), meshMaterial.diffuse.getZ(), meshMaterial.alpha);
+  material.specular = XMFLOAT4(meshMaterial.specular.getX(), meshMaterial.specular.getY(), meshMaterial.specular.getZ(), meshMaterial.alpha);
+  material.specularPower = meshMaterial.specularPower;
+
+  cb->updateMaterial("material", &material);
   
   for (int i = 0; i < mesh->getTextures().size(); i++) {
     ID3D11ShaderResourceView* texture = (ID3D11ShaderResourceView*) ResourceManager::getTexture(mesh->getTextures()[i])->getTexture();

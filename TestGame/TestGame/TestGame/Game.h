@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "DirectX11XMLMeshLoader.h"
 #include "ResourceManager.h"
+#include "EntityLoader.h"
 
 class Game {
 public:
@@ -20,7 +21,9 @@ public:
   void loopFunction(double timeSinceLastFrame);
 private:
   Scheduler* scheduler;
-  GameObject* entity, *box;
+  GameObject* camera;
+  vector<GameObject* const> lights, boxes;
   const Factory* factory;
   int meshId;
+  IConstantBuffer* cb;
 };

@@ -3,7 +3,9 @@
 #include "Vector3.h"
 
 struct Transform {
-  Vector3<float> position, rotation, scale;
+  Transform() : parent(nullptr) {}
+  Vector3 position, localRotation, scale, worldRotation;
+  Transform* parent;
 };
 
 class TransformComponent : public IDataComponent {

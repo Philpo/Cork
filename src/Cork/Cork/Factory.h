@@ -1,23 +1,28 @@
 #pragma once
-#include <memory>
 #include "IFactory.h"
 #include "ConsoleGraphicsComponent.h"
 #include "TestInputComponent.h"
 #include "BasicMovementComponent.h"
 #include "DirectX11Graphics.h"
+#include "MeshComponent.h"
+#include "ResourceManager.h"
+#include "EntityLoader.h"
+#include "RapidXML\rapidxml.hpp"
+
+using namespace rapidxml;
 
 class Factory : public IFactory {
 public:
+  Factory() : IFactory() {}
   ~Factory() {}
 
-  static const Factory& getFactory();
+  virtual IComponent* const getBasicGraphicsComponent(void* data) const override;
+  virtual IComponent* const getBasicInputComponent(void* data) const override;
+  virtual IComponent* const getBasicMovementComponent(void* data) const override;
+  virtual IComponent* const getDirectX11Graphics(void* data) const override;
 
-  IComponent* const getBasicGraphicsComponent() const override;
-  IComponent* const getBasicInputComponent() const override;
-  IComponent* const getBasicMovementComponent() const override;
-  IComponent* const getDirectX11Graphics() const override;
-protected:
-  Factory() : IFactory() {}
-private:
-  static std::unique_ptr<Factory> instance;
+  virtual IDataComponent* const getTransformComponent(void* data) const override;
+  virtual IDataComponent* const getMeshComponent(void* data) const override;
+  virtual IDataComponent* const getCameraComponent(void* data) const override;
+  virtual IDataComponent* const getLightComponent(void* data) const override;
 };

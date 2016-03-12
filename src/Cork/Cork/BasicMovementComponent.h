@@ -1,6 +1,8 @@
 #pragma once
 #include "IComponent.h"
 #include "GameObject.h"
+#include "CameraComponent.h"
+#include "TransformComponent.h"
 
 class BasicMovementComponent : public IComponent {
 public:
