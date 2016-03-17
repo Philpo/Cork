@@ -1,11 +1,11 @@
 #include "DirectX11XMLMeshLoader.h"
 
-void addVertices(xml_node<>* verticesNode, vector<IVertex* const>& vertices, int vertexSize);
+void addVertices(xml_node<>* verticesNode, vector<BinaryData* const>& vertices, int vertexSize);
 void addIndices(xml_node<>* indicesNode, vector<int>& indices);
 HRESULT addTextures(xml_node<>* texturesNode, vector<int>& textures);
 void addMaterial(xml_node<>* materialNode, MeshMaterial& material);
 
-HRESULT loadXMLMesh(const string& fileName, vector<IVertex* const>& vertices, vector<int>& indices, vector<int>& textures, MeshMaterial& material) {
+HRESULT loadXMLMesh(const string& fileName, vector<BinaryData* const>& vertices, vector<int>& indices, vector<int>& textures, MeshMaterial& material) {
   HRESULT hr;
 
   try {
@@ -40,11 +40,11 @@ HRESULT loadXMLMesh(const string& fileName, vector<IVertex* const>& vertices, ve
   return S_OK;
 }
 
-void addVertices(xml_node<>* verticesNode, vector<IVertex* const>& vertices, int vertexSize) {
+void addVertices(xml_node<>* verticesNode, vector<BinaryData* const>& vertices, int vertexSize) {
   int currentVertex = 0;
 
   for (xml_node<>* vertexNode = verticesNode->first_node(); vertexNode; vertexNode = vertexNode->next_sibling()) {
-    DirectX11Vertex* vertex = new DirectX11Vertex(vertexSize);
+    BinaryData* vertex = new BinaryData(vertexSize);
 
     for (xml_node<>* vertexData = vertexNode->first_node(); vertexData; vertexData = vertexData->next_sibling()) {
       int vectorSize = convertStringToNumber<int>(vertexData->first_attribute("num_attributes")->value());
@@ -57,7 +57,7 @@ void addVertices(xml_node<>* verticesNode, vector<IVertex* const>& vertices, int
         attr = attr->next_attribute();
         vector.y = convertStringToNumber<float>(attr->value());
 
-        vertex->addFloat2(&vector);
+        vertex->addData(vertexData->name(), vector);
       }
       else if (vectorSize == 3) {
         XMFLOAT3 vector;
@@ -69,7 +69,7 @@ void addVertices(xml_node<>* verticesNode, vector<IVertex* const>& vertices, int
         attr = attr->next_attribute();
         vector.z = convertStringToNumber<float>(attr->value());
 
-        vertex->addFloat3(&vector);
+        vertex->addData(vertexData->name(), vector);
       }
       else if (vectorSize == 4) {
         XMFLOAT4 vector;
@@ -83,7 +83,7 @@ void addVertices(xml_node<>* verticesNode, vector<IVertex* const>& vertices, int
         attr = attr->next_attribute();
         vector.w = convertStringToNumber<float>(attr->value());
 
-        vertex->addFloat4(&vector);
+        vertex->addData(vertexData->name(), vector);
       }
     }
 

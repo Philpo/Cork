@@ -3,7 +3,7 @@
 
 class MeshComponent : public IDataComponent {
 public:
-  MeshComponent() {}
+  MeshComponent() : meshId(-1) {}
   ~MeshComponent() {}
 
   void* getData() override { return &meshId; }

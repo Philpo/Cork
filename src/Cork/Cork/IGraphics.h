@@ -5,7 +5,6 @@
 #include "Mesh.h"
 #include "LightComponent.h"
 #include "CameraComponent.h"
-#include "IConstantBuffer.h"
 #include <windows.h>
 
 class IGraphics : public IComponent {
@@ -19,7 +18,6 @@ public:
   virtual HRESULT loadMesh(const Mesh& mesh) = 0;
 private:
   virtual HRESULT initialise() = 0;
-  virtual void setConstantBuffer(IConstantBuffer* const cb) = 0;
   virtual void setLight(Light light) = 0;
   virtual void setCamera(Camera camera) = 0;
   virtual void beginFrame() = 0;

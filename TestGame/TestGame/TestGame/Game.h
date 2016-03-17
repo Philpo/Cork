@@ -25,5 +25,5 @@ private:
   vector<GameObject* const> lights, boxes;
   const Factory* factory;
   int meshId;
-  IConstantBuffer* cb;
+  BinaryData* cb;
 };

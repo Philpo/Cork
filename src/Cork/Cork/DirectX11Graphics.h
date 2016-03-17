@@ -4,7 +4,7 @@
 #include "DirectX11TypeDefs.h"
 #include "DDSTextureLoader.h"
 #include "Vector3.h"
-#include "DirectX11ConstantBuffer.h"
+#include "BinaryData.h"
 #include "DirectX11Texture.h"
 #include "ResourceManager.h"
 #include <memory>
@@ -34,7 +34,7 @@ private:
   HRESULT compileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
   HRESULT initShadersAndInputLayout();
   void beginFrame() override;
-  void setConstantBuffer(IConstantBuffer* const cb) override { this->cb = cb; }
+  void setConstantBuffer(BinaryData* const cb) { this->cb = cb; }
   void setLight(Light light) override;
   void setCamera(Camera camera) override;
   void draw(DrawInfo data) override;
@@ -64,5 +64,5 @@ private:
   ID3D11DepthStencilState* depthStencilState;
   ID3D11RasterizerState* solidState;
   ID3D11Debug* debug;
-  IConstantBuffer* cb;
+  BinaryData* cb;
 };

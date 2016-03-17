@@ -13,6 +13,8 @@ void ResourceManager::cleanup() {
   for (auto kvp : meshes) {
     delete kvp.second;
   }
+  textures.clear();
+  meshes.clear();
 }
 
 ITexture* const ResourceManager::getTexture(int textureId) {

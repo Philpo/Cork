@@ -128,36 +128,32 @@ void DirectX11ConstantBuffer::addMaterial(string variableName, void* toAdd) {
 }
 
 void DirectX11ConstantBuffer::addFloat(string variableName, float toAdd) {
-  if (toAdd) {
-    if (currentBufferSize + sizeof(float) <= sizeInBytes) {
-      float& insertAt = *(float*) currentPosition;
-      insertAt = toAdd;
-      variablePositions.insert(pair<string, char*>(variableName, currentPosition));
-      currentPosition += sizeof(float);
-      currentBufferSize += sizeof(float);
-    }
-    else {
-      std::stringstream errorMessage;
-      errorMessage << "Attempting to add more bytes than were allocated: allocated size = " << sizeInBytes << ", total bytes to add = " << (currentBufferSize + sizeof(float));
-      throw std::exception(errorMessage.str().c_str());
-    }
+  if (currentBufferSize + sizeof(float) <= sizeInBytes) {
+    float& insertAt = *(float*) currentPosition;
+    insertAt = toAdd;
+    variablePositions.insert(pair<string, char*>(variableName, currentPosition));
+    currentPosition += sizeof(float);
+    currentBufferSize += sizeof(float);
+  }
+  else {
+    std::stringstream errorMessage;
+    errorMessage << "Attempting to add more bytes than were allocated: allocated size = " << sizeInBytes << ", total bytes to add = " << (currentBufferSize + sizeof(float));
+    throw std::exception(errorMessage.str().c_str());
   }
 }
 
 void DirectX11ConstantBuffer::addInt(string variableName, int toAdd) {
-  if (toAdd) {
-    if (currentBufferSize + sizeof(int) <= sizeInBytes) {
-      int& insertAt = *(int*) currentPosition;
-      insertAt = toAdd;
-      variablePositions.insert(pair<string, char*>(variableName, currentPosition));
-      currentPosition += sizeof(int);
-      currentBufferSize += sizeof(int);
-    }
-    else {
-      std::stringstream errorMessage;
-      errorMessage << "Attempting to add more bytes than were allocated: allocated size = " << sizeInBytes << ", total bytes to add = " << (currentBufferSize + sizeof(int));
-      throw std::exception(errorMessage.str().c_str());
-    }
+  if (currentBufferSize + sizeof(int) <= sizeInBytes) {
+    int& insertAt = *(int*) currentPosition;
+    insertAt = toAdd;
+    variablePositions.insert(pair<string, char*>(variableName, currentPosition));
+    currentPosition += sizeof(int);
+    currentBufferSize += sizeof(int);
+  }
+  else {
+    std::stringstream errorMessage;
+    errorMessage << "Attempting to add more bytes than were allocated: allocated size = " << sizeInBytes << ", total bytes to add = " << (currentBufferSize + sizeof(int));
+    throw std::exception(errorMessage.str().c_str());
   }
 }
 

@@ -25,6 +25,15 @@ struct SimpleVertex {
 };
 
 struct LightStruct {
+  LightStruct() : range(0.0f), exponent(0.0f), enabled(1) {
+    ambient = XMFLOAT4 { 0.0f, 0.0f, 0.0f, 0.0f };
+    diffuse = XMFLOAT4 { 0.0f, 0.0f, 0.0f, 0.0f };
+    specular = XMFLOAT4 { 0.0f, 0.0f, 0.0f, 0.0f };
+    position = XMFLOAT3 { 0.0f, 0.0f, 0.0f };
+    direction = XMFLOAT3 { 0.0f, 0.0f, 0.0f };
+    attenuation = XMFLOAT3 { 0.0f, 0.0f, 0.0f };
+  }
+
   XMFLOAT4 ambient;
   XMFLOAT4 diffuse;
   XMFLOAT4 specular;
@@ -39,7 +48,12 @@ struct LightStruct {
 };
 
 struct Material {
-  Material() { ZeroMemory(this, sizeof(this)); }
+  Material() : specularPower(0.0f) {
+    ambient = XMFLOAT4 { 0.0f, 0.0f, 0.0f, 0.0f };
+    diffuse = XMFLOAT4 { 0.0f, 0.0f, 0.0f, 0.0f };
+    specular = XMFLOAT4 { 0.0f, 0.0f, 0.0f, 0.0f };
+  }
+
   XMFLOAT4 ambient, diffuse, specular;
   float specularPower;
 };

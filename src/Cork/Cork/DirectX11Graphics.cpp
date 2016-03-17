@@ -28,7 +28,6 @@ DirectX11Graphics& DirectX11Graphics::getGraphics() {
 
 void DirectX11Graphics::receiveMessage(IMessage& message) {
   if (message.getType() == BEGIN_FRAME_MESSAGE) {
-    //camPos = *((Vector3<float>*) message.getData());
     beginFrame();
   }
   else if (message.getType() == SWAP_BUFFER_MESSAGE) {
@@ -39,7 +38,7 @@ void DirectX11Graphics::receiveMessage(IMessage& message) {
     draw(data);
   }
   else if (message.getType() == SET_CONSTANT_BUFFER) {
-    IConstantBuffer* cb = (IConstantBuffer*) message.getData();
+    BinaryData* cb = (BinaryData*) message.getData();
     setConstantBuffer(cb);
   }
   else if (message.getType() == SET_CAMERA) {
@@ -100,14 +99,14 @@ HRESULT DirectX11Graphics::loadTexture(const string& textureFile, ITexture*& tex
 }
 
 HRESULT DirectX11Graphics::loadMesh(const Mesh& mesh) {
-  vector<IVertex* const> vertices = mesh.getVertices();
+  vector<BinaryData* const> vertices = mesh.getVertices();
   vector<int> indices = mesh.getIndices();
 
   int bufferSize = vertices.size() * vertices[0]->getSizeInBytes();
   char* vertexData = new char[bufferSize];
 
   for (int i = 0; i < vertices.size(); i++) {
-    IVertex* const vertex = vertices[i];
+    BinaryData* const vertex = vertices[i];
     copy(vertex->getData(), vertex->getData() + vertex->getSizeInBytes(), stdext::make_checked_array_iterator(vertexData + (i * vertex->getSizeInBytes()), bufferSize));
   }
 
@@ -188,15 +187,15 @@ void DirectX11Graphics::setLight(Light light) {
   toSet.enabled = light.enabled;
   toSet.type = light.type;
 
-  cb->updateLight(light.cbVariableName, &toSet);
+  cb->updateData(light.cbVariableName, toSet);
 }
 
 void DirectX11Graphics::setCamera(Camera camera) {
   XMVECTOR eye = XMLoadFloat4(&XMFLOAT4(camera.position.getX(), camera.position.getY(), camera.position.getZ(), 0.0f));
   XMVECTOR at = XMLoadFloat4(&XMFLOAT4(camera.look.getX(), camera.look.getY(), camera.look.getZ(), 0.0f));
   XMVECTOR worldUp = XMLoadFloat4(&XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f));
-  cb->updateMatrix("view", &XMMatrixTranspose(XMMatrixLookToLH(eye, at, worldUp)));
-  cb->updateFloat3("eyePosW", &XMFLOAT3(camera.position.getX(), camera.position.getY(), camera.position.getZ()));
+  cb->updateData("view", XMMatrixTranspose(XMMatrixLookToLH(eye, at, worldUp)));
+  cb->updateData("eyePosW", XMFLOAT3(camera.position.getX(), camera.position.getY(), camera.position.getZ()));
 }
 
 void DirectX11Graphics::beginFrame() {
@@ -285,7 +284,7 @@ void DirectX11Graphics::draw(DrawInfo data) {
   }
 
   //XMStoreFloat4x4(&objectWorld, temp);
-  cb->updateMatrix("world", &XMMatrixTranspose(world));
+  cb->updateData("world", XMMatrixTranspose(world));
   //*worldMatrix = XMMatrixTranspose(world);
   //cb.mWorld = XMMatrixTranspose(objectWorld);
 
@@ -298,7 +297,7 @@ void DirectX11Graphics::draw(DrawInfo data) {
   material.specular = XMFLOAT4(meshMaterial.specular.getX(), meshMaterial.specular.getY(), meshMaterial.specular.getZ(), meshMaterial.alpha);
   material.specularPower = meshMaterial.specularPower;
 
-  cb->updateMaterial("material", &material);
+  cb->updateData("material", material);
   
   for (int i = 0; i < mesh->getTextures().size(); i++) {
     ID3D11ShaderResourceView* texture = (ID3D11ShaderResourceView*) ResourceManager::getTexture(mesh->getTextures()[i])->getTexture();

@@ -6,6 +6,7 @@
 enum LightType { DIRECTIONAL_LIGHT = 0, POINT_LIGHT = 1, SPOT_LIGHT = 2 };
 
 struct Light {
+  Light() : range(0.0f), exponent(0.0f), enabled(true), cbVariableName("") {}
   std::string cbVariableName;
   Vector3 ambient, diffuse, specular, position, direction, attenuation;
   float range, exponent;

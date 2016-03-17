@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "BinaryData.h"
 
 Game::Game() : scheduler(nullptr), factory(nullptr) {}
 
@@ -32,21 +33,43 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   ServiceLocator::addDataComponentFunction(LIGHT_COMPONENT, std::bind(&Factory::getLightComponent, factory, std::placeholders::_1));
   Mesh::addMeshFileLoader(".xml", loadXMLMesh);
 
-  cb = new DirectX11ConstantBuffer(416);
-  cb->addMatrix("world", &XMMatrixIdentity());
-  cb->addMatrix("view", &XMMatrixIdentity());
-  cb->addMatrix("projection", &XMMatrixTranspose(XMMatrixPerspectiveFovLH(XM_PIDIV2, 1.0f, 0.01f, 100.0f)));
-  cb->addLight("light1", &LightStruct());
-  cb->addMaterial("material", &Material());
-  cb->addFloat3("eyePosW", &XMFLOAT3(0.0f, 2.0f, -10.0f));
-  cb->addInt("enableTexturing", 1);
-  cb->addInt("enableSpecularMapping", 1);
-  cb->addInt("enableBumpMapping", 1);
-  cb->addInt("enableClipTestig", 1);
-  cb->addFloat("fogStart", 40.0f);
-  cb->addFloat("fogRange", 50.0f);
-  cb->addFloat2("padding", &XMFLOAT2(0.0f, 0.0f));
-  cb->addFloat4("fogColour", &XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
+  //cb = new DirectX11ConstantBuffer(416);
+  //cb->addMatrix("world", &XMMatrixIdentity());
+  //cb->addMatrix("view", &XMMatrixIdentity());
+  //cb->addMatrix("projection", &XMMatrixTranspose(XMMatrixPerspectiveFovLH(XM_PIDIV2, 1.0f, 0.01f, 100.0f)));
+  //cb->addLight("light1", &LightStruct());
+  //cb->addMaterial("material", &Material());
+  //cb->addFloat3("eyePosW", &XMFLOAT3(0.0f, 2.0f, -10.0f));
+  //cb->addInt("enableTexturing", 1);
+  //cb->addInt("enableSpecularMapping", 1);
+  //cb->addInt("enableBumpMapping", 1);
+  //cb->addInt("enableClipTestig", 1);
+  //cb->addFloat("fogStart", 40.0f);
+  //cb->addFloat("fogRange", 50.0f);
+  //cb->addFloat2("padding", &XMFLOAT2(0.0f, 0.0f));
+  //cb->addFloat4("fogColour", &XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
+
+  //BinaryData bd(416);
+  cb = new BinaryData(416);
+  cb->addVariable("world", sizeof(XMMATRIX));
+  cb->addVariable("view", sizeof(XMMATRIX));
+  cb->addData("projection", XMMatrixTranspose(XMMatrixPerspectiveFovLH(XM_PIDIV2, 1.0f, 0.01f, 100.0f)));
+  cb->addVariable("light1", sizeof(LightStruct));
+  cb->addVariable ("material", sizeof(Material));
+  cb->addVariable("eyePosW", sizeof(XMFLOAT3));
+  int a = 1;
+  cb->addData("enableTexturing", a);
+  cb->addData("enableSpecularMapping", a);
+  cb->addData("enableBumpMapping", a);
+  cb->addData("enableClipTesting", a);
+  float b = 40.0f;
+  float c = 50.0f;
+  cb->addData("fogStart", b);
+  cb->addData("fogRange", c);
+  cb->addVariable("padding", sizeof(XMFLOAT2));
+  cb->addData("fogColour", XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
+
+  //XMMATRIX temp = *bd.getVariable<XMMATRIX>("world");
 
   camera = EntityLoader::loadEntity("camera.xml");
   EntityLoader::loadEntities("lights.xml", lights);

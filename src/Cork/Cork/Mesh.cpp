@@ -3,7 +3,6 @@
 map<string, meshLoadFunction> Mesh::meshFileLoaders;
 
 Mesh::Mesh(int id, const std::string& meshFile) : id(id) {
-  // TODO add mesh loaders
   int fileExtensionStartIndex = meshFile.rfind(".");
   if (fileExtensionStartIndex != string::npos) {
     string fileExtension = meshFile.substr(fileExtensionStartIndex);

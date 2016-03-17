@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicMovementComponent.h" />
+    <ClInclude Include="BinaryData.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ConsoleGraphicsComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
@@ -50,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicMovementComponent.cpp" />
+    <ClCompile Include="BinaryData.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ConsoleGraphicsComponent.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
