@@ -17,6 +17,8 @@ void ServiceLocator::cleanup() {
       delete component;
     }
   }
+  messageHandlers.clear();
+  dataComponents.clear();
 }
 
 void ServiceLocator::addMessageHandlerFunction(const string& componentType, messageHandlerFunction function) {

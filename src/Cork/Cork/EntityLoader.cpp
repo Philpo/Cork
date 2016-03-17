@@ -6,6 +6,7 @@ void EntityLoader::cleanup() {
   for (auto kvp : allEntities) {
     delete kvp.second;
   }
+  allEntities.clear();
 }
 
 GameObject* const EntityLoader::loadEntity(const std::string& entityFile) {

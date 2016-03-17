@@ -91,6 +91,7 @@
     <ClInclude Include="TypeDefs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EntityLoaderUnitTests.cpp" />
     <ClCompile Include="FactoryUnitTests.cpp" />
     <ClCompile Include="GameObjectUnitTests.cpp" />
     <ClCompile Include="MessageUnitTests.cpp" />
