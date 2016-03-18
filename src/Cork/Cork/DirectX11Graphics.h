@@ -33,7 +33,7 @@ private:
   void receiveMessage(IMessage& message) override;
   HRESULT initialise() override;
   HRESULT initDevice();
-  HRESULT compileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
+  HRESULT compileShaderFromFile(LPCWSTR szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut) const;
   HRESULT initShadersAndInputLayout();
   void beginFrame() override;
   void setConstantBuffer(BinaryData* const cb) { this->cb = cb; }

@@ -163,8 +163,40 @@ HRESULT DirectX11Graphics::loadMesh(const Mesh& mesh) {
 
 HRESULT DirectX11Graphics::loadShader(const string& shaderFile, const string& type, const string& shaderModel, IShader*& shader) const {
   HRESULT hr;
+  ID3D11DeviceChild* genericShader = nullptr;
+
+  ID3DBlob* blob = nullptr;
+  std::wstring file(shaderFile.begin(), shaderFile.end());
+  hr = compileShaderFromFile(file.c_str(), type.c_str(), shaderModel.c_str(), &blob);
+
+  if (FAILED(hr)) {
+    return hr;
+  }
+
+  if (type == "VS") {
+    ID3D11VertexShader* vertexShader;
+    hr = d3dDevice->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &vertexShader);
+
+    if (FAILED(hr)) {
+      blob->Release();
+      return hr;
+    }
+    genericShader = vertexShader;
+  }
+  else if (type == "PS") {
+    ID3D11PixelShader* pixelShader;
+    hr = d3dDevice->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &pixelShader);
+
+    if (FAILED(hr)) {
+      blob->Release();
+      return hr;
+    }
+    genericShader = pixelShader;
+  }
 
   shader = new DirectX11Shader;
+  shader->setShader(genericShader);
+  shader->setType(type);
 
   return S_OK;
 }
@@ -556,7 +588,7 @@ HRESULT DirectX11Graphics::initShadersAndInputLayout() {
   return S_OK;
 }
 
-HRESULT DirectX11Graphics::compileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut) {
+HRESULT DirectX11Graphics::compileShaderFromFile(LPCWSTR szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut) const {
   HRESULT hr = S_OK;
 
   DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS;

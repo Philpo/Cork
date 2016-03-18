@@ -144,6 +144,12 @@
     <ClInclude Include="BinaryData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IShader.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Shader.h">
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">

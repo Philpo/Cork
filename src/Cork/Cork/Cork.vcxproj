@@ -18,6 +18,7 @@
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DirectX11ConstantBuffer.h" />
     <ClInclude Include="DirectX11Graphics.h" />
+    <ClInclude Include="DirectX11Shader.h" />
     <ClInclude Include="DirectX11Texture.h" />
     <ClInclude Include="DirectX11Vertex.h" />
     <ClInclude Include="DirectX11XMLMeshLoader.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
+    <ClInclude Include="IShader.h" />
     <ClInclude Include="ITexture.h" />
     <ClInclude Include="IVertex.h" />
     <ClInclude Include="LightComponent.h" />
