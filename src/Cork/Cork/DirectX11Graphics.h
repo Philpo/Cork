@@ -6,6 +6,7 @@
 #include "Vector3.h"
 #include "BinaryData.h"
 #include "DirectX11Texture.h"
+#include "DirectX11Shader.h"
 #include "ResourceManager.h"
 #include <memory>
 #include <d3d11_1.h>
@@ -26,6 +27,7 @@ public:
   void cleanup() override;
   HRESULT loadTexture(const string& textureFile, ITexture*& texture) const override;
   HRESULT loadMesh(const Mesh& mesh) override;
+  HRESULT loadShader(const string& shaderFile, const string& type, const string& shaderModel, IShader*& shader) const override;
 private:
   DirectX11Graphics();
   void receiveMessage(IMessage& message) override;

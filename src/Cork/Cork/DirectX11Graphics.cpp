@@ -161,6 +161,14 @@ HRESULT DirectX11Graphics::loadMesh(const Mesh& mesh) {
   return S_OK;
 }
 
+HRESULT DirectX11Graphics::loadShader(const string& shaderFile, const string& type, const string& shaderModel, IShader*& shader) const {
+  HRESULT hr;
+
+  shader = new DirectX11Shader;
+
+  return S_OK;
+}
+
 HRESULT DirectX11Graphics::initialise() {
   HRESULT hr = initDevice();
 
