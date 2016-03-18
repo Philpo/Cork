@@ -91,6 +91,7 @@
     <ClInclude Include="TypeDefs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BinaryDataUnitTests.cpp" />
     <ClCompile Include="CameraComponentUnitTests.cpp" />
     <ClCompile Include="DirectX11ConstantBufferUnitTests.cpp" />
     <ClCompile Include="DirectX11VertexUnitTests.cpp" />
