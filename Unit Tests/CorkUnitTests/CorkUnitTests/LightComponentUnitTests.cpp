@@ -27,9 +27,6 @@ namespace CorkUnitTests {
       REQUIRE(data.attenuation.getX() == approx(0.0f));
       REQUIRE(data.attenuation.getY() == approx(0.0f));
       REQUIRE(data.attenuation.getZ() == approx(0.0f));
-      REQUIRE(data.position.getX() == approx(0.0f));
-      REQUIRE(data.position.getY() == approx(0.0f));
-      REQUIRE(data.position.getZ() == approx(0.0f));
       REQUIRE(data.direction.getX() == approx(0.0f));
       REQUIRE(data.direction.getY() == approx(0.0f));
       REQUIRE(data.direction.getZ() == approx(0.0f));
@@ -38,9 +35,6 @@ namespace CorkUnitTests {
     TEST_CASE("test light setData") {
       LightComponent c;
       Light data = *(Light*) c.getData();
-      data.position.setX(1.0f);
-      data.position.setY(1.5f);
-      data.position.setZ(2.0f);
       data.ambient.setX(1.0f);
       data.ambient.setY(1.5f);
       data.ambient.setZ(2.0f);
@@ -81,9 +75,6 @@ namespace CorkUnitTests {
       REQUIRE(data.attenuation.getX() == approx(1.0f));
       REQUIRE(data.attenuation.getY() == approx(1.5f));
       REQUIRE(data.attenuation.getZ() == approx(2.0f));
-      REQUIRE(data.position.getX() == approx(1.0f));
-      REQUIRE(data.position.getY() == approx(1.5f));
-      REQUIRE(data.position.getZ() == approx(2.0f));
       REQUIRE(data.direction.getX() == approx(1.0f));
       REQUIRE(data.direction.getY() == approx(1.5f));
       REQUIRE(data.direction.getZ() == approx(2.0f));

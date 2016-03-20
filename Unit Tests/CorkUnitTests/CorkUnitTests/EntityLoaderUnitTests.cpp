@@ -22,9 +22,6 @@ namespace CorkUnitTests {
         REQUIRE((entity->getMessageHandler(INPUT_RECEIVED_MESSAGE) != nullptr));
         REQUIRE(typeid(*entity->getMessageHandler(INPUT_RECEIVED_MESSAGE)) == typeid(BasicMovementComponent));
         Camera cameraData = *(Camera*) entity->getDataComponent(CAMERA_COMPONENT)->getData();
-        REQUIRE(cameraData.position.getX() == approx(0.0f));
-        REQUIRE(cameraData.position.getY() == approx(2.0f));
-        REQUIRE(cameraData.position.getZ() == approx(-10.0f));
         REQUIRE(cameraData.look.getX() == approx(0.0f));
         REQUIRE(cameraData.look.getY() == approx(0.0f));
         REQUIRE(cameraData.look.getZ() == approx(1.0f));
@@ -62,9 +59,6 @@ namespace CorkUnitTests {
         REQUIRE(lightData.attenuation.getX() == approx(0.0f));
         REQUIRE(lightData.attenuation.getY() == approx(0.1f));
         REQUIRE(lightData.attenuation.getZ() == approx(0.0f));
-        REQUIRE(lightData.position.getX() == approx(0.0f));
-        REQUIRE(lightData.position.getY() == approx(5.0f));
-        REQUIRE(lightData.position.getZ() == approx(-10.0f));
         EntityLoader::cleanup();
         ServiceLocator::cleanup();
       }
