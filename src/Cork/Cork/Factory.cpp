@@ -73,18 +73,11 @@ IDataComponent* const Factory::getTransformComponent(void* data) const {
 IDataComponent* const Factory::getMeshComponent(void* data) const {
   MeshComponent* mesh = new MeshComponent;
   int meshId;
-  HRESULT hr;
 
   try {
     xml_node<>* meshNode = (xml_node<>*) data;
     string meshFile = meshNode->first_attribute("mesh_file")->value();
-    hr = ResourceManager::loadMesh(meshFile, meshId);
-
-    if (FAILED(hr)) {
-      string message = "error loading mesh file " + meshFile;
-      delete mesh;
-      throw exception(message.c_str());
-    }
+    ResourceManager::loadMesh(meshFile, meshId);
 
     mesh->setData(&meshId);
   }

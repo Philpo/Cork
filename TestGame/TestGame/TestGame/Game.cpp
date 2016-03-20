@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "BinaryData.h"
 
-Game::Game() : scheduler(nullptr), factory(nullptr) {}
+Game::Game() : scheduler(nullptr), factory(nullptr), inputLayout(nullptr) {}
 
 Game::~Game() {
   if (scheduler) {
@@ -9,6 +9,9 @@ Game::~Game() {
   }
   if (factory) {
     delete factory;
+  }
+  if (inputLayout) {
+    inputLayout->Release();
   }
 }
 
@@ -33,23 +36,6 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   ServiceLocator::addDataComponentFunction(LIGHT_COMPONENT, std::bind(&Factory::getLightComponent, factory, std::placeholders::_1));
   Mesh::addMeshFileLoader(".xml", loadXMLMesh);
 
-  //cb = new DirectX11ConstantBuffer(416);
-  //cb->addMatrix("world", &XMMatrixIdentity());
-  //cb->addMatrix("view", &XMMatrixIdentity());
-  //cb->addMatrix("projection", &XMMatrixTranspose(XMMatrixPerspectiveFovLH(XM_PIDIV2, 1.0f, 0.01f, 100.0f)));
-  //cb->addLight("light1", &LightStruct());
-  //cb->addMaterial("material", &Material());
-  //cb->addFloat3("eyePosW", &XMFLOAT3(0.0f, 2.0f, -10.0f));
-  //cb->addInt("enableTexturing", 1);
-  //cb->addInt("enableSpecularMapping", 1);
-  //cb->addInt("enableBumpMapping", 1);
-  //cb->addInt("enableClipTestig", 1);
-  //cb->addFloat("fogStart", 40.0f);
-  //cb->addFloat("fogRange", 50.0f);
-  //cb->addFloat2("padding", &XMFLOAT2(0.0f, 0.0f));
-  //cb->addFloat4("fogColour", &XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
-
-  //BinaryData bd(416);
   cb = new BinaryData(416);
   cb->addVariable("world", sizeof(XMMATRIX));
   cb->addVariable("view", sizeof(XMMATRIX));
@@ -69,7 +55,8 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   cb->addVariable("padding", sizeof(XMFLOAT2));
   cb->addData("fogColour", XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
 
-  //XMMATRIX temp = *bd.getVariable<XMMATRIX>("world");
+  size_t cbSize = cb->getSizeInBytes();
+  MessageHandler::forwardMessage(Message(CREATE_CONSTANT_BUFFER, &cbSize, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   camera = EntityLoader::loadEntity("camera.xml");
   EntityLoader::loadEntities("lights.xml", lights);
@@ -77,10 +64,31 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
 
   scheduler->registerPollComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
 
-  for (auto light : lights) {
-    Light& lightData = *(Light*) lights[0]->getDataComponent(LIGHT_COMPONENT)->getData();
-    lightData.cbVariableName = "light1";
+  stringstream lightName;
+  for (unsigned i = 0; i < lights.size(); i++) {
+    lightName.clear();
+    Light& lightData = *(Light*) lights[i]->getDataComponent(LIGHT_COMPONENT)->getData();
+    lightName << "light" << (i + 1);
+    lightData.cbVariableName = lightName.str();
   }
+
+  ResourceManager::loadShader("test_shader.fx", "VS", "vs_4_0", vertexShader);
+  ResourceManager::loadShader("test_shader.fx", "PS", "ps_4_0", pixelShader);
+
+  D3D11_INPUT_ELEMENT_DESC layout[] = {
+    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    { "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    { "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 36, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+  };
+  InputLayoutInfo info(vertexShader, layout, ARRAYSIZE(layout), inputLayout);
+
+  MessageHandler::forwardMessage(Message(LOAD_INPUT_LAYOUT, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  inputLayout = (ID3D11InputLayout*) info.inputLayout;
+
+  MessageHandler::forwardMessage(Message(SET_SHADER, &vertexShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_SHADER, &pixelShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_INPUT_LAYOUT, inputLayout, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   return S_OK;
 }

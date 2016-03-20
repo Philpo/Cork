@@ -1,10 +1,11 @@
 #pragma once
 #include "IShader.h"
+#include <d3d11.h>
 
 class DirectX11Shader : public IShader {
 public:
   DirectX11Shader() {}
-  ~DirectX11Shader() {}
+  ~DirectX11Shader();
 
   void* const getShader() const override { return shader; }
   const std::string& getType() const override { return type; }

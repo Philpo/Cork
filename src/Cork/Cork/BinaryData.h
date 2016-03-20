@@ -7,14 +7,14 @@ using namespace std;
 
 class BinaryData {
 public:
-  BinaryData(int sizeInBytes);
+  BinaryData(size_t sizeInBytes);
   BinaryData(BinaryData& toCopy) = delete;
   ~BinaryData();
 
   BinaryData& operator=(BinaryData& rhs) = delete;
 
   inline char* const getData() const { return buffer; }
-  inline int getSizeInBytes() const { return sizeInBytes; }
+  inline size_t getSizeInBytes() const { return sizeInBytes; }
 
   void addVariable(const string& variableName, size_t variableSize);
 
@@ -27,7 +27,7 @@ public:
   template <class T>
   void updateData(const string& variableName, T& data);
 private:
-  int sizeInBytes, currentBufferSize;
+  size_t sizeInBytes, currentBufferSize;
   char *buffer, *currentPosition;
   map<string, char*> variablePositions;
 };

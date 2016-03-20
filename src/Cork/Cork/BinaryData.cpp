@@ -1,6 +1,6 @@
 #include "BinaryData.h"
 
-BinaryData::BinaryData(int sizeInBytes) : sizeInBytes(sizeInBytes), buffer(new char[sizeInBytes]), currentPosition(buffer), currentBufferSize(0) {}
+BinaryData::BinaryData(size_t sizeInBytes) : sizeInBytes(sizeInBytes), buffer(new char[sizeInBytes]), currentPosition(buffer), currentBufferSize(0) {}
 
 BinaryData::~BinaryData() {
   delete[] buffer;

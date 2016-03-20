@@ -3,7 +3,6 @@
 #include <map>
 #include <functional>
 #include <windows.h>
-#include "IVertex.h"
 #include "BinaryData.h"
 #include "Vector3.h"
 
@@ -14,7 +13,7 @@ struct MeshMaterial {
   float alpha, specularPower;
 };
 
-typedef function<HRESULT(const string&, vector<BinaryData* const>&, vector<int>&, vector<int>&, MeshMaterial&)> meshLoadFunction;
+typedef function<void (const string&, vector<BinaryData* const>&, vector<int>&, vector<int>&, MeshMaterial&)> meshLoadFunction;
 
 class Mesh {
 public:

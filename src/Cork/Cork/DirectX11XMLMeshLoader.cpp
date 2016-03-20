@@ -2,12 +2,10 @@
 
 void addVertices(xml_node<>* verticesNode, vector<BinaryData* const>& vertices, int vertexSize);
 void addIndices(xml_node<>* indicesNode, vector<int>& indices);
-HRESULT addTextures(xml_node<>* texturesNode, vector<int>& textures);
+void addTextures(xml_node<>* texturesNode, vector<int>& textures);
 void addMaterial(xml_node<>* materialNode, MeshMaterial& material);
 
-HRESULT loadXMLMesh(const string& fileName, vector<BinaryData* const>& vertices, vector<int>& indices, vector<int>& textures, MeshMaterial& material) {
-  HRESULT hr;
-
+void loadXMLMesh(const string& fileName, vector<BinaryData* const>& vertices, vector<int>& indices, vector<int>& textures, MeshMaterial& material) {
   try {
     file<> meshFile(fileName.c_str());
     xml_document<> doc;
@@ -25,19 +23,12 @@ HRESULT loadXMLMesh(const string& fileName, vector<BinaryData* const>& vertices,
 
     addVertices(rootNode->first_node("vertices"), vertices, vertexSize);
     addIndices(rootNode->first_node("indices"), indices);
-    hr = addTextures(rootNode->first_node("textures"), textures);
-
-    if (FAILED(hr)) {
-      return hr;
-    }
-
+    addTextures(rootNode->first_node("textures"), textures);
     addMaterial(rootNode->first_node("material"), material);
   }
-  catch (parse_error& e) {
+  catch (exception&) {
     throw;
   }
-
-  return S_OK;
 }
 
 void addVertices(xml_node<>* verticesNode, vector<BinaryData* const>& vertices, int vertexSize) {
@@ -100,24 +91,17 @@ void addIndices(xml_node<>* indicesNode, vector<int>& indices) {
   }
 }
 
-HRESULT addTextures(xml_node<>* texturesNode, vector<int>& textures) {
+void addTextures(xml_node<>* texturesNode, vector<int>& textures) {
   int currentTexture = 0;
-  HRESULT hr;
 
   for (xml_node<>* textureNode = texturesNode->first_node(); textureNode; textureNode = textureNode->next_sibling()) {
     string textureFile = textureNode->first_attribute()->value();
     int textureId;
 
-    hr = ResourceManager::loadTexture(textureFile, textureId);
-
-    if (FAILED(hr)) {
-      return hr;
-    }
+    ResourceManager::loadTexture(textureFile, textureId);
 
     textures[currentTexture++] = textureId;
   }
-
-  return S_OK;
 }
 
 void addMaterial(xml_node<>* materialNode, MeshMaterial& material) {

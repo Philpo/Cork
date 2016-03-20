@@ -24,6 +24,7 @@ private:
   GameObject* camera;
   vector<GameObject* const> lights, boxes;
   const Factory* factory;
-  int meshId;
+  int meshId, vertexShader, pixelShader;
+  ID3D11InputLayout* inputLayout;
   BinaryData* cb;
 };

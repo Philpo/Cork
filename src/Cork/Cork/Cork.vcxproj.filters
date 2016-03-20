@@ -84,9 +84,6 @@
     <ClInclude Include="IGraphics.h">
       <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
-    <ClInclude Include="IVertex.h">
-      <Filter>Header Files\Components\Graphics Component</Filter>
-    </ClInclude>
     <ClInclude Include="ITexture.h">
       <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
@@ -94,9 +91,6 @@
       <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11Texture.h">
-      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectX11Vertex.h">
       <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11TypeDefs.h">
@@ -108,13 +102,7 @@
     <ClInclude Include="DirectX11Graphics.h">
       <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
-    <ClInclude Include="IConstantBuffer.h">
-      <Filter>Header Files\Components\Graphics Component</Filter>
-    </ClInclude>
     <ClInclude Include="DirectX11XMLMeshLoader.h">
-      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectX11ConstantBuffer.h">
       <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
@@ -164,9 +152,6 @@
     <ClCompile Include="Scheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Factory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -191,13 +176,7 @@
     <ClCompile Include="DirectX11Texture.cpp">
       <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
     </ClCompile>
-    <ClCompile Include="DirectX11Vertex.cpp">
-      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
-    </ClCompile>
     <ClCompile Include="DDSTextureLoader.cpp">
-      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectX11ConstantBuffer.cpp">
       <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11XMLMeshLoader.cpp">
@@ -226,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="BinaryData.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectxX11Shader.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -14,7 +14,7 @@ namespace CorkUnitTests {
       REQUIRE(data.cbVariableName == "");
       REQUIRE(data.range == approx(0.0f));
       REQUIRE(data.exponent == approx(0.0f));
-      REQUIRE(data.enabled == true);
+      REQUIRE(data.enabled == 1);
       REQUIRE(data.ambient.getX() == approx(0.0f));
       REQUIRE(data.ambient.getY() == approx(0.0f));
       REQUIRE(data.ambient.getZ() == approx(0.0f));

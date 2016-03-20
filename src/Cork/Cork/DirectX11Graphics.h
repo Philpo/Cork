@@ -25,29 +25,32 @@ public:
   static DirectX11Graphics& getGraphics();
 
   void cleanup() override;
-  HRESULT loadTexture(const string& textureFile, ITexture*& texture) const override;
-  HRESULT loadMesh(const Mesh& mesh) override;
-  HRESULT loadShader(const string& shaderFile, const string& type, const string& shaderModel, IShader*& shader) const override;
 private:
   DirectX11Graphics();
   void receiveMessage(IMessage& message) override;
   HRESULT initialise() override;
   HRESULT initDevice();
   HRESULT compileShaderFromFile(LPCWSTR szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut) const;
-  HRESULT initShadersAndInputLayout();
   void beginFrame() override;
   void setConstantBuffer(BinaryData* const cb) { this->cb = cb; }
   void setLight(Light light) override;
   void setCamera(Camera camera) override;
+  void setShader(int shaderId) override;
+  void bindInputLayout(ID3D11InputLayout* const layout);
   void draw(DrawInfo data) override;
   void swap() const override;
+  void loadTexture(TextureInfo& info) const override;
+  void loadMesh(const Mesh& mesh) override;
+  void loadShader(ShaderInfo& info) override;
+  void loadInputLayout(InputLayoutInfo& info);
+  void createConstantBuffer(size_t sizeInBytes);
 
   static unique_ptr<DirectX11Graphics> instance;
-  static int textureId;
+  static int textureId, shaderId;
   bool initialised = false;
   map<int, ID3D11Buffer* const> vertexBuffers;
   map<int, ID3D11Buffer* const> indexBuffers;
-  map<int, UINT> indexCounts;
+  map<int, ID3DBlob* const> vertexShaderBlobs;
 
   HWND window;
   D3D_DRIVER_TYPE driverType;
@@ -56,9 +59,6 @@ private:
   ID3D11DeviceContext* immediateContext;
   IDXGISwapChain* swapChain;
   ID3D11RenderTargetView* renderTargetView;
-  ID3D11VertexShader* vertexShader;
-  ID3D11PixelShader* pixelShader;
-  ID3D11InputLayout* vertexLayout;
   ID3D11Buffer* constantBuffer;
   ID3D11SamplerState* anistropicSampler;
   ID3D11DepthStencilView* depthStencilView;

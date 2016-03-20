@@ -9,19 +9,17 @@
 using namespace DirectX;
 
 const std::string SET_INPUT_LAYOUT = "SetInputLayoutMessage";
+const std::string LOAD_INPUT_LAYOUT = "LoadInputLayoutMessage";
+const std::string CREATE_CONSTANT_BUFFER = "CreateConstantBufferMessage";
 
 const int MAX_LIGHTS = 1;
-const int cb_size = 3;
 
-inline const float convertDegreesToRadians(const float angleInDegrees) {
-  return (angleInDegrees * XM_PI) / 180;
-}
-
-struct SimpleVertex {
-  XMFLOAT3 Pos;
-  XMFLOAT3 normal;
-  XMFLOAT3 tangent;
-  XMFLOAT2 texC;
+struct InputLayoutInfo {
+  InputLayoutInfo(int vertexShader, D3D11_INPUT_ELEMENT_DESC* layout, int numElements, void* inputLayout) : 
+    layout(layout), vertexShader(vertexShader), numElements(numElements), inputLayout(inputLayout) {}
+  D3D11_INPUT_ELEMENT_DESC* layout;
+  int vertexShader, numElements;
+  void* inputLayout;
 };
 
 struct LightStruct {
@@ -56,26 +54,4 @@ struct Material {
 
   XMFLOAT4 ambient, diffuse, specular;
   float specularPower;
-};
-
-struct ConstantBuffer {
-  XMMATRIX mWorld;
-  XMMATRIX mView;
-  XMMATRIX mProjection;
-  LightStruct lights[MAX_LIGHTS];
-  Material material;
-  XMFLOAT3 eyePositionW;
-  int enableTexturing;
-  int enableSpecularMapping;
-  int enableBumpMapping;
-  int enableClipTesting;
-  float fogStart;
-  float fogRange;
-  XMFLOAT2 padding;
-  XMFLOAT4 fogColour;
-};
-
-struct NewCB {
-  NewCB() : data(new byte[sizeof(XMMATRIX) * 3]) {}
-  void* data;
 };

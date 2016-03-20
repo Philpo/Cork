@@ -1,5 +1,4 @@
 #pragma once
-#include "DirectX11Vertex.h"
 #include "BinaryData.h"
 #include "DirectX11Graphics.h"
 #include "ResourceManager.h"
@@ -13,4 +12,4 @@
 using namespace std;
 using namespace rapidxml;
 
-HRESULT loadXMLMesh(const string& fileName, vector<BinaryData* const>& vertices, vector<int>& indices, vector<int>& textures, MeshMaterial& material);
+void loadXMLMesh(const string& fileName, vector<BinaryData* const>& vertices, vector<int>& indices, vector<int>& textures, MeshMaterial& material);

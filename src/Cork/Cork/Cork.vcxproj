@@ -16,11 +16,9 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ConsoleGraphicsComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
-    <ClInclude Include="DirectX11ConstantBuffer.h" />
     <ClInclude Include="DirectX11Graphics.h" />
     <ClInclude Include="DirectX11Shader.h" />
     <ClInclude Include="DirectX11Texture.h" />
-    <ClInclude Include="DirectX11Vertex.h" />
     <ClInclude Include="DirectX11XMLMeshLoader.h" />
     <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="Factory.h" />
@@ -28,7 +26,6 @@
     <ClInclude Include="DirectX11TypeDefs.h" />
     <ClInclude Include="GraphicsTypeDefs.h" />
     <ClInclude Include="IComponent.h" />
-    <ClInclude Include="IConstantBuffer.h" />
     <ClInclude Include="IDataComponent.h" />
     <ClInclude Include="IFactory.h" />
     <ClInclude Include="IGraphics.h" />
@@ -36,7 +33,6 @@
     <ClInclude Include="IMessageable.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="ITexture.h" />
-    <ClInclude Include="IVertex.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshComponent.h" />
@@ -57,16 +53,14 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ConsoleGraphicsComponent.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
-    <ClCompile Include="DirectX11ConstantBuffer.cpp" />
     <ClCompile Include="DirectX11Graphics.cpp" />
     <ClCompile Include="DirectX11Texture.cpp" />
-    <ClCompile Include="DirectX11Vertex.cpp" />
     <ClCompile Include="DirectX11XMLMeshLoader.cpp" />
+    <ClCompile Include="DirectxX11Shader.cpp" />
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="LightComponent.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MessageHandler.cpp" />

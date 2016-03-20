@@ -93,8 +93,6 @@
   <ItemGroup>
     <ClCompile Include="BinaryDataUnitTests.cpp" />
     <ClCompile Include="CameraComponentUnitTests.cpp" />
-    <ClCompile Include="DirectX11ConstantBufferUnitTests.cpp" />
-    <ClCompile Include="DirectX11VertexUnitTests.cpp" />
     <ClCompile Include="EntityLoaderUnitTests.cpp" />
     <ClCompile Include="FactoryUnitTests.cpp" />
     <ClCompile Include="GameObjectUnitTests.cpp" />
