@@ -95,10 +95,11 @@ void addTextures(xml_node<>* texturesNode, vector<int>& textures) {
   int currentTexture = 0;
 
   for (xml_node<>* textureNode = texturesNode->first_node(); textureNode; textureNode = textureNode->next_sibling()) {
-    string textureFile = textureNode->first_attribute()->value();
+    string textureFile = textureNode->first_attribute("file_path")->value();
+    string type = textureNode->first_attribute("type")->value();
     int textureId;
 
-    ResourceManager::loadTexture(textureFile, textureId);
+    ResourceManager::loadTexture(type, textureFile, textureId);
 
     textures[currentTexture++] = textureId;
   }

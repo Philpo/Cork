@@ -4,12 +4,14 @@
 
 class DirectX11Texture : public ITexture {
 public:
-  DirectX11Texture(int id, ID3D11ShaderResourceView& texture);
+  DirectX11Texture(int id, const std::string& type, ID3D11ShaderResourceView& texture);
   ~DirectX11Texture();
 
   int getId() const override { return id; }
-  void* getTexture() const override { return texture; }
+  const std::string& getType() const override { return type; }
+  void* const getTexture() const override { return texture; }
 private:
   int id;
+  std::string type;
   ID3D11ShaderResourceView* texture;
 };

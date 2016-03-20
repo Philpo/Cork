@@ -3,7 +3,7 @@
 #include "Vector3.h"
 
 struct Camera {
-  Vector3 position, look, right, up;
+  Vector3 look, right, up;
 };
 
 class CameraComponent : public IDataComponent {

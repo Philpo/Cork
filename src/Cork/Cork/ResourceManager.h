@@ -24,7 +24,7 @@ public:
   static Mesh* const getMesh(int meshId);
   static IShader* const getShader(int shaderId);
 
-  static void loadTexture(string& textureFile, int& textureId);
+  static void loadTexture(string& type, string& textureFile, int& textureId);
   static void loadMesh(string& meshFile, int& meshId);
   static void loadShader(const string& shaderFile, const string& name, const string& shaderModel, int& shaderId);
 private:

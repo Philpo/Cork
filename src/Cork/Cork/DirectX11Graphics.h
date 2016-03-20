@@ -33,9 +33,10 @@ private:
   HRESULT compileShaderFromFile(LPCWSTR szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut) const;
   void beginFrame() override;
   void setConstantBuffer(BinaryData* const cb) { this->cb = cb; }
-  void setLight(Light light) override;
-  void setCamera(Camera camera) override;
+  void setLight(GameObject* const light) override;
+  void setCamera(GameObject* const camera) override;
   void setShader(int shaderId) override;
+  void registerTextureRegisters(const ShaderTexRegisterInfo& info);
   void bindInputLayout(ID3D11InputLayout* const layout);
   void draw(DrawInfo data) override;
   void swap() const override;
@@ -51,6 +52,7 @@ private:
   map<int, ID3D11Buffer* const> vertexBuffers;
   map<int, ID3D11Buffer* const> indexBuffers;
   map<int, ID3DBlob* const> vertexShaderBlobs;
+  map<int, map<string, int>> shaderTextureRegisters;
 
   HWND window;
   D3D_DRIVER_TYPE driverType;

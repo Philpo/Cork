@@ -25,6 +25,8 @@ private:
   vector<GameObject* const> lights, boxes;
   const Factory* factory;
   int meshId, vertexShader, pixelShader;
+  float fogStart = 40.0f;
+  float fogRange = 50.0f;
   ID3D11InputLayout* inputLayout;
   BinaryData* cb;
 };

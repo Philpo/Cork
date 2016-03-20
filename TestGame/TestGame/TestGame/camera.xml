@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <entity uid="1">
   <data_components>
+    <component type="TransformComponent">
+      <position x="0.0" y="2.0" z="-10.0" />
+      <local_rotation x="0.0" y="0.0" z="0.0" />
+      <scale x="00.0" y="0.0" z="0.0" />
+      <world_rotation x="0.0" y="0.0" z="0.0" />
+    </component>
     <component type="CameraComponent">
-      <position x="0.0" y="2.0" z="-10" />
       <look x="0.0" y="0.0" z="1.0" />
       <right x="1.0" y="0.0" z="0.0" />
       <up x="0.0" y="1.0" z="0.0" />

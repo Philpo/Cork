@@ -43,11 +43,11 @@ IShader* const ResourceManager::getShader(int shaderId) {
   return shaders[shaderId];
 }
 
-void ResourceManager::loadTexture(string& textureFile, int& textureId) {
+void ResourceManager::loadTexture(string& type, string& textureFile, int& textureId) {
   if (loadedTextureFiles.find(textureFile) == loadedTextureFiles.end()) {
     IGraphics* graphics = (IGraphics*) ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT);
     ITexture* texture = nullptr;
-    TextureInfo info(textureFile, texture);
+    TextureInfo info(type, textureFile, texture);
 
     try {
       MessageHandler::forwardMessage(Message(LOAD_TEXTURE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));

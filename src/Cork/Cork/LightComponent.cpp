@@ -17,7 +17,6 @@ void LightComponent::setData(void* data) {
   light->ambient = lightData.ambient;
   light->diffuse = lightData.diffuse;
   light->specular = lightData.specular;
-  light->position = lightData.position;
   light->direction = lightData.direction;
   light->attenuation = lightData.attenuation;
   light->range = lightData.range;

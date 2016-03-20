@@ -14,8 +14,8 @@ const std::string LOAD_MESH = "LoadMeshMessage";
 const std::string LOAD_SHADER = "LoadShaderMessage";
 
 struct TextureInfo {
-  TextureInfo(std::string& filePath, void* texture) : filePath(filePath), texture(texture) {}
-  std::string filePath;
+  TextureInfo(std::string& type, std::string& filePath, void* texture) : type(type), filePath(filePath), texture(texture) {}
+  std::string type, filePath;
   void* texture;
 };
 
@@ -28,6 +28,6 @@ struct ShaderInfo {
 };
 
 struct DrawInfo {
-  int meshId;
+  int meshId, shaderId;
   Transform transform;
 };

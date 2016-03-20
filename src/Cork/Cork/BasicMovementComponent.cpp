@@ -3,17 +3,12 @@
 void BasicMovementComponent::receiveMessage(IMessage& message) {
   if (message.getType() == INPUT_RECEIVED_MESSAGE && target) {
     string* event = (string*) message.getData(); 
-    Vector3 newPosition;
+    Vector3 newPosition, newRotation;
     IDataComponent* component = nullptr;
 
-    if (target->getDataComponent(TRANSFORM_COMPONENT)) {
-      component = target->getDataComponent(TRANSFORM_COMPONENT);
-      newPosition = ((Transform*) component->getData())->position;
-    }
-    else if (target->getDataComponent(CAMERA_COMPONENT)) {
-      component = target->getDataComponent(CAMERA_COMPONENT);
-      newPosition = ((Camera*) component->getData())->position;
-    }
+    component = target->getDataComponent(TRANSFORM_COMPONENT);
+    newPosition = ((Transform*) component->getData())->position;
+    newRotation = ((Transform*) component->getData())->localRotation;
 
     if (event) {
       if (*event == MOVE_UP) {
@@ -28,17 +23,23 @@ void BasicMovementComponent::receiveMessage(IMessage& message) {
       else if (*event == MOVE_RIGHT) {
         newPosition.setX(newPosition.getX() + 1.0f);
       }
+      else if (*event == ROTATE_PITCH_UP) {
+        newRotation.setX(newRotation.getX() - 1.0f);
+      }
+      else if (*event == ROTATE_PITCH_DOWN) {
+        newRotation.setX(newRotation.getX() + 1.0f);
+      }
+      else if (*event == ROTATE_YAW_ANTICLOCKWISE) {
+        newRotation.setY(newRotation.getY() - 1.0f);
+      }
+      else if (*event == ROTATE_YAW_CLOCKWISE) {
+        newRotation.setY(newRotation.getY() + 1.0f);
+      }
     }
 
-    if (target->getDataComponent(TRANSFORM_COMPONENT)) {
-      Transform* t = (Transform*) component->getData();
-      t->position = newPosition;
-      component->setData(t);
-    }
-    else if (target->getDataComponent(CAMERA_COMPONENT)) {
-      Camera* t = (Camera*) component->getData();
-      t->position = newPosition;
-      component->setData(t);
-    }
+    Transform* t = (Transform*) component->getData();
+    t->position = newPosition;
+    t->localRotation = newRotation;
+    component->setData(t);
   }
 }

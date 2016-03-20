@@ -43,15 +43,12 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   cb->addVariable("light1", sizeof(LightStruct));
   cb->addVariable ("material", sizeof(Material));
   cb->addVariable("eyePosW", sizeof(XMFLOAT3));
-  int a = 1;
-  cb->addData("enableTexturing", a);
-  cb->addData("enableSpecularMapping", a);
-  cb->addData("enableBumpMapping", a);
-  cb->addData("enableClipTesting", a);
-  float b = 40.0f;
-  float c = 50.0f;
-  cb->addData("fogStart", b);
-  cb->addData("fogRange", c);
+  cb->addVariable("enableTexturing", sizeof(int));
+  cb->addVariable("enableSpecularMapping", sizeof(int));
+  cb->addVariable("enableBumpMapping", sizeof(int));
+  cb->addVariable("enableClipTesting", sizeof(int));
+  cb->addData("fogStart", fogStart);
+  cb->addData("fogRange", fogRange);
   cb->addVariable("padding", sizeof(XMFLOAT2));
   cb->addData("fogColour", XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
 
@@ -74,6 +71,15 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
 
   ResourceManager::loadShader("test_shader.fx", "VS", "vs_4_0", vertexShader);
   ResourceManager::loadShader("test_shader.fx", "PS", "ps_4_0", pixelShader);
+
+  map<string, int> textureRegisters;
+  textureRegisters.insert(pair<string, int>("diffuse", 0));
+  textureRegisters.insert(pair<string, int>("specular", 1));
+  textureRegisters.insert(pair<string, int>("normal", 2));
+
+  ShaderTexRegisterInfo registersInfo(pixelShader, textureRegisters);
+
+  MessageHandler::forwardMessage(Message(REGISTER_TEXTURE_REGISTERS, &registersInfo, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   D3D11_INPUT_ELEMENT_DESC layout[] = {
     { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -100,18 +106,43 @@ WPARAM Game::startGame() {
 void Game::loopFunction(double timeSinceLastFrame) {
   MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  MessageHandler::forwardMessage(Message(SET_CAMERA, camera->getDataComponent(CAMERA_COMPONENT)->getData(), ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_CAMERA, camera, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   for (auto light : lights) {
-    MessageHandler::forwardMessage(Message(SET_LIGHT, light->getDataComponent(LIGHT_COMPONENT)->getData(), ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+    MessageHandler::forwardMessage(Message(SET_LIGHT, light, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   }
 
   DrawInfo drawData;
   Transform& transform = *(Transform*) boxes[0]->getDataComponent(TRANSFORM_COMPONENT)->getData();
   transform.localRotation.setY(transform.localRotation.getY() + 1);
+  drawData.shaderId = pixelShader;
 
   for (auto box : boxes) {
+    int enableDiffuse, enableSpecular, enableBump;
+    enableDiffuse = enableSpecular = enableBump = 0;
+
     drawData.meshId = *(int*) box->getDataComponent(MESH_COMPONENT)->getData();
+    Mesh* mesh = ResourceManager::getMesh(drawData.meshId);
+
+    for (auto id : mesh->getTextures()) {
+      ITexture* texture = ResourceManager::getTexture(id);
+
+      if (texture->getType() == "diffuse") {
+        enableDiffuse = 1;
+      }
+      else if (texture->getType() == "specular") {
+        enableSpecular = 1;
+      }
+      else if (texture->getType() == "normal") {
+        enableBump = 1;
+      }
+    }
+
+    cb->updateData("enableTexturing", enableDiffuse);
+    cb->updateData("enableSpecularMapping", enableSpecular);
+    cb->updateData("enableBumpMapping", enableBump);
+    cb->updateData("enableClipTesting", enableDiffuse);
+
     drawData.transform = *(Transform*) box->getDataComponent(TRANSFORM_COMPONENT)->getData();
     MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
   }

@@ -96,12 +96,7 @@ IDataComponent* const Factory::getCameraComponent(void* data) const {
   xml_node<>* cameraNode = (xml_node<>*) data;
 
   try {
-    xml_node<>* component = cameraNode->first_node("position");
-    cameraData.position.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
-    cameraData.position.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
-    cameraData.position.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
-
-    component = cameraNode->first_node("look");
+    xml_node<>* component = cameraNode->first_node("look");
     cameraData.look.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
     cameraData.look.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
     cameraData.look.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
@@ -158,13 +153,6 @@ IDataComponent* const Factory::getLightComponent(void* data) const {
     lightData.specular.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
     lightData.specular.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
     lightData.specular.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
-
-    if (lightNode->first_node("position")) {
-      component = lightNode->first_node("position");
-      lightData.position.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
-      lightData.position.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
-      lightData.position.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
-    }
 
     if (lightNode->first_node("direction")) {
       component = lightNode->first_node("direction");

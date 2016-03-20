@@ -5,12 +5,14 @@
 #include <directxmath.h>
 #include <directxcolors.h>
 #include <string>
+#include <map>
 
 using namespace DirectX;
 
 const std::string SET_INPUT_LAYOUT = "SetInputLayoutMessage";
 const std::string LOAD_INPUT_LAYOUT = "LoadInputLayoutMessage";
 const std::string CREATE_CONSTANT_BUFFER = "CreateConstantBufferMessage";
+const std::string REGISTER_TEXTURE_REGISTERS = "RegisterTextureRegistersMessage";
 
 const int MAX_LIGHTS = 1;
 
@@ -20,6 +22,12 @@ struct InputLayoutInfo {
   D3D11_INPUT_ELEMENT_DESC* layout;
   int vertexShader, numElements;
   void* inputLayout;
+};
+
+struct ShaderTexRegisterInfo {
+  ShaderTexRegisterInfo(int shaderId, const map<std::string, int>& textureRegisters) : shaderId(shaderId), textureRegisters(textureRegisters) {}
+  int shaderId;
+  map<std::string, int> textureRegisters;
 };
 
 struct LightStruct {
