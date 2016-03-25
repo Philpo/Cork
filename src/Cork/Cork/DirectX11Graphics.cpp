@@ -344,6 +344,8 @@ void DirectX11Graphics::setCamera(GameObject* const camera) {
 
   XMVECTOR eye = XMVectorSet(transformData.position.getX(), transformData.position.getY(), transformData.position.getZ(), 0.0f);
   eye = XMVector4Transform(eye, temp);
+  XMFLOAT3 eyePosW;
+  XMStoreFloat3(&eyePosW, eye);
 
   XMVECTOR right = XMVectorSet(cameraData.right.getX(), cameraData.right.getY(), cameraData.right.getZ(), 0.0f);
   XMVECTOR up = XMVectorSet(cameraData.up.getX(), cameraData.up.getY(), cameraData.up.getZ(), 0.0f);
@@ -363,7 +365,7 @@ void DirectX11Graphics::setCamera(GameObject* const camera) {
   up = XMVector4Normalize(XMVector4Transform(up, xRotation));
 
   cb->updateData("view", XMMatrixTranspose(XMMatrixLookToLH(eye, at, worldUp)));
-  cb->updateData("eyePosW", XMFLOAT3(transformData.position.getX(), transformData.position.getY(), transformData.position.getZ()));
+  cb->updateData("eyePosW", eyePosW);
 }
 
 void DirectX11Graphics::registerTextureRegisters(const ShaderTexRegisterInfo& info) {
