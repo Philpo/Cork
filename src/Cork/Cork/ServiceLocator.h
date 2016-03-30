@@ -20,12 +20,12 @@ public:
 
   static void cleanup();
 
-  static void addMessageHandlerFunction(const string& componentType, messageHandlerFunction);
+  static void addMessageHandlerFunction(const string& componentType, messageHandlerFunction function);
   static IComponent* const getMessageHandler(const string& componentType);
   static IComponent* const getMessageHandler(const string& componentType, void* data);
   static void deleteMessageHandler(IComponent*& toDelete);
 
-  static void addDataComponentFunction(const string& componentType, dataComponentFunction);
+  static void addDataComponentFunction(const string& componentType, dataComponentFunction function);
   static IDataComponent* const getDataComponent(const string& componentType, void* data);
   static void deleteDataComponent(const string& componentType, IDataComponent*& toDelete);
 private:
