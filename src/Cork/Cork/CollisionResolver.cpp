@@ -47,12 +47,13 @@ void CollisionResolver::basicCollisionResolution(const GameObject& lhs, const Ga
   else if (previousLeft >= collidedRight && (left <= collidedRight && left >= collidedLeft)) {
     xCorrection = collidedRight - left;
   }
-  else if ((far >= collidedNear && far <= collidedFar)) {
+  else if (previousFar <= collidedNear && (far >= collidedNear && far <= collidedFar)) {
     zCorrection = collidedNear - far;
   }
-  else if ((near <= collidedFar && near >= collidedNear)) {
+  else if (previousNear >= collidedFar && (near <= collidedFar && near >= collidedNear)) {
     zCorrection = collidedFar - near;
   }
 
   lhsBox.centre += Vector3(xCorrection, yCorrection, zCorrection);
+  MessageHandler::forwardMessage(Message(UPDATE_AFTER_COLLISION_MESSAGE, &lhsBox.centre, lhs.getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE)));
 }

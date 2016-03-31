@@ -22,5 +22,7 @@ public:
   static bool collisionDetection(IDataComponent& lhs, IDataComponent& rhs) { return function ? function(lhs, rhs) : false; }
 private:
   static DetectionFunction function;
+  // performs collision detection on 2 axis-aligned bounding boxes
+  // assumes a left-handed coordinate system
   static bool axisAlignedBoundingBoxCollisionDetection(IDataComponent& lhs, IDataComponent& rhs);
 };

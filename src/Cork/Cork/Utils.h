@@ -15,6 +15,7 @@ const std::string GRAPHICS_COMPONENT = "GraphicsComponent";
 const std::string PHYSICS_COMPONENT = "PhysicsComponent";
 const std::string INPUT_COMPONENT = "InputComponent";
 const std::string BASIC_MOVE_COMPONENT = "BasicMoveComponent";
+const std::string UPDATE_POSITION_COMPONENT = "UpdatePositionComponent";
 const std::string TRANSFORM_COMPONENT = "TransformComponent";
 const std::string MESH_COMPONENT = "MeshComponent";
 const std::string LIGHT_COMPONENT = "LightComponent";

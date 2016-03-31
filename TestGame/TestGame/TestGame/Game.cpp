@@ -30,6 +30,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   //ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getBasicGraphicsComponent, factory));
   ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(TRANSFORM_COMPONENT, std::bind(&Factory::getTransformComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(MESH_COMPONENT, std::bind(&Factory::getMeshComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(CAMERA_COMPONENT, std::bind(&Factory::getCameraComponent, factory, std::placeholders::_1));
@@ -108,11 +109,11 @@ void Game::loopFunction(double timeSinceLastFrame) {
   for (auto box : boxes) {
     if (CollisionDetector::collisionDetection(*camera->getDataComponent(BOUNDING_BOX_COMPONENT), *box->getDataComponent(BOUNDING_BOX_COMPONENT))) {
       CollisionResolver::resolveCollision(*camera, *box);
-      Transform& transform = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
-      BoundingBox box = *(BoundingBox*) camera->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
+      //Transform& transform = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
+      //BoundingBox box = *(BoundingBox*) camera->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
       //transform.previousPosition = transform.position;
-      transform.position = box.centre;
-      camera->getDataComponent(TRANSFORM_COMPONENT)->setData(&transform);
+      //transform.position = box.centre;
+      //camera->getDataComponent(TRANSFORM_COMPONENT)->setData(&transform);
     }
   }
 

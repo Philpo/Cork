@@ -4,6 +4,7 @@
 #include "TestInputComponent.h"
 #include "BasicMovementComponent.h"
 #include "DirectX11Graphics.h"
+#include "UpdatePositionComponent.h"
 #include "MeshComponent.h"
 #include "BoundingBoxComponent.h"
 #include "ResourceManager.h"
@@ -20,7 +21,8 @@ public:
   virtual IComponent* const getBasicGraphicsComponent(void* data) const override;
   virtual IComponent* const getBasicInputComponent(void* data) const override;
   virtual IComponent* const getBasicMovementComponent(void* data) const override;
-  virtual IComponent* const getDirectX11Graphics(void* data) const override;
+  virtual IComponent* const getDirectX11Graphics(void* data) const override; 
+  virtual IComponent* const getUpdatePositionComponent(void* data) const override;
 
   virtual IDataComponent* const getTransformComponent(void* data) const override;
   virtual IDataComponent* const getMeshComponent(void* data) const override;

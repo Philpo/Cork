@@ -25,6 +25,12 @@ IComponent* const Factory::getDirectX11Graphics(void* data) const {
   }
 }
 
+IComponent* const Factory::getUpdatePositionComponent(void* data) const {
+  UpdatePositionComponent* u = new UpdatePositionComponent;
+  u->setTarget((GameObject*) data);
+  return u;
+}
+
 IDataComponent* const Factory::getTransformComponent(void* data) const {
   TransformComponent* transform = new TransformComponent;
   Transform transformData;

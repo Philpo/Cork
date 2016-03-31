@@ -153,6 +153,9 @@
     <ClInclude Include="CollisionResolver.h">
       <Filter>Header Files\Components\Physics Component</Filter>
     </ClInclude>
+    <ClInclude Include="UpdatePositionComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -232,6 +235,9 @@
     </ClCompile>
     <ClCompile Include="CollisionResolver.cpp">
       <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatePositionComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
