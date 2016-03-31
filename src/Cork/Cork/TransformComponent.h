@@ -4,7 +4,7 @@
 
 struct Transform {
   Transform() : parent(nullptr) {}
-  Vector3 position, localRotation, scale, worldRotation;
+  Vector3 position, previousPosition, localRotation, scale, worldRotation;
   Transform* parent;
 };
 

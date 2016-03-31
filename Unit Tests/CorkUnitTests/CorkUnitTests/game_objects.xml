@@ -8,6 +8,9 @@
         <scale x="2.0" y="2.0" z="2.0" />
         <world_rotation x="0.0" y="0.0" z="0.0" />
       </component>
+      <component type="BoundingBoxComponent" height="4.0" width="4.0" depth="4.0">
+        <centre x="0.0" y="0.0" z="0.0"/>
+      </component>
     </data_components>
   </entity>
   <entity uid="4">
@@ -17,6 +20,9 @@
         <local_rotation x="0.0" y="0.0" z="0.0" />
         <scale x="0.5" y="0.5" z="0.5" />
         <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="BoundingBoxComponent" height="1.0" width="1.0" depth="1.0">
+        <centre x="0.0" y="0.0" z="0.0"/>
       </component>
     </data_components>
   </entity>

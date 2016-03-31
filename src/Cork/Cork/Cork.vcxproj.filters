@@ -31,6 +31,12 @@
     <Filter Include="Header Files\Components\Graphics Component\DirectX11">
       <UniqueIdentifier>{f02231c6-808f-48b8-9dd6-05ab906649b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components\Physics Component">
+      <UniqueIdentifier>{b3285cf8-299f-4953-bd24-8f6ec7c8a409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Physics Component">
+      <UniqueIdentifier>{9385b1db-5215-40a9-8e71-3ac507e79246}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h">
@@ -138,6 +144,15 @@
     <ClInclude Include="DirectX11Shader.h">
       <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
+    <ClInclude Include="BoundingBoxComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetector.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionResolver.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -208,6 +223,15 @@
     </ClCompile>
     <ClCompile Include="DirectxX11Shader.cpp">
       <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBoxComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDetector.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionResolver.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,6 +9,8 @@
 #include "DirectX11XMLMeshLoader.h"
 #include "ResourceManager.h"
 #include "EntityLoader.h"
+#include "CollisionDetector.h"
+#include "CollisionResolver.h"
 
 class Game {
 public:

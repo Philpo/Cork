@@ -5,6 +5,7 @@
 #include "BasicMovementComponent.h"
 #include "DirectX11Graphics.h"
 #include "MeshComponent.h"
+#include "BoundingBoxComponent.h"
 #include "ResourceManager.h"
 #include "EntityLoader.h"
 #include "RapidXML\rapidxml.hpp"
@@ -25,4 +26,5 @@ public:
   virtual IDataComponent* const getMeshComponent(void* data) const override;
   virtual IDataComponent* const getCameraComponent(void* data) const override;
   virtual IDataComponent* const getLightComponent(void* data) const override;
+  virtual IDataComponent* const getBoundingBoxComponent(void* data) const override;
 };

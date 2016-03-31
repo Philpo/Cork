@@ -13,7 +13,10 @@
   <ItemGroup>
     <ClInclude Include="BasicMovementComponent.h" />
     <ClInclude Include="BinaryData.h" />
+    <ClInclude Include="BoundingBoxComponent.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CollisionDetector.h" />
+    <ClInclude Include="CollisionResolver.h" />
     <ClInclude Include="ConsoleGraphicsComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DirectX11Graphics.h" />
@@ -50,7 +53,10 @@
   <ItemGroup>
     <ClCompile Include="BasicMovementComponent.cpp" />
     <ClCompile Include="BinaryData.cpp" />
+    <ClCompile Include="BoundingBoxComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CollisionDetector.cpp" />
+    <ClCompile Include="CollisionResolver.cpp" />
     <ClCompile Include="ConsoleGraphicsComponent.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DirectX11Graphics.cpp" />

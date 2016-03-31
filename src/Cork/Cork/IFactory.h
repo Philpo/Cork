@@ -15,4 +15,5 @@ public:
   virtual IDataComponent* const getMeshComponent(void* data) const = 0;
   virtual IDataComponent* const getCameraComponent(void* data) const = 0;
   virtual IDataComponent* const getLightComponent(void* data) const = 0;
+  virtual IDataComponent* const getBoundingBoxComponent(void* data) const = 0;
 };

@@ -45,6 +45,8 @@ IDataComponent* const Factory::getTransformComponent(void* data) const {
     transformData.position.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
     transformData.position.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
 
+    transformData.previousPosition = transformData.position;
+
     component = transformNode->first_node("local_rotation");
     transformData.localRotation.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
     transformData.localRotation.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
@@ -176,4 +178,30 @@ IDataComponent* const Factory::getLightComponent(void* data) const {
   }
 
   return light;
+}
+
+IDataComponent* const Factory::getBoundingBoxComponent(void* data) const {
+  BoundingBoxComponent* boundingBox = new BoundingBoxComponent;
+  BoundingBox boxData;
+
+  xml_node<>* boxNode = (xml_node<>*) data;
+
+  try {
+    boxData.height = convertStringToNumber<float>(boxNode->first_attribute("height")->value());
+    boxData.width = convertStringToNumber<float>(boxNode->first_attribute("width")->value());
+    boxData.depth = convertStringToNumber<float>(boxNode->first_attribute("depth")->value());
+
+    xml_node<>* centreNode = boxNode->first_node("centre");
+    boxData.centre.setX(convertStringToNumber<float>(centreNode->first_attribute("x")->value()));
+    boxData.centre.setY(convertStringToNumber<float>(centreNode->first_attribute("y")->value()));
+    boxData.centre.setZ(convertStringToNumber<float>(centreNode->first_attribute("z")->value()));
+
+    boundingBox->setData(&boxData);
+  }
+  catch (exception&) {
+    delete boundingBox;
+    throw;
+  }
+
+  return boundingBox;
 }

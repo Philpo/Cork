@@ -1,7 +1,7 @@
 #pragma once
 #include "IComponent.h"
 #include "GameObject.h"
-#include "CameraComponent.h"
+#include "BoundingBoxComponent.h"
 #include "TransformComponent.h"
 
 class BasicMovementComponent : public IComponent {

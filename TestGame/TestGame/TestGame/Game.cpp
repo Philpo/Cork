@@ -34,6 +34,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   ServiceLocator::addDataComponentFunction(MESH_COMPONENT, std::bind(&Factory::getMeshComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(CAMERA_COMPONENT, std::bind(&Factory::getCameraComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(LIGHT_COMPONENT, std::bind(&Factory::getLightComponent, factory, std::placeholders::_1));
+  ServiceLocator::addDataComponentFunction(BOUNDING_BOX_COMPONENT, std::bind(&Factory::getBoundingBoxComponent, factory, std::placeholders::_1));
   Mesh::addMeshFileLoader(".xml", loadXMLMesh);
 
   cb = new BinaryData(416);
@@ -104,6 +105,17 @@ WPARAM Game::startGame() {
 }
 
 void Game::loopFunction(double timeSinceLastFrame) {
+  for (auto box : boxes) {
+    if (CollisionDetector::collisionDetection(*camera->getDataComponent(BOUNDING_BOX_COMPONENT), *box->getDataComponent(BOUNDING_BOX_COMPONENT))) {
+      CollisionResolver::resolveCollision(*camera, *box);
+      Transform& transform = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
+      BoundingBox box = *(BoundingBox*) camera->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
+      //transform.previousPosition = transform.position;
+      transform.position = box.centre;
+      camera->getDataComponent(TRANSFORM_COMPONENT)->setData(&transform);
+    }
+  }
+
   MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   MessageHandler::forwardMessage(Message(SET_CAMERA, camera, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
@@ -113,8 +125,8 @@ void Game::loopFunction(double timeSinceLastFrame) {
   }
 
   DrawInfo drawData;
-  Transform& transform = *(Transform*) boxes[0]->getDataComponent(TRANSFORM_COMPONENT)->getData();
-  transform.localRotation.setY(transform.localRotation.getY() + 1);
+  //Transform& transform = *(Transform*) boxes[0]->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  //transform.localRotation.setY(transform.localRotation.getY() + 1);
   drawData.shaderId = pixelShader;
 
   for (auto box : boxes) {
