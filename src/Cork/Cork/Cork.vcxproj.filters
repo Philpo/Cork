@@ -153,8 +153,14 @@
     <ClInclude Include="CollisionResolver.h">
       <Filter>Header Files\Components\Physics Component</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
     <ClInclude Include="UpdatePositionComponent.h">
-      <Filter>Header Files\Components</Filter>
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplyForceComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,8 +242,14 @@
     <ClCompile Include="CollisionResolver.cpp">
       <Filter>Source Files\Components\Physics Component</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplyForceComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
     <ClCompile Include="UpdatePositionComponent.cpp">
-      <Filter>Source Files\Components</Filter>
+      <Filter>Source Files\Components\Physics Component</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

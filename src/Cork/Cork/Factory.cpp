@@ -31,6 +31,10 @@ IComponent* const Factory::getUpdatePositionComponent(void* data) const {
   return u;
 }
 
+IComponent* const Factory::getApplyForceComponent(void* data) const {
+  return new ApplyForceComponent;
+}
+
 IDataComponent* const Factory::getTransformComponent(void* data) const {
   TransformComponent* transform = new TransformComponent;
   Transform transformData;
@@ -210,4 +214,24 @@ IDataComponent* const Factory::getBoundingBoxComponent(void* data) const {
   }
 
   return boundingBox;
+}
+
+IDataComponent* const Factory::getParticleComponent(void* data) const {
+  ParticleComponent* particle = new ParticleComponent;
+  Particle particleData;
+
+  xml_node<>* particleNode = (xml_node<>*) data;
+
+  try {
+    particleData.mass = convertStringToNumber<float>(particleNode->first_attribute("mass")->value());
+    particleData.maxSpeed = convertStringToNumber<float>(particleNode->first_attribute("max_speed")->value());
+
+    particle->setData(&particleData);
+  }
+  catch (exception&) {
+    delete particle;
+    throw;
+  }
+
+  return particle;
 }

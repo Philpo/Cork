@@ -9,6 +9,7 @@ const std::string ADD_FORCE_MESSAGE = "AddForceMessage";
 const std::string POLL_INPUT_MESSAGE = "PollInputMessage";
 const std::string INPUT_RECEIVED_MESSAGE = "InputReceivedMessage";
 const std::string UPDATE_AFTER_COLLISION_MESSAGE = "UpdateAfterCollisionMessage";
+const std::string APPLY_FORCE_MESSAGE = "ApplyForceMessage";
 
 // general component types for use in any game
 const std::string GRAPHICS_COMPONENT = "GraphicsComponent";
@@ -16,11 +17,13 @@ const std::string PHYSICS_COMPONENT = "PhysicsComponent";
 const std::string INPUT_COMPONENT = "InputComponent";
 const std::string BASIC_MOVE_COMPONENT = "BasicMoveComponent";
 const std::string UPDATE_POSITION_COMPONENT = "UpdatePositionComponent";
+const std::string APPLY_FORCE_COMPONENT = "ApplyForceComponent";
 const std::string TRANSFORM_COMPONENT = "TransformComponent";
 const std::string MESH_COMPONENT = "MeshComponent";
 const std::string LIGHT_COMPONENT = "LightComponent";
 const std::string CAMERA_COMPONENT = "CameraComponent";
 const std::string BOUNDING_BOX_COMPONENT = "BoundingBoxComponent";
+const std::string PARTICLE_COMPONENT = "ParticleComponent";
 
 // general input events for use in any game
 const std::string NONE = "None";

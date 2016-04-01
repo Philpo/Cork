@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BinaryDataUnitTests.cpp" />
+    <ClCompile Include="BoundingBoxUnitTests.cpp" />
     <ClCompile Include="CameraComponentUnitTests.cpp" />
     <ClCompile Include="EntityLoaderUnitTests.cpp" />
     <ClCompile Include="FactoryUnitTests.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="LightComponentUnitTests.cpp" />
     <ClCompile Include="MeshComponentUnitTests.cpp" />
     <ClCompile Include="MessageUnitTests.cpp" />
+    <ClCompile Include="ParticleComponentUnitTests.cpp" />
     <ClCompile Include="ResourceManagerUnitTests.cpp" />
     <ClCompile Include="ServiceLocatorUnitTests.cpp" />
     <ClCompile Include="stdafx.cpp">

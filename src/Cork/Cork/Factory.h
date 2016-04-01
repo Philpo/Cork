@@ -5,8 +5,10 @@
 #include "BasicMovementComponent.h"
 #include "DirectX11Graphics.h"
 #include "UpdatePositionComponent.h"
+#include "ApplyForceComponent.h"
 #include "MeshComponent.h"
 #include "BoundingBoxComponent.h"
+#include "ParticleComponent.h"
 #include "ResourceManager.h"
 #include "EntityLoader.h"
 #include "RapidXML\rapidxml.hpp"
@@ -23,10 +25,12 @@ public:
   virtual IComponent* const getBasicMovementComponent(void* data) const override;
   virtual IComponent* const getDirectX11Graphics(void* data) const override; 
   virtual IComponent* const getUpdatePositionComponent(void* data) const override;
+  virtual IComponent* const getApplyForceComponent(void* data) const override;
 
   virtual IDataComponent* const getTransformComponent(void* data) const override;
   virtual IDataComponent* const getMeshComponent(void* data) const override;
   virtual IDataComponent* const getCameraComponent(void* data) const override;
   virtual IDataComponent* const getLightComponent(void* data) const override;
   virtual IDataComponent* const getBoundingBoxComponent(void* data) const override;
+  virtual IDataComponent* const getParticleComponent(void* data) const override;
 };

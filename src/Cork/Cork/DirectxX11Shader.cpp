@@ -2,6 +2,6 @@
 
 DirectX11Shader::~DirectX11Shader() {
   if (shader) {
-    ((ID3D11DeviceChild*) shader)->Release();
+    shader->Release();
   }
 }

@@ -3,6 +3,7 @@
 #include "Vector3.h"
 
 struct BoundingBox {
+  BoundingBox() : height(0.0f), width(0.0f), depth(0.0f) {}
   Vector3 centre;
   float height, width, depth;
 };

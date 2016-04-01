@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplyForceComponent.h" />
     <ClInclude Include="BasicMovementComponent.h" />
     <ClInclude Include="BinaryData.h" />
     <ClInclude Include="BoundingBoxComponent.h" />
@@ -41,6 +42,7 @@
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
+    <ClInclude Include="ParticleComponent.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="ServiceLocator.h" />
@@ -52,6 +54,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ApplyForceComponent.cpp" />
     <ClCompile Include="BasicMovementComponent.cpp" />
     <ClCompile Include="BinaryData.cpp" />
     <ClCompile Include="BoundingBoxComponent.cpp" />
@@ -71,6 +74,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
+    <ClCompile Include="ParticleComponent.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />

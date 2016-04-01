@@ -15,6 +15,7 @@
     </data_components>
     <message_handlers>
       <component message_type="DrawMessage" type="GraphicsComponent" />
+      <component message_type="UpdateAfterCollisionMessage" type="UpdatePositionComponent" />
     </message_handlers>
   </entity>
   <entity uid="4">
@@ -29,9 +30,12 @@
       <component type="BoundingBoxComponent" height="1.0" width="1.0" depth="1.0">
         <centre x="0.0" y="5.0" z="0.0"/>
       </component>
+      <component type="ParticleComponent" mass="1.0" max_speed="100.0" />
     </data_components>
     <message_handlers>
       <component message_type="DrawMessage" type="GraphicsComponent" />
+      <component message_type="ApplyForceMessage" type="ApplyForceComponent" />
+      <component message_type="UpdateAfterCollisionMessage" type="UpdatePositionComponent" />
     </message_handlers>
   </entity>
 </entities>

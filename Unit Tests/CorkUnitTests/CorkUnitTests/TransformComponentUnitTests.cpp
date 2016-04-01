@@ -14,6 +14,9 @@ namespace CorkUnitTests {
       REQUIRE(data.position.getX() == approx(0.0f));
       REQUIRE(data.position.getY() == approx(0.0f));
       REQUIRE(data.position.getZ() == approx(0.0f));
+      REQUIRE(data.previousPosition.getX() == approx(0.0f));
+      REQUIRE(data.previousPosition.getY() == approx(0.0f));
+      REQUIRE(data.previousPosition.getZ() == approx(0.0f));
       REQUIRE(data.localRotation.getX() == approx(0.0f));
       REQUIRE(data.localRotation.getY() == approx(0.0f));
       REQUIRE(data.localRotation.getZ() == approx(0.0f));
@@ -33,6 +36,9 @@ namespace CorkUnitTests {
       data.position.setX(1.0f);
       data.position.setY(1.5f);
       data.position.setZ(2.0f);
+      data.previousPosition.setX(1.0f);
+      data.previousPosition.setY(1.5f);
+      data.previousPosition.setZ(2.0f);
       data.localRotation.setX(1.0f);
       data.localRotation.setY(1.5f);
       data.localRotation.setZ(2.0f);
@@ -49,6 +55,9 @@ namespace CorkUnitTests {
       REQUIRE(data.position.getX() == approx(1.0f));
       REQUIRE(data.position.getY() == approx(1.5f));
       REQUIRE(data.position.getZ() == approx(2.0f));
+      REQUIRE(data.previousPosition.getX() == approx(1.0f));
+      REQUIRE(data.previousPosition.getY() == approx(1.5f));
+      REQUIRE(data.previousPosition.getZ() == approx(2.0f));
       REQUIRE(data.localRotation.getX() == approx(1.0f));
       REQUIRE(data.localRotation.getY() == approx(1.5f));
       REQUIRE(data.localRotation.getZ() == approx(2.0f));

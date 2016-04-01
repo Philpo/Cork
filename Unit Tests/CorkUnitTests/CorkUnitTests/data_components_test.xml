@@ -19,4 +19,8 @@
     <attenuation x="0.0" y="0.1" z="0.0" />
     <position x="0.0" y="5.0" z="-10" />
   </component>
+  <component type="BoundingBoxComponent" height="1.0" width="1.0" depth="1.0">
+    <centre x="0.0" y="5.0" z="0.0"/>
+  </component>
+  <component type="ParticleComponent" mass="1.0" max_speed="100.0" />
 </data_components>

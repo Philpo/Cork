@@ -31,4 +31,9 @@ private:
   float fogRange = 50.0f;
   ID3D11InputLayout* inputLayout;
   BinaryData* cb;
+
+  // performs collision detection on 2 axis-aligned bounding boxes
+  bool axisAlignedBoundingBoxCollisionDetection(IDataComponent& lhs, IDataComponent& rhs);
+  // resolves collisions by adjusting the position of the first object to touch the second object
+  void basicCollisionResolution(const GameObject& lhs, const GameObject& rhs);
 };
