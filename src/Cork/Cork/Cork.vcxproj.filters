@@ -165,6 +165,9 @@
     <ClInclude Include="JumpComponent.h">
       <Filter>Header Files\Components\Physics Component</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -256,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="JumpComponent.cpp">
       <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

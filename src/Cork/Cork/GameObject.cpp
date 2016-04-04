@@ -8,3 +8,15 @@ void GameObject::receiveMessage(IMessage& message) {
     MessageHandler::forwardMessage(message);
   }
 }
+
+void GameObject::copy(const GameObject& toCopy) {
+  for (auto kvp : toCopy.dataComponents) {
+    IDataComponent* c = ServiceLocator::getDataComponent(kvp.first, nullptr);
+    c->setData(kvp.second->getData());
+    addDataComponent(kvp.first, c);
+  }
+
+  for (auto kvp : toCopy.components) {
+    addComponent(kvp.first, ServiceLocator::getMessageHandler(kvp.second->getType(), this));
+  }
+}

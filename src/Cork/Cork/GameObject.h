@@ -5,10 +5,14 @@
 #include <vector>
 #include <map>
 #include "MessageHandler.h"
+#include "ServiceLocator.h"
 
 using namespace std;
 
+class ObjectPool;
+
 class GameObject : public IMessageable {
+  friend class ObjectPool;
 public:
   GameObject() {}
   virtual ~GameObject();
@@ -26,6 +30,7 @@ protected:
   vector<string> supportedMessages;
 private:
   void receiveMessage(IMessage& message) override;
+  void copy(const GameObject& toCopy);
 };
 
 void GameObject::addComponent(const string& type, IComponent* const component) {

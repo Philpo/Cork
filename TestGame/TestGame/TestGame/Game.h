@@ -11,6 +11,7 @@
 #include "EntityLoader.h"
 #include "CollisionDetector.h"
 #include "CollisionResolver.h"
+#include "ObjectPool.h"
 
 class Game {
 public:
@@ -25,13 +26,14 @@ private:
   Scheduler* scheduler;
   GameObject* camera;
   GameObject* floorPlane;
-  vector<GameObject* const> lights, boxes;
+  vector<GameObject* const> lights, boxes, bullets;
   const Factory* factory;
   int meshId, vertexShader, pixelShader;
   float fogStart = 40.0f;
   float fogRange = 50.0f;
   ID3D11InputLayout* inputLayout;
   BinaryData* cb;
+  ObjectPool boxPool;
 
   void update(double timeSinceLastFrame);
   void draw() const;

@@ -45,7 +45,6 @@ IShader* const ResourceManager::getShader(int shaderId) {
 
 void ResourceManager::loadTexture(string& type, string& textureFile, int& textureId) {
   if (loadedTextureFiles.find(textureFile) == loadedTextureFiles.end()) {
-    IGraphics* graphics = (IGraphics*) ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT);
     ITexture* texture = nullptr;
     TextureInfo info(type, textureFile, texture);
 
@@ -69,7 +68,6 @@ void ResourceManager::loadTexture(string& type, string& textureFile, int& textur
 
 void ResourceManager::loadMesh(string& meshFile, int& meshId) {
   if (loadedMeshFiles.find(meshFile) == loadedMeshFiles.end()) {
-    IGraphics* graphics = (IGraphics*) ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT);
     Mesh* mesh = new Mesh(ResourceManager::meshId++, meshFile);
 
     try {

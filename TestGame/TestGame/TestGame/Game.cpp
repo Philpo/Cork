@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "BinaryData.h"
 
-Game::Game() : scheduler(nullptr), factory(nullptr), inputLayout(nullptr) {}
+Game::Game() : scheduler(nullptr), factory(nullptr), inputLayout(nullptr), boxPool(10) {}
 
 Game::~Game() {
   if (scheduler) {
@@ -68,6 +68,10 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   floorPlane = EntityLoader::loadEntity("floor.xml");
   EntityLoader::loadEntities("lights.xml", lights);
   EntityLoader::loadEntities("game_objects.xml", boxes);
+
+  for (int i = 0; i < 10; i++) {
+    bullets.push_back(boxPool.createObject(3));
+  }
 
   scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
 
@@ -163,6 +167,11 @@ void Game::update(double timeSinceLastFrame) {
   if (CollisionDetector::collisionDetection(*camera->getDataComponent(BOUNDING_BOX_COMPONENT), *floorPlane->getDataComponent(BOUNDING_BOX_COMPONENT))) {
     CollisionResolver::resolveCollision(*camera, *floorPlane);
   }
+
+  for (int i = 0; i < 10; i++) {
+    Transform& t = *(Transform*) bullets[i]->getDataComponent(TRANSFORM_COMPONENT)->getData();
+    t.position.setZ(t.position.getZ() - ((i + 1) * 0.01));
+  }
 }
 
 void Game::draw() const {
@@ -209,6 +218,20 @@ void Game::draw() const {
 
     drawData.transform = *(Transform*) box->getDataComponent(TRANSFORM_COMPONENT)->getData();
     MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
+  }
+
+  for (auto bullet : bullets) {
+    enableDiffuse = enableSpecular = enableBump = 1;
+
+    drawData.meshId = *(int*) bullet->getDataComponent(MESH_COMPONENT)->getData();
+
+    cb->updateData("enableTexturing", enableDiffuse);
+    cb->updateData("enableSpecularMapping", enableSpecular);
+    cb->updateData("enableBumpMapping", enableBump);
+    cb->updateData("enableClipTesting", enableDiffuse);
+
+    drawData.transform = *(Transform*) bullet->getDataComponent(TRANSFORM_COMPONENT)->getData();
+    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, bullet->getMessageHandler(DRAW_MESSAGE)));
   }
 
   drawData.meshId = *(int*) floorPlane->getDataComponent(MESH_COMPONENT)->getData();

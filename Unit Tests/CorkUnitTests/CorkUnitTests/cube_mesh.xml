@@ -185,9 +185,9 @@
     <index> 15 </index>
   </indices>
   <textures>
-    <texture file_path=".\Crate_COLOR.dds" />
-    <texture file_path=".\Crate_SPEC.dds" />
-    <texture file_path=".\Crate_NRM.dds" />
+    <texture type="diffuse" file_path="..\CorkUnitTests\Crate_COLOR.dds" />
+    <texture type="specular" file_path="..\CorkUnitTests\Crate_SPEC.dds" />
+    <texture type="normal" file_path="..\CorkUnitTests\Crate_NRM.dds" />
   </textures>
   <material a="1.0">
     <ambient r="0.2" g="0.2" b="0.2" />
