@@ -15,6 +15,8 @@ namespace CorkUnitTests {
       go.addComponent("test", c);
       REQUIRE((go.getMessageHandler("test") != nullptr));
       REQUIRE(typeid(*go.getMessageHandler("test")) == typeid(*c));
+      REQUIRE(go.getSupportedMessages().size() == 1);
+      REQUIRE(go.getSupportedMessages()[0] == "test");
       delete c;
     }
 

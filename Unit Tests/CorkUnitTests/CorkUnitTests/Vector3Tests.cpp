@@ -117,16 +117,16 @@ namespace CorkUnitTests {
       SECTION("test normalise with positive values") {
         Vector3 v(3.0f, 3.0f, 3.0f);
         Vector3 result = v.normalise();
-        REQUIRE(result.getX() == approx(0.577));
-        REQUIRE(result.getY() == approx(0.577));
-        REQUIRE(result.getZ() == approx(0.577));
+        REQUIRE(result.getX() == approx(0.57735));
+        REQUIRE(result.getY() == approx(0.57735));
+        REQUIRE(result.getZ() == approx(0.57735));
       }
       SECTION("test normalise with negative values") {
         Vector3 v(-3.0f, -3.0f, -3.0f);
         Vector3 result = v.normalise();
-        REQUIRE(result.getX() == approx(-0.577));
-        REQUIRE(result.getY() == approx(-0.577));
-        REQUIRE(result.getZ() == approx(-0.577));
+        REQUIRE(result.getX() == approx(-0.57735));
+        REQUIRE(result.getY() == approx(-0.57735));
+        REQUIRE(result.getZ() == approx(-0.57735));
       }
       SECTION("test normalise with zero values") {
         Vector3 v(0.0f, 0.0f, 0.0f);

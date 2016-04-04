@@ -91,12 +91,15 @@
     <ClInclude Include="TypeDefs.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ApplyForceComponentIntegrationTest.cpp" />
+    <ClCompile Include="BasicMovementComponentIntegrationTest.cpp" />
     <ClCompile Include="BinaryDataUnitTests.cpp" />
     <ClCompile Include="BoundingBoxUnitTests.cpp" />
     <ClCompile Include="CameraComponentUnitTests.cpp" />
     <ClCompile Include="EntityLoaderUnitTests.cpp" />
     <ClCompile Include="FactoryUnitTests.cpp" />
     <ClCompile Include="GameObjectUnitTests.cpp" />
+    <ClCompile Include="JumpComponentIntegrationTest.cpp" />
     <ClCompile Include="JumpDataComponentUnitTests.cpp" />
     <ClCompile Include="LightComponentUnitTests.cpp" />
     <ClCompile Include="MeshComponentUnitTests.cpp" />
@@ -110,6 +113,7 @@
     </ClCompile>
     <ClCompile Include="TransformComponentUnitTests.cpp" />
     <ClCompile Include="TypeDefs.cpp" />
+    <ClCompile Include="UpdatePositionComponentIntegrationTest.cpp" />
     <ClCompile Include="Vector3Tests.cpp" />
     <ClCompile Include="UtilsTests.cpp" />
   </ItemGroup>

@@ -15,9 +15,13 @@
     <component type="BoundingBoxComponent" height="4.0" width="4.0" depth="4.0">
       <centre x="0.0" y="2.0" z="-10.0"/>
     </component>
+    <component type="ParticleComponent" mass="1.0" max_speed="100.0" />
+    <component type="JumpDataComponent" max_jump_time="3.0" jump_force="2.0" jump_control_power="2.0" />
   </data_components>
   <message_handlers>
     <component message_type="InputReceivedMessage" type="BasicMoveComponent" />
     <component message_type="UpdateAfterCollisionMessage" type="UpdatePositionComponent" />
+    <component message_type="ApplyForceMessage" type="ApplyForceComponent" />
+    <component message_type="JumpMessage" type="JumpComponent" />
   </message_handlers>
 </entity>

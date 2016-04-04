@@ -10,12 +10,7 @@ namespace CorkUnitTests {
     Factory factory;
 
     TEST_CASE("test IComponent functions") {
-      IComponent* component = factory.getBasicGraphicsComponent(nullptr);
-      REQUIRE((component != nullptr));
-      REQUIRE(typeid(*component) == typeid(ConsoleGraphicsComponent));
-      delete component;
-
-      component = factory.getBasicInputComponent(nullptr);
+      IComponent* component = factory.getBasicInputComponent(nullptr);
       REQUIRE((component != nullptr));
       REQUIRE(typeid(*component) == typeid(TestInputComponent));
       delete component;

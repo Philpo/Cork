@@ -1,4 +1,4 @@
 #include "stdafx.h"
 #include "TypeDefs.h"
 
-Approx approx(Approx::custom().epsilon(0.005));
+Approx approx(Approx::custom().epsilon(0.00005));

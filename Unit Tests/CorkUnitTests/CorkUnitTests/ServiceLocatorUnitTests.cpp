@@ -11,10 +11,10 @@ namespace CorkUnitTests {
 
     TEST_CASE("test service locator getComponent") {
       SECTION("test mapped component") {
-        ServiceLocator::addMessageHandlerFunction("a", std::bind(&Factory::getBasicGraphicsComponent, factory, std::placeholders::_1));
+        ServiceLocator::addMessageHandlerFunction("a", std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
         IComponent* c = ServiceLocator::getMessageHandler("a");
         REQUIRE((c != nullptr));
-        REQUIRE(typeid(*c) == typeid(ConsoleGraphicsComponent));
+        REQUIRE(typeid(*c) == typeid(TestInputComponent));
         ServiceLocator::cleanup();
       }
       SECTION("test unmapped component") {
@@ -29,7 +29,7 @@ namespace CorkUnitTests {
       ServiceLocator::deleteMessageHandler(c);
       REQUIRE((c == nullptr));
 
-      c = new ConsoleGraphicsComponent;
+      c = new JumpComponent;
       ServiceLocator::deleteMessageHandler(c);
       REQUIRE((c != nullptr));
       delete c;
