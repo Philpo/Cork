@@ -18,7 +18,6 @@
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="CollisionResolver.h" />
-    <ClInclude Include="ConsoleGraphicsComponent.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DirectX11Graphics.h" />
     <ClInclude Include="DirectX11Shader.h" />
@@ -37,6 +36,8 @@
     <ClInclude Include="IMessageable.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="ITexture.h" />
+    <ClInclude Include="JumpComponent.h" />
+    <ClInclude Include="JumpDataComponent.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshComponent.h" />
@@ -61,7 +62,6 @@
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="CollisionResolver.cpp" />
-    <ClCompile Include="ConsoleGraphicsComponent.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DirectX11Graphics.cpp" />
     <ClCompile Include="DirectX11Texture.cpp" />
@@ -70,6 +70,8 @@
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="JumpComponent.cpp" />
+    <ClCompile Include="JumpDataComponent.cpp" />
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />

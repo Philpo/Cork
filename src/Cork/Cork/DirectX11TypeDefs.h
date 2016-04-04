@@ -9,10 +9,10 @@
 
 using namespace DirectX;
 
-const std::string SET_INPUT_LAYOUT = "SetInputLayoutMessage";
-const std::string LOAD_INPUT_LAYOUT = "LoadInputLayoutMessage";
-const std::string CREATE_CONSTANT_BUFFER = "CreateConstantBufferMessage";
-const std::string REGISTER_TEXTURE_REGISTERS = "RegisterTextureRegistersMessage";
+const std::string SET_INPUT_LAYOUT_MESSAGE = "SetInputLayoutMessage";
+const std::string LOAD_INPUT_LAYOUT_MESSAGE = "LoadInputLayoutMessage";
+const std::string CREATE_CONSTANT_BUFFER_MESSAGE = "CreateConstantBufferMessage";
+const std::string REGISTER_TEXTURE_REGISTERS_MESSAGE = "RegisterTextureRegistersMessage";
 
 const int MAX_LIGHTS = 1;
 

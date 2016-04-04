@@ -4,14 +4,14 @@
 
 const std::string BEGIN_FRAME_MESSAGE = "BeginFrameMessage";
 const std::string SWAP_BUFFER_MESSAGE = "SwapBufferMessage";
-const std::string SET_CONSTANT_BUFFER = "SetConstantBufferMessage";
-const std::string SET_LIGHT = "SetLightMessage";
-const std::string SET_CAMERA = "SetCameraMessage";
-const std::string SET_SHADER = "SetShaderMessage";
+const std::string SET_CONSTANT_BUFFER_MESSAGE = "SetConstantBufferMessage";
+const std::string SET_LIGHT_MESSAGE = "SetLightMessage";
+const std::string SET_CAMERA_MESSAGE = "SetCameraMessage";
+const std::string SET_SHADER_MESSAGE = "SetShaderMessage";
 
-const std::string LOAD_TEXTURE = "LoadTextureMessage";
-const std::string LOAD_MESH = "LoadMeshMessage";
-const std::string LOAD_SHADER = "LoadShaderMessage";
+const std::string LOAD_TEXTURE_MESSAGE = "LoadTextureMessage";
+const std::string LOAD_MESH_MESSAGE = "LoadMeshMessage";
+const std::string LOAD_SHADER_MESSAGE = "LoadShaderMessage";
 
 struct TextureInfo {
   TextureInfo(std::string& type, std::string& filePath, void* texture) : type(type), filePath(filePath), texture(texture) {}

@@ -4,6 +4,22 @@
 unique_ptr<DirectX11Graphics> DirectX11Graphics::instance;
 int DirectX11Graphics::textureId = 0;
 int DirectX11Graphics::shaderId = 0;
+const vector<string> DirectX11Graphics::SUPPORTED_MESSAGES = { 
+  BEGIN_FRAME_MESSAGE
+, SWAP_BUFFER_MESSAGE
+, DRAW_MESSAGE
+, SET_CONSTANT_BUFFER_MESSAGE
+, SET_CAMERA_MESSAGE
+, SET_LIGHT_MESSAGE
+, REGISTER_TEXTURE_REGISTERS_MESSAGE
+, SET_INPUT_LAYOUT_MESSAGE
+, SET_SHADER_MESSAGE
+, LOAD_TEXTURE_MESSAGE
+, LOAD_MESH_MESSAGE
+, LOAD_SHADER_MESSAGE
+, LOAD_INPUT_LAYOUT_MESSAGE
+, CREATE_CONSTANT_BUFFER_MESSAGE 
+};
 
 DirectX11Graphics::DirectX11Graphics() {
   if (!initialised) {
@@ -39,47 +55,47 @@ void DirectX11Graphics::receiveMessage(IMessage& message) {
       DrawInfo data = *(DrawInfo*) message.getData();
       draw(data);
     }
-    else if (message.getType() == SET_CONSTANT_BUFFER) {
+    else if (message.getType() == SET_CONSTANT_BUFFER_MESSAGE) {
       BinaryData* cb = (BinaryData*) message.getData();
       setConstantBuffer(cb);
     }
-    else if (message.getType() == SET_CAMERA) {
+    else if (message.getType() == SET_CAMERA_MESSAGE) {
       GameObject* camera = (GameObject*) message.getData();
       setCamera(camera);
     }
-    else if (message.getType() == SET_LIGHT) {
+    else if (message.getType() == SET_LIGHT_MESSAGE) {
       GameObject* light = (GameObject*) message.getData();
       setLight(light);
     }
-    else if (message.getType() == REGISTER_TEXTURE_REGISTERS) {
+    else if (message.getType() == REGISTER_TEXTURE_REGISTERS_MESSAGE) {
       ShaderTexRegisterInfo info = *(ShaderTexRegisterInfo*) message.getData();
       registerTextureRegisters(info);
     }
-    else if (message.getType() == SET_INPUT_LAYOUT) {
+    else if (message.getType() == SET_INPUT_LAYOUT_MESSAGE) {
       ID3D11InputLayout* const layout = (ID3D11InputLayout* const) message.getData();
       bindInputLayout(layout);
     }
-    else if (message.getType() == SET_SHADER) {
+    else if (message.getType() == SET_SHADER_MESSAGE) {
       int shaderId = *(int*) message.getData();
       setShader(shaderId);
     }
-    else if (message.getType() == LOAD_TEXTURE) {
+    else if (message.getType() == LOAD_TEXTURE_MESSAGE) {
       TextureInfo& info = *(TextureInfo*) message.getData();
       loadTexture(info);
     }
-    else if (message.getType() == LOAD_MESH) {
+    else if (message.getType() == LOAD_MESH_MESSAGE) {
       Mesh& mesh = *(Mesh*) message.getData();
       loadMesh(mesh);
     }
-    else if (message.getType() == LOAD_SHADER) {
+    else if (message.getType() == LOAD_SHADER_MESSAGE) {
       ShaderInfo& info = *(ShaderInfo*) message.getData();
       loadShader(info);
     }
-    else if (message.getType() == LOAD_INPUT_LAYOUT) {
+    else if (message.getType() == LOAD_INPUT_LAYOUT_MESSAGE) {
       InputLayoutInfo& info = *(InputLayoutInfo*) message.getData();
       loadInputLayout(info);
     }
-    else if (message.getType() == CREATE_CONSTANT_BUFFER) {
+    else if (message.getType() == CREATE_CONSTANT_BUFFER_MESSAGE) {
       size_t size = *(size_t*) message.getData();
       createConstantBuffer(size);
     }

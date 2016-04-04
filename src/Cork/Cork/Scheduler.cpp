@@ -44,7 +44,7 @@ WPARAM Scheduler::gameLoop() {
 
       //TODO figure out how to poll components every frame; is there a better way than the below?
       for (auto kvp : pollEveryFrame) {
-        MessageHandler::forwardMessage(Message(kvp.first, nullptr, kvp.second));
+        MessageHandler::forwardMessage(Message(kvp.first, &elapsedTime, kvp.second));
       }
 
       if (function) {

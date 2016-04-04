@@ -24,6 +24,8 @@ public:
 
   static DirectX11Graphics& getGraphics();
 
+  const vector<string>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
+
   void cleanup() override;
 private:
   DirectX11Graphics();
@@ -53,6 +55,7 @@ private:
   map<int, ID3D11Buffer* const> indexBuffers;
   map<int, ID3DBlob* const> vertexShaderBlobs;
   map<int, map<string, int>> shaderTextureRegisters;
+  static const vector<string> SUPPORTED_MESSAGES;
 
   HWND window;
   D3D_DRIVER_TYPE driverType;

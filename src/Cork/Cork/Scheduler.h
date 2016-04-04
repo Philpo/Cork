@@ -20,7 +20,8 @@ public:
   Scheduler(double frameRateTarget, const wstring caption);
   ~Scheduler();
 
-  inline void registerPollComponent(const string& messageType, IComponent* const component) { pollEveryFrame.insert(pair<string, IComponent* const>(messageType, component)); }
+  inline void scheduleComponent(const string& messageType, IComponent* const component) { pollEveryFrame.insert(pair<string, IComponent* const>(messageType, component)); }
+  inline void unscheduleComponent(const string& messageType) { pollEveryFrame.erase(messageType); }
   inline void setGameLoopFunction(gameLoopFunction function) { this->function = function; }
 
   WPARAM gameLoop();

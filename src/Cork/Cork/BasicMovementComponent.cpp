@@ -1,7 +1,9 @@
 #include "BasicMovementComponent.h"
 
+const vector<string> BasicMovementComponent::SUPPORTED_MESSAGES = { INPUT_RECEIVED_MESSAGE };
+
 void BasicMovementComponent::receiveMessage(IMessage& message) {
-  if (message.getType() == INPUT_RECEIVED_MESSAGE && target) {
+  if (target) {
     string* event = (string*) message.getData(); 
     Vector3 newPosition, newRotation;
     IDataComponent* component = nullptr;
@@ -11,10 +13,10 @@ void BasicMovementComponent::receiveMessage(IMessage& message) {
     newRotation = ((Transform*) component->getData())->localRotation;
 
     if (event) {
-      if (*event == MOVE_UP) {
+      if (*event == MOVE_FORWARD) {
         newPosition.setZ(newPosition.getZ() + 1.0f);
       }
-      else if (*event == MOVE_DOWN) {
+      else if (*event == MOVE_BACK) {
         newPosition.setZ(newPosition.getZ() - 1.0f);
       }
       else if (*event == MOVE_LEFT) {

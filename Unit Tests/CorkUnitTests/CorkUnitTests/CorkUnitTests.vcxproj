@@ -97,6 +97,7 @@
     <ClCompile Include="EntityLoaderUnitTests.cpp" />
     <ClCompile Include="FactoryUnitTests.cpp" />
     <ClCompile Include="GameObjectUnitTests.cpp" />
+    <ClCompile Include="JumpDataComponentUnitTests.cpp" />
     <ClCompile Include="LightComponentUnitTests.cpp" />
     <ClCompile Include="MeshComponentUnitTests.cpp" />
     <ClCompile Include="MessageUnitTests.cpp" />

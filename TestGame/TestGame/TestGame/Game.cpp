@@ -32,12 +32,14 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   ServiceLocator::addMessageHandlerFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(APPLY_FORCE_COMPONENT, std::bind(&Factory::getApplyForceComponent, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(JUMP_COMPONENT, std::bind(&Factory::getJumpComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(TRANSFORM_COMPONENT, std::bind(&Factory::getTransformComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(MESH_COMPONENT, std::bind(&Factory::getMeshComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(CAMERA_COMPONENT, std::bind(&Factory::getCameraComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(LIGHT_COMPONENT, std::bind(&Factory::getLightComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(BOUNDING_BOX_COMPONENT, std::bind(&Factory::getBoundingBoxComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(PARTICLE_COMPONENT, std::bind(&Factory::getParticleComponent, factory, std::placeholders::_1));
+  ServiceLocator::addDataComponentFunction(JUMP_DATA_COMPONENT, std::bind(&Factory::getJumpDataComponent, factory, std::placeholders::_1));
   Mesh::addMeshFileLoader(".xml", loadXMLMesh);
 
   CollisionDetector::setDetectionFunction(std::bind(&Game::axisAlignedBoundingBoxCollisionDetection, this, std::placeholders::_1, std::placeholders::_2));
@@ -60,13 +62,14 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   cb->addData("fogColour", XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f));
 
   size_t cbSize = cb->getSizeInBytes();
-  MessageHandler::forwardMessage(Message(CREATE_CONSTANT_BUFFER, &cbSize, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(CREATE_CONSTANT_BUFFER_MESSAGE, &cbSize, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   camera = EntityLoader::loadEntity("camera.xml");
+  floorPlane = EntityLoader::loadEntity("floor.xml");
   EntityLoader::loadEntities("lights.xml", lights);
   EntityLoader::loadEntities("game_objects.xml", boxes);
 
-  scheduler->registerPollComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
+  scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
 
   stringstream lightName;
   for (unsigned i = 0; i < lights.size(); i++) {
@@ -86,7 +89,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
 
   ShaderTexRegisterInfo registersInfo(pixelShader, textureRegisters);
 
-  MessageHandler::forwardMessage(Message(REGISTER_TEXTURE_REGISTERS, &registersInfo, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(REGISTER_TEXTURE_REGISTERS_MESSAGE, &registersInfo, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   D3D11_INPUT_ELEMENT_DESC layout[] = {
     { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -96,12 +99,12 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   };
   InputLayoutInfo info(vertexShader, layout, ARRAYSIZE(layout), inputLayout);
 
-  MessageHandler::forwardMessage(Message(LOAD_INPUT_LAYOUT, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(LOAD_INPUT_LAYOUT_MESSAGE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   inputLayout = (ID3D11InputLayout*) info.inputLayout;
 
-  MessageHandler::forwardMessage(Message(SET_SHADER, &vertexShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  MessageHandler::forwardMessage(Message(SET_SHADER, &pixelShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  MessageHandler::forwardMessage(Message(SET_INPUT_LAYOUT, inputLayout, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_SHADER_MESSAGE, &vertexShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_SHADER_MESSAGE, &pixelShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_INPUT_LAYOUT_MESSAGE, inputLayout, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   return S_OK;
 }
@@ -111,24 +114,45 @@ WPARAM Game::startGame() {
 }
 
 void Game::loopFunction(double timeSinceLastFrame) {
-  for (auto box : boxes) {
-    if (CollisionDetector::collisionDetection(*camera->getDataComponent(BOUNDING_BOX_COMPONENT), *box->getDataComponent(BOUNDING_BOX_COMPONENT))) {
-      CollisionResolver::resolveCollision(*camera, *box);
-    }
+  update(timeSinceLastFrame);
+  draw();
+}
+
+void Game::update(double timeSinceLastFrame) {
+  JumpData& jd = *(JumpData*) camera->getDataComponent(JUMP_DATA_COMPONENT)->getData();
+
+  if (jd.jumping) {
+    scheduler->scheduleComponent(JUMP_MESSAGE, camera->getMessageHandler(JUMP_MESSAGE));
   }
 
-  ApplyForceComponentData fcd;
-  fcd.particle = (Particle*) boxes[1]->getDataComponent(PARTICLE_COMPONENT)->getData();
-  fcd.timeInMilliseconds = timeSinceLastFrame;
-  MessageHandler::forwardMessage(Message(APPLY_FORCE_MESSAGE, &fcd, boxes[1]->getMessageHandler(APPLY_FORCE_MESSAGE)));
+  MessageHandler::forwardMessage(Message(APPLY_FORCE_MESSAGE, &timeSinceLastFrame, camera->getMessageHandler(APPLY_FORCE_MESSAGE)));
 
-  Transform& t = *(Transform*) boxes[1]->getDataComponent(TRANSFORM_COMPONENT)->getData();
-  BoundingBox& b = *(BoundingBox*) boxes[1]->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
+  Transform& t = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  BoundingBox& b = *(BoundingBox*) camera->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
+  Particle& p = *(Particle*) camera->getDataComponent(PARTICLE_COMPONENT)->getData();
 
-  t.position += fcd.particle->displacement;
-  b.centre += fcd.particle->displacement;
+  t.position += p.displacement;
+  b.centre += p.displacement;
+
+  for (auto box : boxes) {
+    MessageHandler::forwardMessage(Message(APPLY_FORCE_MESSAGE, &timeSinceLastFrame, box->getMessageHandler(APPLY_FORCE_MESSAGE)));
+
+    Transform& t = *(Transform*) box->getDataComponent(TRANSFORM_COMPONENT)->getData();
+    BoundingBox& b = *(BoundingBox*) box->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
+    Particle p = *(Particle*) box->getDataComponent(PARTICLE_COMPONENT)->getData();
+
+    t.position += p.displacement;
+    b.centre += p.displacement;
+  }
 
   for (auto box1 : boxes) {
+    if (CollisionDetector::collisionDetection(*camera->getDataComponent(BOUNDING_BOX_COMPONENT), *box1->getDataComponent(BOUNDING_BOX_COMPONENT))) {
+      CollisionResolver::resolveCollision(*camera, *box1);
+    }
+    if (CollisionDetector::collisionDetection(*box1->getDataComponent(BOUNDING_BOX_COMPONENT), *floorPlane->getDataComponent(BOUNDING_BOX_COMPONENT))) {
+      CollisionResolver::resolveCollision(*box1, *floorPlane);
+    }
+
     for (auto box2 : boxes) {
       if (box1 != box2 && CollisionDetector::collisionDetection(*box1->getDataComponent(BOUNDING_BOX_COMPONENT), *box2->getDataComponent(BOUNDING_BOX_COMPONENT))) {
         CollisionResolver::resolveCollision(*box1, *box2);
@@ -136,12 +160,18 @@ void Game::loopFunction(double timeSinceLastFrame) {
     }
   }
 
+  if (CollisionDetector::collisionDetection(*camera->getDataComponent(BOUNDING_BOX_COMPONENT), *floorPlane->getDataComponent(BOUNDING_BOX_COMPONENT))) {
+    CollisionResolver::resolveCollision(*camera, *floorPlane);
+  }
+}
+
+void Game::draw() const {
   MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  MessageHandler::forwardMessage(Message(SET_CAMERA, camera, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER_MESSAGE, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(SET_CAMERA_MESSAGE, camera, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   for (auto light : lights) {
-    MessageHandler::forwardMessage(Message(SET_LIGHT, light, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+    MessageHandler::forwardMessage(Message(SET_LIGHT_MESSAGE, light, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   }
 
   DrawInfo drawData;
@@ -149,6 +179,8 @@ void Game::loopFunction(double timeSinceLastFrame) {
   //transform.localRotation.setY(transform.localRotation.getY() + 1);
   drawData.shaderId = pixelShader;
 
+  int enableDiffuse, enableSpecular, enableBump;
+  enableDiffuse = enableSpecular = enableBump = 0;
   for (auto box : boxes) {
     int enableDiffuse, enableSpecular, enableBump;
     enableDiffuse = enableSpecular = enableBump = 0;
@@ -178,6 +210,15 @@ void Game::loopFunction(double timeSinceLastFrame) {
     drawData.transform = *(Transform*) box->getDataComponent(TRANSFORM_COMPONENT)->getData();
     MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
   }
+
+  drawData.meshId = *(int*) floorPlane->getDataComponent(MESH_COMPONENT)->getData();
+  enableDiffuse = enableSpecular = enableBump = 0;
+  cb->updateData("enableTexturing", enableDiffuse);
+  cb->updateData("enableSpecularMapping", enableSpecular);
+  cb->updateData("enableBumpMapping", enableBump);
+  cb->updateData("enableClipTesting", enableDiffuse);
+  drawData.transform = *(Transform*) floorPlane->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, floorPlane->getMessageHandler(DRAW_MESSAGE)));
 
   MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 }
@@ -268,9 +309,21 @@ void Game::basicCollisionResolution(const GameObject& lhs, const GameObject& rhs
     particle->displacement.setY(0.0f);
     particle->velocity.setY(0.0f);
     particle->acceleration.setY(0.0f);
+
+    if (lhs.getDataComponent(JUMP_DATA_COMPONENT)) {
+      JumpData* jump = (JumpData*) lhs.getDataComponent(JUMP_DATA_COMPONENT)->getData();
+      jump->falling = false;
+      scheduler->unscheduleComponent(JUMP_MESSAGE);
+    }
   }
   else if (previousTop <= collidedBottom && (top >= collidedBottom && top <= collidedTop)) {
     yCorrection = collidedBottom - top;
+
+    if (lhs.getDataComponent(JUMP_DATA_COMPONENT)) {
+      JumpData* jump = (JumpData*) lhs.getDataComponent(JUMP_DATA_COMPONENT)->getData();
+      jump->jumping = false;
+      jump->jumpTime = jump->maxJumpTime;
+    }
   }
   else if (previousRight <= collidedLeft && (right >= collidedLeft && right <= collidedRight)) {
     xCorrection = collidedLeft - right;

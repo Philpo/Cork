@@ -1,9 +1,5 @@
 #include "Factory.h"
 
-IComponent* const Factory::getBasicGraphicsComponent(void* data) const {
-  return new ConsoleGraphicsComponent();
-}
-
 IComponent* const Factory::getBasicInputComponent(void* data) const {
   TestInputComponent* c = new TestInputComponent();
   c->setPlayer((IMessageable*) data);
@@ -32,7 +28,18 @@ IComponent* const Factory::getUpdatePositionComponent(void* data) const {
 }
 
 IComponent* const Factory::getApplyForceComponent(void* data) const {
-  return new ApplyForceComponent;
+  ApplyForceComponent* a = new ApplyForceComponent;
+  if (data) {
+    GameObject* go = (GameObject*) data;
+    a->setParticle((Particle*) go->getDataComponent(PARTICLE_COMPONENT)->getData());
+  }
+  return a;
+}
+
+IComponent* const Factory::getJumpComponent(void* data) const {
+  JumpComponent* jc = new JumpComponent;
+  jc->setTarget((GameObject*) data);
+  return jc;
 }
 
 IDataComponent* const Factory::getTransformComponent(void* data) const {
@@ -234,4 +241,25 @@ IDataComponent* const Factory::getParticleComponent(void* data) const {
   }
 
   return particle;
+}
+
+IDataComponent* const Factory::getJumpDataComponent(void* data) const {
+  JumpDataComponent* jump = new JumpDataComponent;
+  JumpData jumpData;
+
+  xml_node<>* jumpNode = (xml_node<>*) data;
+
+  try {
+    jumpData.maxJumpTime = convertStringToNumber<float>(jumpNode->first_attribute("max_jump_time")->value());
+    jumpData.jumpForce = convertStringToNumber<float>(jumpNode->first_attribute("jump_force")->value());
+    jumpData.jumpControlPower = convertStringToNumber<float>(jumpNode->first_attribute("jump_control_power")->value());
+
+    jump->setData(&jumpData);
+  }
+  catch (exception&) {
+    delete jump;
+    throw;
+  }
+
+  return jump;
 }

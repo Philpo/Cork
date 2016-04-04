@@ -2,12 +2,11 @@
 
 void MessageHandler::forwardMessage(IMessage& message) {
   try {
-    message.getTarget()->receiveMessage(message);
+    if (contains(message.getTarget()->getSupportedMessages(), message.getType())) {
+      message.getTarget()->receiveMessage(message);
+    }
   }
   catch (exception&) {
     throw;
   }
-  //if (forwardingMappings.find(message.getType()) != forwardingMappings.end()) {
-  //  forwardingMappings[message.getType()]->receiveMessage(message);
-  //}
 }

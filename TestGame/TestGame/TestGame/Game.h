@@ -24,6 +24,7 @@ public:
 private:
   Scheduler* scheduler;
   GameObject* camera;
+  GameObject* floorPlane;
   vector<GameObject* const> lights, boxes;
   const Factory* factory;
   int meshId, vertexShader, pixelShader;
@@ -31,6 +32,9 @@ private:
   float fogRange = 50.0f;
   ID3D11InputLayout* inputLayout;
   BinaryData* cb;
+
+  void update(double timeSinceLastFrame);
+  void draw() const;
 
   // performs collision detection on 2 axis-aligned bounding boxes
   bool axisAlignedBoundingBoxCollisionDetection(IDataComponent& lhs, IDataComponent& rhs);

@@ -34,6 +34,11 @@ namespace CorkUnitTests {
       REQUIRE((component != nullptr));
       REQUIRE(typeid(*component) == typeid(ApplyForceComponent));
       delete component;
+
+      component = factory.getJumpComponent(nullptr);
+      REQUIRE((component != nullptr));
+      REQUIRE(typeid(*component) == typeid(JumpComponent));
+      delete component;
     }
 
     TEST_CASE("test IDataComponent functions") {
@@ -135,6 +140,19 @@ namespace CorkUnitTests {
       REQUIRE(particleData.displacement.getX() == approx(0.0f));
       REQUIRE(particleData.displacement.getY() == approx(0.0f));
       REQUIRE(particleData.displacement.getZ() == approx(0.0f));
+      delete component;
+
+      component_node = component_node->next_sibling();
+      component = factory.getJumpDataComponent(component_node);
+      REQUIRE((component != nullptr));
+      REQUIRE(typeid(*component) == typeid(JumpDataComponent));
+      JumpData jumpData = *(JumpData*) component->getData();
+      REQUIRE(jumpData.maxJumpTime == approx(3.0f));
+      REQUIRE(jumpData.jumpForce == approx(1.0f));
+      REQUIRE(jumpData.jumpControlPower == approx(2.0f));
+      REQUIRE(jumpData.jumpTime == approx(0.0f));
+      REQUIRE(!jumpData.jumping);
+      REQUIRE(!jumpData.falling);
       delete component;
     }
   }

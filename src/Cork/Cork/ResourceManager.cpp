@@ -50,7 +50,7 @@ void ResourceManager::loadTexture(string& type, string& textureFile, int& textur
     TextureInfo info(type, textureFile, texture);
 
     try {
-      MessageHandler::forwardMessage(Message(LOAD_TEXTURE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+      MessageHandler::forwardMessage(Message(LOAD_TEXTURE_MESSAGE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
     }
     catch (exception&) {
       throw;
@@ -73,7 +73,7 @@ void ResourceManager::loadMesh(string& meshFile, int& meshId) {
     Mesh* mesh = new Mesh(ResourceManager::meshId++, meshFile);
 
     try {
-      MessageHandler::forwardMessage(Message(LOAD_MESH, mesh, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+      MessageHandler::forwardMessage(Message(LOAD_MESH_MESSAGE, mesh, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
     }
     catch (exception&) {
       throw;
@@ -93,7 +93,7 @@ void ResourceManager::loadShader(const string& shaderFile, const string& name, c
   ShaderInfo info(shaderFile, name, shaderModel, shader);
 
   try {
-    MessageHandler::forwardMessage(Message(LOAD_SHADER, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+    MessageHandler::forwardMessage(Message(LOAD_SHADER_MESSAGE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   }
   catch (exception&) {
     throw;
