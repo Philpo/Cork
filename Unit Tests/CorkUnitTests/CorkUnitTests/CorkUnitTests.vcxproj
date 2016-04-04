@@ -104,6 +104,7 @@
     <ClCompile Include="LightComponentUnitTests.cpp" />
     <ClCompile Include="MeshComponentUnitTests.cpp" />
     <ClCompile Include="MessageUnitTests.cpp" />
+    <ClCompile Include="ObjectPoolUnitTests.cpp" />
     <ClCompile Include="ParticleComponentUnitTests.cpp" />
     <ClCompile Include="ResourceManagerUnitTests.cpp" />
     <ClCompile Include="ServiceLocatorUnitTests.cpp" />

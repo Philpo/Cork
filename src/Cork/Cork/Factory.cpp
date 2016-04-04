@@ -31,7 +31,9 @@ IComponent* const Factory::getApplyForceComponent(void* data) const {
   ApplyForceComponent* a = new ApplyForceComponent;
   if (data) {
     GameObject* go = (GameObject*) data;
-    a->setParticle((Particle*) go->getDataComponent(PARTICLE_COMPONENT)->getData());
+    if (go->getDataComponent(PARTICLE_COMPONENT)) {
+      a->setParticle((Particle*) go->getDataComponent(PARTICLE_COMPONENT)->getData());
+    }
   }
   return a;
 }

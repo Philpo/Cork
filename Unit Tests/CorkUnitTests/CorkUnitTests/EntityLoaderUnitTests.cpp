@@ -16,8 +16,12 @@ namespace CorkUnitTests {
         ServiceLocator::addDataComponentFunction(TRANSFORM_COMPONENT, std::bind(&Factory::getTransformComponent, &factory, std::placeholders::_1));
         ServiceLocator::addDataComponentFunction(CAMERA_COMPONENT, std::bind(&Factory::getCameraComponent, &factory, std::placeholders::_1));
         ServiceLocator::addDataComponentFunction(BOUNDING_BOX_COMPONENT, std::bind(&Factory::getBoundingBoxComponent, &factory, std::placeholders::_1));
+        ServiceLocator::addDataComponentFunction(PARTICLE_COMPONENT, std::bind(&Factory::getParticleComponent, &factory, std::placeholders::_1));
+        ServiceLocator::addDataComponentFunction(JUMP_DATA_COMPONENT, std::bind(&Factory::getJumpDataComponent, &factory, std::placeholders::_1));
         ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, &factory, std::placeholders::_1));
         ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, &factory, std::placeholders::_1));
+        ServiceLocator::addMessageHandlerFunction(APPLY_FORCE_COMPONENT, std::bind(&Factory::getApplyForceComponent, &factory, std::placeholders::_1));
+        ServiceLocator::addMessageHandlerFunction(JUMP_COMPONENT, std::bind(&Factory::getJumpComponent, &factory, std::placeholders::_1));
         GameObject* entity = EntityLoader::loadEntity("..\\CorkUnitTests\\camera.xml");
 
         REQUIRE((entity != nullptr));
@@ -27,10 +31,19 @@ namespace CorkUnitTests {
         REQUIRE(typeid(*entity->getDataComponent(CAMERA_COMPONENT)) == typeid(CameraComponent));
         REQUIRE((entity->getDataComponent(BOUNDING_BOX_COMPONENT) != nullptr));
         REQUIRE(typeid(*entity->getDataComponent(BOUNDING_BOX_COMPONENT)) == typeid(BoundingBoxComponent));
+        REQUIRE((entity->getDataComponent(PARTICLE_COMPONENT) != nullptr));
+        REQUIRE(typeid(*entity->getDataComponent(PARTICLE_COMPONENT)) == typeid(ParticleComponent));
+        REQUIRE((entity->getDataComponent(JUMP_DATA_COMPONENT) != nullptr));
+        REQUIRE(typeid(*entity->getDataComponent(JUMP_DATA_COMPONENT)) == typeid(JumpDataComponent));
+
         REQUIRE((entity->getMessageHandler(INPUT_RECEIVED_MESSAGE) != nullptr));
         REQUIRE(typeid(*entity->getMessageHandler(INPUT_RECEIVED_MESSAGE)) == typeid(BasicMovementComponent));
         REQUIRE((entity->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE) != nullptr));
         REQUIRE(typeid(*entity->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE)) == typeid(UpdatePositionComponent));
+        REQUIRE((entity->getMessageHandler(APPLY_FORCE_MESSAGE) != nullptr));
+        REQUIRE(typeid(*entity->getMessageHandler(APPLY_FORCE_MESSAGE)) == typeid(ApplyForceComponent));
+        REQUIRE((entity->getMessageHandler(JUMP_MESSAGE) != nullptr));
+        REQUIRE(typeid(*entity->getMessageHandler(JUMP_MESSAGE)) == typeid(JumpComponent));
 
         Transform data = *(Transform*) entity->getDataComponent(TRANSFORM_COMPONENT)->getData();
         REQUIRE(data.position.getX() == approx(0.0f));
@@ -68,6 +81,31 @@ namespace CorkUnitTests {
         REQUIRE(boxData.height == approx(4.0f));
         REQUIRE(boxData.width == approx(4.0f));
         REQUIRE(boxData.depth == approx(4.0f));
+
+        Particle particleData = *(Particle*) entity->getDataComponent(PARTICLE_COMPONENT)->getData();
+        REQUIRE(particleData.totalForce.getX() == approx(0.0f));
+        REQUIRE(particleData.totalForce.getY() == approx(0.0f));
+        REQUIRE(particleData.totalForce.getZ() == approx(0.0f));
+        REQUIRE(particleData.acceleration.getX() == approx(0.0f));
+        REQUIRE(particleData.acceleration.getY() == approx(0.0f));
+        REQUIRE(particleData.acceleration.getZ() == approx(0.0f));
+        REQUIRE(particleData.velocity.getX() == approx(0.0f));
+        REQUIRE(particleData.velocity.getY() == approx(0.0f));
+        REQUIRE(particleData.velocity.getZ() == approx(0.0f));
+        REQUIRE(particleData.displacement.getX() == approx(0.0f));
+        REQUIRE(particleData.displacement.getY() == approx(0.0f));
+        REQUIRE(particleData.displacement.getZ() == approx(0.0f));
+        REQUIRE(particleData.mass == approx(1.0f));
+        REQUIRE(particleData.maxSpeed == approx(100.0f));
+        REQUIRE(particleData.gravityEnabled);
+
+        JumpData jumpData = *(JumpData*) entity->getDataComponent(JUMP_DATA_COMPONENT)->getData();
+        REQUIRE(jumpData.maxJumpTime == approx(3.0f));
+        REQUIRE(jumpData.jumpForce == approx(2.0f));
+        REQUIRE(jumpData.jumpControlPower == approx(2.0f));
+        REQUIRE(jumpData.jumpTime == approx(0.0f));
+        REQUIRE(!jumpData.jumping);
+        REQUIRE(!jumpData.falling);
 
         EntityLoader::cleanup();
         ServiceLocator::cleanup();

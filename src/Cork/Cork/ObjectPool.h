@@ -10,6 +10,10 @@ public:
   ObjectPool(int poolSize);
   ~ObjectPool();
 
+  inline int getSize() const { return poolSize; }
+  inline int getAvailableSpace() const { return available.size(); }
+  inline int getUsedSpace() const { return used.size(); }
+
   GameObject* const createObject(int masterUUId);
   void removeObject(GameObject* const object);
 private:
