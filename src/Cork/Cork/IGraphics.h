@@ -11,7 +11,6 @@
 
 using namespace std;
 
-
 class IGraphics : public IComponent {
 public:
   virtual ~IGraphics() {}
