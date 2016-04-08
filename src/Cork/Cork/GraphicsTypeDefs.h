@@ -1,12 +1,9 @@
 #pragma once
 #include <string>
-#include "TransformComponent.h"
 
 const std::string BEGIN_FRAME_MESSAGE = "BeginFrameMessage";
 const std::string SWAP_BUFFER_MESSAGE = "SwapBufferMessage";
 const std::string SET_CONSTANT_BUFFER_MESSAGE = "SetConstantBufferMessage";
-const std::string SET_LIGHT_MESSAGE = "SetLightMessage";
-const std::string SET_CAMERA_MESSAGE = "SetCameraMessage";
 const std::string SET_SHADER_MESSAGE = "SetShaderMessage";
 
 const std::string LOAD_TEXTURE_MESSAGE = "LoadTextureMessage";
@@ -29,5 +26,4 @@ struct ShaderInfo {
 
 struct DrawInfo {
   int meshId, shaderId;
-  Transform transform;
 };

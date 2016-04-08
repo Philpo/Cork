@@ -27,12 +27,12 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   factory = new Factory();
 
   ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, factory, std::placeholders::_1));
-  //ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getBasicGraphicsComponent, factory));
   ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(APPLY_FORCE_COMPONENT, std::bind(&Factory::getApplyForceComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(JUMP_COMPONENT, std::bind(&Factory::getJumpComponent, factory, std::placeholders::_1));
+
   ServiceLocator::addDataComponentFunction(TRANSFORM_COMPONENT, std::bind(&Factory::getTransformComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(MESH_COMPONENT, std::bind(&Factory::getMeshComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(CAMERA_COMPONENT, std::bind(&Factory::getCameraComponent, factory, std::placeholders::_1));
@@ -40,6 +40,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   ServiceLocator::addDataComponentFunction(BOUNDING_BOX_COMPONENT, std::bind(&Factory::getBoundingBoxComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(PARTICLE_COMPONENT, std::bind(&Factory::getParticleComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(JUMP_DATA_COMPONENT, std::bind(&Factory::getJumpDataComponent, factory, std::placeholders::_1));
+
   Mesh::addMeshFileLoader(".xml", loadXMLMesh);
 
   CollisionDetector::setDetectionFunction(std::bind(&Game::axisAlignedBoundingBoxCollisionDetection, this, std::placeholders::_1, std::placeholders::_2));
@@ -174,13 +175,15 @@ void Game::update(double timeSinceLastFrame) {
   }
 }
 
-void Game::draw() const {
+void Game::draw() {
   MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER_MESSAGE, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  MessageHandler::forwardMessage(Message(SET_CAMERA_MESSAGE, camera, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  //MessageHandler::forwardMessage(Message(SET_CAMERA_MESSAGE, camera, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  resolveViewMatrix(camera);
 
   for (auto light : lights) {
-    MessageHandler::forwardMessage(Message(SET_LIGHT_MESSAGE, light, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+    //MessageHandler::forwardMessage(Message(SET_LIGHT_MESSAGE, light, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+    setLight(light);
   }
 
   DrawInfo drawData;
@@ -215,24 +218,26 @@ void Game::draw() const {
     cb->updateData("enableSpecularMapping", enableSpecular);
     cb->updateData("enableBumpMapping", enableBump);
     cb->updateData("enableClipTesting", enableDiffuse);
+    
+    resolveSceneGraph(box);
+    setMaterial(box);
 
-    drawData.transform = *(Transform*) box->getDataComponent(TRANSFORM_COMPONENT)->getData();
     MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
   }
 
-  for (auto bullet : bullets) {
-    enableDiffuse = enableSpecular = enableBump = 1;
+  //for (auto bullet : bullets) {
+  //  enableDiffuse = enableSpecular = enableBump = 1;
 
-    drawData.meshId = *(int*) bullet->getDataComponent(MESH_COMPONENT)->getData();
+  //  drawData.meshId = *(int*) bullet->getDataComponent(MESH_COMPONENT)->getData();
 
-    cb->updateData("enableTexturing", enableDiffuse);
-    cb->updateData("enableSpecularMapping", enableSpecular);
-    cb->updateData("enableBumpMapping", enableBump);
-    cb->updateData("enableClipTesting", enableDiffuse);
+  //  cb->updateData("enableTexturing", enableDiffuse);
+  //  cb->updateData("enableSpecularMapping", enableSpecular);
+  //  cb->updateData("enableBumpMapping", enableBump);
+  //  cb->updateData("enableClipTesting", enableDiffuse);
 
-    drawData.transform = *(Transform*) bullet->getDataComponent(TRANSFORM_COMPONENT)->getData();
-    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, bullet->getMessageHandler(DRAW_MESSAGE)));
-  }
+  //  drawData.transform = *(Transform*) bullet->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  //  MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, bullet->getMessageHandler(DRAW_MESSAGE)));
+  //}
 
   drawData.meshId = *(int*) floorPlane->getDataComponent(MESH_COMPONENT)->getData();
   enableDiffuse = enableSpecular = enableBump = 0;
@@ -240,10 +245,135 @@ void Game::draw() const {
   cb->updateData("enableSpecularMapping", enableSpecular);
   cb->updateData("enableBumpMapping", enableBump);
   cb->updateData("enableClipTesting", enableDiffuse);
-  drawData.transform = *(Transform*) floorPlane->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  resolveSceneGraph(floorPlane);
+  setMaterial(floorPlane);
   MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, floorPlane->getMessageHandler(DRAW_MESSAGE)));
 
   MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+}
+
+void Game::resolveSceneGraph(GameObject* const entity) {
+  Transform transform = *(Transform*) entity->getDataComponent(TRANSFORM_COMPONENT)->getData();
+
+  XMMATRIX world = XMMatrixIdentity();
+  XMMATRIX translation = XMMatrixTranslation(transform.position.getX(), transform.position.getY(), transform.position.getZ());
+  XMMATRIX scale = XMMatrixScaling(transform.scale.getX(), transform.scale.getY(), transform.scale.getZ());
+  XMMATRIX xRotation = XMMatrixRotationX(XMConvertToRadians(transform.localRotation.getX()));
+  XMMATRIX yRotation = XMMatrixRotationY(XMConvertToRadians(transform.localRotation.getY()));
+  XMMATRIX zRotation = XMMatrixRotationZ(XMConvertToRadians(transform.localRotation.getZ()));
+  XMMATRIX worldXRotation = XMMatrixRotationX(XMConvertToRadians(transform.worldRotation.getX()));
+  XMMATRIX worldYRotation = XMMatrixRotationY(XMConvertToRadians(transform.worldRotation.getY()));
+  XMMATRIX worldZRotation = XMMatrixRotationZ(XMConvertToRadians(transform.worldRotation.getZ()));
+  world = world * scale * xRotation * yRotation * zRotation * translation * worldXRotation * worldYRotation * worldZRotation;
+
+  Transform* parent = transform.parent;
+  while (parent) {
+    XMMATRIX parentTranslation = XMMatrixTranslation(parent->position.getX(), parent->position.getY(), parent->position.getZ());
+    XMMATRIX parentXRotation = XMMatrixRotationX(XMConvertToRadians(parent->worldRotation.getX()));
+    XMMATRIX parentYRotation = XMMatrixRotationY(XMConvertToRadians(parent->worldRotation.getY()));
+    XMMATRIX parentZRotation = XMMatrixRotationZ(XMConvertToRadians(parent->worldRotation.getZ()));
+    world *= parentTranslation * parentXRotation * parentYRotation * parentZRotation;
+    parent = parent->parent;
+  }
+
+  cb->updateData("world", XMMatrixTranspose(world));
+}
+
+void Game::resolveViewMatrix(GameObject* const camera) {
+  Camera cameraData = *(Camera*) camera->getDataComponent(CAMERA_COMPONENT)->getData();
+  Transform transformData = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
+
+  XMMATRIX temp = XMMatrixIdentity();
+
+  Transform* parent = transformData.parent;
+  while (parent) {
+    XMMATRIX parentTranslation = XMMatrixTranslation(parent->position.getX(), parent->position.getY(), parent->position.getZ());
+    temp *= parentTranslation;
+    parent = parent->parent;
+  }
+
+  XMVECTOR eye = XMVectorSet(transformData.position.getX(), transformData.position.getY(), transformData.position.getZ(), 0.0f);
+  eye = XMVector4Transform(eye, temp);
+  XMFLOAT3 eyePosW;
+  XMStoreFloat3(&eyePosW, eye);
+
+  XMVECTOR right = XMVectorSet(cameraData.right.getX(), cameraData.right.getY(), cameraData.right.getZ(), 0.0f);
+  XMVECTOR up = XMVectorSet(cameraData.up.getX(), cameraData.up.getY(), cameraData.up.getZ(), 0.0f);
+  XMVECTOR at = XMVectorSet(cameraData.look.getX(), cameraData.look.getY(), cameraData.look.getZ(), 0.0f);
+  XMVECTOR worldUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+  XMMATRIX xRotation = XMMatrixRotationAxis(right, XMConvertToRadians(transformData.localRotation.getX()));
+  XMMATRIX yRotation = XMMatrixRotationY(XMConvertToRadians(transformData.localRotation.getY()));
+
+  // first do yaw rotation
+  at = XMVector4Normalize(XMVector4Transform(at, yRotation));
+  up = XMVector4Normalize(XMVector4Transform(up, yRotation));
+  right = XMVector4Normalize(XMVector4Transform(right, yRotation));
+
+  // then do pitch rotation
+  at = XMVector4Normalize(XMVector4Transform(at, xRotation));
+  up = XMVector4Normalize(XMVector4Transform(up, xRotation));
+
+  cb->updateData("view", XMMatrixTranspose(XMMatrixLookToLH(eye, at, worldUp)));
+  cb->updateData("eyePosW", eyePosW);
+}
+
+void Game::setMaterial(GameObject* const entity) {
+  Mesh* mesh = ResourceManager::getMesh(*(int*) entity->getDataComponent(MESH_COMPONENT)->getData());
+  MeshMaterial meshMaterial = mesh->getMaterial();
+
+  Material material;
+  material.ambient = XMFLOAT4(meshMaterial.ambient.getX(), meshMaterial.ambient.getY(), meshMaterial.ambient.getZ(), meshMaterial.alpha);
+  material.diffuse = XMFLOAT4(meshMaterial.diffuse.getX(), meshMaterial.diffuse.getY(), meshMaterial.diffuse.getZ(), meshMaterial.alpha);
+  material.specular = XMFLOAT4(meshMaterial.specular.getX(), meshMaterial.specular.getY(), meshMaterial.specular.getZ(), meshMaterial.alpha);
+  material.specularPower = meshMaterial.specularPower;
+
+  cb->updateData("material", material);
+}
+
+void Game::setLight(GameObject* const light) {
+  LightStruct toSet;
+
+  Light lightData = *(Light*) light->getDataComponent(LIGHT_COMPONENT)->getData();
+  Transform transformData = *(Transform*) light->getDataComponent(TRANSFORM_COMPONENT)->getData();
+
+  XMMATRIX temp = XMMatrixIdentity();
+  XMMATRIX rotationTemp = XMMatrixIdentity();
+
+  Transform* parent = transformData.parent;
+  while (parent) {
+    XMMATRIX parentTranslation = XMMatrixTranslation(parent->position.getX(), parent->position.getY(), parent->position.getZ());
+    XMMATRIX parentXRotation = XMMatrixRotationX(XMConvertToRadians(parent->worldRotation.getX()));
+    XMMATRIX parentYRotation = XMMatrixRotationY(XMConvertToRadians(parent->worldRotation.getY()));
+    XMMATRIX parentZRotation = XMMatrixRotationZ(XMConvertToRadians(parent->worldRotation.getZ()));
+    temp *= parentTranslation;
+    rotationTemp *= parentXRotation * parentYRotation * parentZRotation;
+    parent = parent->parent;
+  }
+
+  XMVECTOR position = XMVectorSet(transformData.position.getX(), transformData.position.getY(), transformData.position.getZ(), 1.0f);
+  position = XMVector3Transform(position, temp);
+  XMStoreFloat3(&toSet.position, position);
+
+  if (lightData.type == DIRECTIONAL_LIGHT) {
+    toSet.direction = XMFLOAT3(lightData.direction.getX(), lightData.direction.getY(), lightData.direction.getZ());
+  }
+  else {
+    XMVECTOR direction = XMVectorSet(lightData.direction.getX(), lightData.direction.getY(), lightData.direction.getZ(), 0.0f);
+    direction = XMVector3Transform(direction, rotationTemp);
+    XMStoreFloat3(&toSet.direction, direction);
+  }
+
+  toSet.ambient = XMFLOAT4(lightData.ambient.getX(), lightData.ambient.getY(), lightData.ambient.getZ(), 1.0f);
+  toSet.diffuse = XMFLOAT4(lightData.diffuse.getX(), lightData.diffuse.getY(), lightData.diffuse.getZ(), 1.0f);
+  toSet.specular = XMFLOAT4(lightData.specular.getX(), lightData.specular.getY(), lightData.specular.getZ(), 1.0f);
+  toSet.range = lightData.range;
+  toSet.exponent = lightData.exponent;
+  toSet.attenuation = XMFLOAT3(lightData.attenuation.getX(), lightData.attenuation.getY(), lightData.attenuation.getZ());
+  toSet.enabled = lightData.enabled;
+  toSet.type = lightData.type;
+
+  cb->updateData(lightData.cbVariableName, toSet);
 }
 
 bool Game::axisAlignedBoundingBoxCollisionDetection(IDataComponent& lhs, IDataComponent& rhs) {

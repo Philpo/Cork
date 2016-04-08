@@ -9,8 +9,6 @@ const vector<string> DirectX11Graphics::SUPPORTED_MESSAGES = {
 , SWAP_BUFFER_MESSAGE
 , DRAW_MESSAGE
 , SET_CONSTANT_BUFFER_MESSAGE
-, SET_CAMERA_MESSAGE
-, SET_LIGHT_MESSAGE
 , REGISTER_TEXTURE_REGISTERS_MESSAGE
 , SET_INPUT_LAYOUT_MESSAGE
 , SET_SHADER_MESSAGE
@@ -58,14 +56,6 @@ void DirectX11Graphics::receiveMessage(IMessage& message) {
     else if (message.getType() == SET_CONSTANT_BUFFER_MESSAGE) {
       BinaryData* cb = (BinaryData*) message.getData();
       setConstantBuffer(cb);
-    }
-    else if (message.getType() == SET_CAMERA_MESSAGE) {
-      GameObject* camera = (GameObject*) message.getData();
-      setCamera(camera);
-    }
-    else if (message.getType() == SET_LIGHT_MESSAGE) {
-      GameObject* light = (GameObject*) message.getData();
-      setLight(light);
     }
     else if (message.getType() == REGISTER_TEXTURE_REGISTERS_MESSAGE) {
       ShaderTexRegisterInfo info = *(ShaderTexRegisterInfo*) message.getData();
@@ -300,90 +290,6 @@ HRESULT DirectX11Graphics::initialise() {
   return S_OK;
 }
 
-void DirectX11Graphics::setLight(GameObject* const light) {
-  LightStruct toSet;
-
-  Light lightData = *(Light*) light->getDataComponent(LIGHT_COMPONENT)->getData();
-  Transform transformData = *(Transform*) light->getDataComponent(TRANSFORM_COMPONENT)->getData();
-
-  XMMATRIX temp = XMMatrixIdentity();
-  XMMATRIX rotationTemp = XMMatrixIdentity();
-
-  Transform* parent = transformData.parent;
-  while (parent) {
-    XMMATRIX parentTranslation = XMMatrixTranslation(parent->position.getX(), parent->position.getY(), parent->position.getZ());
-    XMMATRIX parentXRotation = XMMatrixRotationX(XMConvertToRadians(parent->worldRotation.getX()));
-    XMMATRIX parentYRotation = XMMatrixRotationY(XMConvertToRadians(parent->worldRotation.getY()));
-    XMMATRIX parentZRotation = XMMatrixRotationZ(XMConvertToRadians(parent->worldRotation.getZ()));
-    temp *= parentTranslation;
-    rotationTemp *= parentXRotation * parentYRotation * parentZRotation;
-    parent = parent->parent;
-  }
-
-  XMVECTOR position = XMVectorSet(transformData.position.getX(), transformData.position.getY(), transformData.position.getZ(), 1.0f);
-  position = XMVector3Transform(position, temp);
-  XMStoreFloat3(&toSet.position, position);
-  
-  if (lightData.type == DIRECTIONAL_LIGHT) {
-    toSet.direction = XMFLOAT3(lightData.direction.getX(), lightData.direction.getY(), lightData.direction.getZ());
-  }
-  else {
-    XMVECTOR direction = XMVectorSet(lightData.direction.getX(), lightData.direction.getY(), lightData.direction.getZ(), 0.0f);
-    direction = XMVector3Transform(direction, rotationTemp);
-    XMStoreFloat3(&toSet.direction, direction);
-  }
-
-  toSet.ambient = XMFLOAT4(lightData.ambient.getX(), lightData.ambient.getY(), lightData.ambient.getZ(), 1.0f);
-  toSet.diffuse = XMFLOAT4(lightData.diffuse.getX(), lightData.diffuse.getY(), lightData.diffuse.getZ(), 1.0f);
-  toSet.specular = XMFLOAT4(lightData.specular.getX(), lightData.specular.getY(), lightData.specular.getZ(), 1.0f);
-  toSet.range = lightData.range;
-  toSet.exponent = lightData.exponent;
-  toSet.attenuation = XMFLOAT3(lightData.attenuation.getX(), lightData.attenuation.getY(), lightData.attenuation.getZ());
-  toSet.enabled = lightData.enabled;
-  toSet.type = lightData.type;
-
-  cb->updateData(lightData.cbVariableName, toSet);
-}
-
-void DirectX11Graphics::setCamera(GameObject* const camera) {
-  Camera cameraData = *(Camera*) camera->getDataComponent(CAMERA_COMPONENT)->getData();
-  Transform transformData = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
-
-  XMMATRIX temp = XMMatrixIdentity();
-
-  Transform* parent = transformData.parent;
-  while (parent) {
-    XMMATRIX parentTranslation = XMMatrixTranslation(parent->position.getX(), parent->position.getY(), parent->position.getZ());
-    temp *= parentTranslation;
-    parent = parent->parent;
-  }
-
-  XMVECTOR eye = XMVectorSet(transformData.position.getX(), transformData.position.getY(), transformData.position.getZ(), 0.0f);
-  eye = XMVector4Transform(eye, temp);
-  XMFLOAT3 eyePosW;
-  XMStoreFloat3(&eyePosW, eye);
-
-  XMVECTOR right = XMVectorSet(cameraData.right.getX(), cameraData.right.getY(), cameraData.right.getZ(), 0.0f);
-  XMVECTOR up = XMVectorSet(cameraData.up.getX(), cameraData.up.getY(), cameraData.up.getZ(), 0.0f);
-  XMVECTOR at = XMVectorSet(cameraData.look.getX(), cameraData.look.getY(), cameraData.look.getZ(), 0.0f);
-  XMVECTOR worldUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-
-  XMMATRIX xRotation = XMMatrixRotationAxis(right, XMConvertToRadians(transformData.localRotation.getX()));
-  XMMATRIX yRotation = XMMatrixRotationY(XMConvertToRadians(transformData.localRotation.getY()));
-
-  // first do yaw rotation
-  at = XMVector4Normalize(XMVector4Transform(at, yRotation));
-  up = XMVector4Normalize(XMVector4Transform(up, yRotation));
-  right = XMVector4Normalize(XMVector4Transform(right, yRotation));
-
-  // then do pitch rotation
-  at = XMVector4Normalize(XMVector4Transform(at, xRotation));
-  up = XMVector4Normalize(XMVector4Transform(up, xRotation));
-
-  cb->updateData("view", XMMatrixTranspose(XMMatrixLookToLH(eye, at, worldUp)));
-  cb->updateData("eyePosW", eyePosW);
-}
-
 void DirectX11Graphics::registerTextureRegisters(const ShaderTexRegisterInfo& info) {
   if (shaderTextureRegisters.find(info.shaderId) == shaderTextureRegisters.end()) {
     shaderTextureRegisters.insert(pair<int, map<string, int>>(info.shaderId, info.textureRegisters));
@@ -417,39 +323,7 @@ void DirectX11Graphics::beginFrame() {
 }
 
 void DirectX11Graphics::draw(DrawInfo data) {
-  XMMATRIX world = XMMatrixIdentity();
-  XMMATRIX translation = XMMatrixTranslation(data.transform.position.getX(), data.transform.position.getY(), data.transform.position.getZ());
-  XMMATRIX scale = XMMatrixScaling(data.transform.scale.getX(), data.transform.scale.getY(), data.transform.scale.getZ());
-  XMMATRIX xRotation = XMMatrixRotationX(XMConvertToRadians(data.transform.localRotation.getX()));
-  XMMATRIX yRotation = XMMatrixRotationY(XMConvertToRadians(data.transform.localRotation.getY()));
-  XMMATRIX zRotation = XMMatrixRotationZ(XMConvertToRadians(data.transform.localRotation.getZ()));
-  XMMATRIX worldXRotation = XMMatrixRotationX(XMConvertToRadians(data.transform.worldRotation.getX()));
-  XMMATRIX worldYRotation = XMMatrixRotationY(XMConvertToRadians(data.transform.worldRotation.getY()));
-  XMMATRIX worldZRotation = XMMatrixRotationZ(XMConvertToRadians(data.transform.worldRotation.getZ()));
-  world = world * scale * xRotation * yRotation * zRotation * translation * worldXRotation * worldYRotation * worldZRotation;
-
-  Transform* parent = data.transform.parent;
-  while (parent) {
-    XMMATRIX parentTranslation = XMMatrixTranslation(parent->position.getX(), parent->position.getY(), parent->position.getZ());
-    XMMATRIX parentXRotation = XMMatrixRotationX(XMConvertToRadians(parent->worldRotation.getX()));
-    XMMATRIX parentYRotation = XMMatrixRotationY(XMConvertToRadians(parent->worldRotation.getY()));
-    XMMATRIX parentZRotation = XMMatrixRotationZ(XMConvertToRadians(parent->worldRotation.getZ()));
-    world *= parentTranslation * parentXRotation * parentYRotation * parentZRotation;
-    parent = parent->parent;
-  }
-
-  cb->updateData("world", XMMatrixTranspose(world));
-
   Mesh* mesh = ResourceManager::getMesh(data.meshId);
-  MeshMaterial meshMaterial = mesh->getMaterial();
-
-  Material material;
-  material.ambient = XMFLOAT4(meshMaterial.ambient.getX(), meshMaterial.ambient.getY(), meshMaterial.ambient.getZ(), meshMaterial.alpha);
-  material.diffuse = XMFLOAT4(meshMaterial.diffuse.getX(), meshMaterial.diffuse.getY(), meshMaterial.diffuse.getZ(), meshMaterial.alpha);
-  material.specular = XMFLOAT4(meshMaterial.specular.getX(), meshMaterial.specular.getY(), meshMaterial.specular.getZ(), meshMaterial.alpha);
-  material.specularPower = meshMaterial.specularPower;
-
-  cb->updateData("material", material);
   
   if (shaderTextureRegisters.find(data.shaderId) != shaderTextureRegisters.end()) {
     for (auto id : mesh->getTextures()) {

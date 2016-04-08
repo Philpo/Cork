@@ -35,8 +35,6 @@ private:
   HRESULT compileShaderFromFile(LPCWSTR szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut) const;
   void beginFrame() override;
   void setConstantBuffer(BinaryData* const cb) { this->cb = cb; }
-  void setLight(GameObject* const light) override;
-  void setCamera(GameObject* const camera) override;
   void setShader(int shaderId) override;
   void registerTextureRegisters(const ShaderTexRegisterInfo& info);
   void bindInputLayout(ID3D11InputLayout* const layout);
