@@ -116,7 +116,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   CreateInfo create;
   create.height = 1080;
   create.width = 1920;
-  create.createTextureView = false;
+  create.createTextureView = true;
   create.renderToBackBuffer = true;
   int renderTarget, depthBuffer, viewport;
 

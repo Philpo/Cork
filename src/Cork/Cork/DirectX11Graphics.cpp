@@ -284,7 +284,6 @@ void DirectX11Graphics::loadShader(ShaderInfo& info) {
 
 void DirectX11Graphics::createRenderTarget(CreateInfo& info) {
   D3D11_TEXTURE2D_DESC textureDesc;
-  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
   D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
   ID3D11Texture2D* texture;
   ID3D11RenderTargetView* renderTarget;
@@ -317,19 +316,14 @@ void DirectX11Graphics::createRenderTarget(CreateInfo& info) {
     }
   }
 
-  // Setup the description of the render target view.
-  renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_SNORM;
-  renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-  renderTargetViewDesc.Texture2D.MipSlice = 0;
-
   // Create the render target views.
-  hr = d3dDevice->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTarget);
+  hr = d3dDevice->CreateRenderTargetView(texture, nullptr, &renderTarget);
   if (FAILED(hr)) {
     texture->Release();
     throw exception("error creating render target view");
   }
 
-  if (info.createTextureView) {
+  if (info.createTextureView && !info.renderToBackBuffer) {
     // Setup the description of the shader resource view.
     shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_SNORM;
     shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -362,11 +356,11 @@ void DirectX11Graphics::createDepthBuffer(CreateInfo& info) {
   depthStencilDesc.Height = info.height;
   depthStencilDesc.MipLevels = 1;
   depthStencilDesc.ArraySize = 1;
-  depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+  depthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
   depthStencilDesc.SampleDesc.Count = 1;
   depthStencilDesc.SampleDesc.Quality = 0;
   depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
-  depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+  depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
   depthStencilDesc.CPUAccessFlags = 0;
   depthStencilDesc.MiscFlags = 0;
 
@@ -375,7 +369,12 @@ void DirectX11Graphics::createDepthBuffer(CreateInfo& info) {
     throw exception("error creating texture");
   }
 
-  hr = d3dDevice->CreateDepthStencilView(texture, nullptr, &depthStencilView);
+  D3D11_DEPTH_STENCIL_VIEW_DESC viewDesc;
+  viewDesc.Flags = 0;
+  viewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+  viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+  viewDesc.Texture2D.MipSlice = 0;
+  hr = d3dDevice->CreateDepthStencilView(texture, &viewDesc, &depthStencilView);
   if (FAILED(hr)) {
     texture->Release();
     throw exception("error creating depth stencil view");
@@ -644,7 +643,13 @@ HRESULT DirectX11Graphics::initDevice() {
     return hr;
   }
 
-  //hr = d3dDevice->CreateDepthStencilView(depthStencilBuffer, nullptr, &depthStencilView);
+  renderTargetViews.push_back(nullptr);
+  renderTargetResourceViews.push_back(nullptr);
+  depthBufferViews.push_back(nullptr);
+  depthBufferResourceViews.push_back(nullptr);
+
+  //depthBufferViews.push_back(nullptr);
+  //hr = d3dDevice->CreateDepthStencilView(depthStencilBuffer, nullptr, &depthBufferViews[1]);
   //if (FAILED(hr)) {
   //  return hr;
   //}
@@ -660,17 +665,13 @@ HRESULT DirectX11Graphics::initDevice() {
     return hr;
   }
 
-//  hr = d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
+  //renderTargetViews.push_back(nullptr);
+  //hr = d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &renderTargetViews[1]);
   backBuffer->Release();
 
   //if (FAILED(hr)) {
   //  return hr;
   //}
-
-  renderTargetViews.push_back(nullptr);
-  renderTargetResourceViews.push_back(nullptr);
-  depthBufferViews.push_back(nullptr);
-  depthBufferResourceViews.push_back(nullptr);
 
 //  immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 
@@ -696,6 +697,7 @@ HRESULT DirectX11Graphics::initDevice() {
   vp.MaxDepth = 1.0f;
   vp.TopLeftX = 0;
   vp.TopLeftY = 0;
+  //viewPorts.push_back(vp);
   immediateContext->RSSetViewports(1, &vp);
 
   // Set primitive topology
