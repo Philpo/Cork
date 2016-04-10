@@ -13,6 +13,7 @@ Game::~Game() {
   if (inputLayout) {
     inputLayout->Release();
   }
+  delete pass;
 }
 
 HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
@@ -25,6 +26,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   scheduler->setGameLoopFunction(std::bind(&Game::loopFunction, this, std::placeholders::_1));
 
   factory = new Factory();
+  pass = new DirectX11Pass;
 
   ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory, std::placeholders::_1));
@@ -111,6 +113,25 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   MessageHandler::forwardMessage(Message(SET_SHADER_MESSAGE, &pixelShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   MessageHandler::forwardMessage(Message(SET_INPUT_LAYOUT_MESSAGE, inputLayout, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
+  CreateInfo create;
+  create.height = 1080;
+  create.width = 1920;
+  create.createTextureView = false;
+  create.renderToBackBuffer = true;
+  int renderTarget, depthBuffer, viewport;
+
+  MessageHandler::forwardMessage(Message(CREATE_RENDER_TARGET_MESSAGE, &create, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  renderTarget = create.id;
+  MessageHandler::forwardMessage(Message(CREATE_DEPTH_BUFFER_MESSAGE, &create, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  depthBuffer = create.id;
+  MessageHandler::forwardMessage(Message(CREATE_VIEWPORT_MESSAGE, &create, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  viewport = create.id;
+
+  pass->setDepthBuffer(depthBuffer);
+  pass->setViewport(viewport);
+  vector<int> renderTargets = { renderTarget };
+  pass->setRenderTargets(renderTargets);
+
   return S_OK;
 }
 
@@ -176,7 +197,8 @@ void Game::update(double timeSinceLastFrame) {
 }
 
 void Game::draw() {
-  MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+//  MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+  MessageHandler::forwardMessage(Message(BEGIN_PASS_MESSAGE, pass, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER_MESSAGE, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   //MessageHandler::forwardMessage(Message(SET_CAMERA_MESSAGE, camera, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   resolveViewMatrix(camera);

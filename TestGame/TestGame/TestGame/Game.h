@@ -12,6 +12,7 @@
 #include "CollisionDetector.h"
 #include "CollisionResolver.h"
 #include "ObjectPool.h"
+#include "DirectX11Pass.h"
 
 struct LightStruct {
   LightStruct() : range(0.0f), exponent(0.0f), enabled(1) {
@@ -68,6 +69,7 @@ private:
   ID3D11InputLayout* inputLayout;
   BinaryData* cb;
   ObjectPool boxPool;
+  IPass* pass;
 
   void update(double timeSinceLastFrame);
   void draw();

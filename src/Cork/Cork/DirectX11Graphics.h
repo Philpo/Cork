@@ -34,6 +34,7 @@ private:
   HRESULT initDevice();
   HRESULT compileShaderFromFile(LPCWSTR szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut) const;
   void beginFrame() override;
+  void beginPass(const IPass& pass) override;
   void setConstantBuffer(BinaryData* const cb) { this->cb = cb; }
   void setShader(int shaderId) override;
   void registerTextureRegisters(const ShaderTexRegisterInfo& info);
@@ -43,6 +44,9 @@ private:
   void loadTexture(TextureInfo& info) const override;
   void loadMesh(const Mesh& mesh) override;
   void loadShader(ShaderInfo& info) override;
+  void createRenderTarget(CreateInfo& info) override;
+  void createDepthBuffer(CreateInfo& info) override;
+  void createViewport(CreateInfo& info) override;
   void loadInputLayout(InputLayoutInfo& info);
   void createConstantBuffer(size_t sizeInBytes);
 
@@ -61,11 +65,14 @@ private:
   ID3D11Device* d3dDevice;
   ID3D11DeviceContext* immediateContext;
   IDXGISwapChain* swapChain;
-  ID3D11RenderTargetView* renderTargetView;
+  vector<ID3D11RenderTargetView*> renderTargetViews;
+  ID3D11RenderTargetView* test[1];
+  vector<ID3D11ShaderResourceView*> renderTargetResourceViews;
+  vector<D3D11_VIEWPORT> viewPorts;
   ID3D11Buffer* constantBuffer;
   ID3D11SamplerState* anistropicSampler;
-  ID3D11DepthStencilView* depthStencilView;
-  ID3D11Texture2D* depthStencilBuffer;
+  vector<ID3D11DepthStencilView*> depthBufferViews;
+  vector<ID3D11ShaderResourceView*> depthBufferResourceViews;
   ID3D11DepthStencilState* depthStencilState;
   ID3D11RasterizerState* solidState;
   ID3D11Debug* debug;

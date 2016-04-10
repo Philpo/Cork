@@ -168,6 +168,12 @@
     <ClInclude Include="ObjectPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IPass.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Pass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -261,6 +267,9 @@
       <Filter>Source Files\Components\Physics Component</Filter>
     </ClCompile>
     <ClCompile Include="ObjectPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11Pass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

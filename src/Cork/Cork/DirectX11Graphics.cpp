@@ -6,6 +6,7 @@ int DirectX11Graphics::textureId = 0;
 int DirectX11Graphics::shaderId = 0;
 const vector<string> DirectX11Graphics::SUPPORTED_MESSAGES = { 
   BEGIN_FRAME_MESSAGE
+, BEGIN_PASS_MESSAGE
 , SWAP_BUFFER_MESSAGE
 , DRAW_MESSAGE
 , SET_CONSTANT_BUFFER_MESSAGE
@@ -15,6 +16,9 @@ const vector<string> DirectX11Graphics::SUPPORTED_MESSAGES = {
 , LOAD_TEXTURE_MESSAGE
 , LOAD_MESH_MESSAGE
 , LOAD_SHADER_MESSAGE
+, CREATE_RENDER_TARGET_MESSAGE
+, CREATE_DEPTH_BUFFER_MESSAGE
+, CREATE_VIEWPORT_MESSAGE
 , LOAD_INPUT_LAYOUT_MESSAGE
 , CREATE_CONSTANT_BUFFER_MESSAGE 
 };
@@ -45,6 +49,10 @@ void DirectX11Graphics::receiveMessage(IMessage& message) {
   try {
     if (message.getType() == BEGIN_FRAME_MESSAGE) {
       beginFrame();
+    }
+    else if (message.getType() == BEGIN_PASS_MESSAGE) {
+      IPass* pass = (IPass*) message.getData();
+      beginPass(*pass);
     }
     else if (message.getType() == SWAP_BUFFER_MESSAGE) {
       swap();
@@ -81,6 +89,18 @@ void DirectX11Graphics::receiveMessage(IMessage& message) {
       ShaderInfo& info = *(ShaderInfo*) message.getData();
       loadShader(info);
     }
+    else if (message.getType() == CREATE_RENDER_TARGET_MESSAGE) {
+      CreateInfo& info = *(CreateInfo*) message.getData();
+      createRenderTarget(info);
+    }
+    else if (message.getType() == CREATE_DEPTH_BUFFER_MESSAGE) {
+      CreateInfo& info = *(CreateInfo*) message.getData();
+      createDepthBuffer(info);
+    }
+    else if (message.getType() == CREATE_VIEWPORT_MESSAGE) {
+      CreateInfo& info = *(CreateInfo*) message.getData();
+      createViewport(info);
+    }
     else if (message.getType() == LOAD_INPUT_LAYOUT_MESSAGE) {
       InputLayoutInfo& info = *(InputLayoutInfo*) message.getData();
       loadInputLayout(info);
@@ -111,10 +131,23 @@ void DirectX11Graphics::cleanup() {
   if (immediateContext) immediateContext->ClearState();
   if (anistropicSampler) anistropicSampler->Release();
   if (constantBuffer) constantBuffer->Release();
-  if (renderTargetView) renderTargetView->Release();
+
+  for (auto renderTargetView : renderTargetViews) {
+    if (renderTargetView) renderTargetView->Release();
+  }
+  for (auto resourceView : renderTargetResourceViews) {
+    if (resourceView) resourceView->Release();
+  }
+
   if (swapChain) swapChain->Release();
-  if (depthStencilView) depthStencilView->Release();
-  if (depthStencilBuffer) depthStencilBuffer->Release();
+
+  for (auto depthStencilView : depthBufferViews) {
+    if (depthStencilView) depthStencilView->Release();
+  }
+  for (auto resourceView : depthBufferResourceViews) {
+    if (resourceView) resourceView->Release();
+  }
+
   if (depthStencilState) depthStencilState->Release();
   if (solidState) solidState->Release();
   if (immediateContext) immediateContext->Release();
@@ -249,6 +282,141 @@ void DirectX11Graphics::loadShader(ShaderInfo& info) {
   info.shaderId = shaderId++;
 }
 
+void DirectX11Graphics::createRenderTarget(CreateInfo& info) {
+  D3D11_TEXTURE2D_DESC textureDesc;
+  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+  D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+  ID3D11Texture2D* texture;
+  ID3D11RenderTargetView* renderTarget;
+  ID3D11ShaderResourceView* resourceView = nullptr;
+  HRESULT hr;
+
+  if (info.renderToBackBuffer) {
+    hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*) &texture);
+
+    if (FAILED(hr)) {
+      throw exception("error getting texture from swap chain");
+    }
+  }
+  else {
+    ZeroMemory(&textureDesc, sizeof(textureDesc));
+    textureDesc.Width = info.width;
+    textureDesc.Height = info.height;
+    textureDesc.MipLevels = 1;
+    textureDesc.ArraySize = 1;
+    textureDesc.Format = DXGI_FORMAT_R8G8B8A8_SNORM;
+    textureDesc.SampleDesc.Count = 1;
+    textureDesc.Usage = D3D11_USAGE_DEFAULT;
+    textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+    textureDesc.CPUAccessFlags = 0;
+    textureDesc.MiscFlags = 0;
+
+    hr = d3dDevice->CreateTexture2D(&textureDesc, NULL, &texture);
+    if (FAILED(hr)) {
+      throw exception("error creating texture");
+    }
+  }
+
+  // Setup the description of the render target view.
+  renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_SNORM;
+  renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+  renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+  // Create the render target views.
+  hr = d3dDevice->CreateRenderTargetView(texture, &renderTargetViewDesc, &renderTarget);
+  if (FAILED(hr)) {
+    texture->Release();
+    throw exception("error creating render target view");
+  }
+
+  if (info.createTextureView) {
+    // Setup the description of the shader resource view.
+    shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_SNORM;
+    shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+    shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+    // Create the shader resource views.
+    hr = d3dDevice->CreateShaderResourceView(texture, &shaderResourceViewDesc, &resourceView);
+    if (FAILED(hr)) {
+      texture->Release();
+      renderTarget->Release();
+      throw exception("error creating shader resource view");
+    }
+  }
+
+  renderTargetViews.push_back(renderTarget);
+  renderTargetResourceViews.push_back(resourceView);
+
+  texture->Release();
+  info.id = renderTargetViews.size() - 1;
+}
+
+void DirectX11Graphics::createDepthBuffer(CreateInfo& info) {
+  D3D11_TEXTURE2D_DESC depthStencilDesc;
+  ID3D11Texture2D* texture;
+  ID3D11DepthStencilView* depthStencilView;
+  ID3D11ShaderResourceView* resourceView = nullptr;
+
+  depthStencilDesc.Width = info.width;
+  depthStencilDesc.Height = info.height;
+  depthStencilDesc.MipLevels = 1;
+  depthStencilDesc.ArraySize = 1;
+  depthStencilDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+  depthStencilDesc.SampleDesc.Count = 1;
+  depthStencilDesc.SampleDesc.Quality = 0;
+  depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
+  depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+  depthStencilDesc.CPUAccessFlags = 0;
+  depthStencilDesc.MiscFlags = 0;
+
+  HRESULT hr = d3dDevice->CreateTexture2D(&depthStencilDesc, nullptr, &texture);
+  if (FAILED(hr)) {
+    throw exception("error creating texture");
+  }
+
+  hr = d3dDevice->CreateDepthStencilView(texture, nullptr, &depthStencilView);
+  if (FAILED(hr)) {
+    texture->Release();
+    throw exception("error creating depth stencil view");
+  }
+
+  if (info.createTextureView) {
+    D3D11_SHADER_RESOURCE_VIEW_DESC rViewDesc;
+    rViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+    rViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    rViewDesc.Texture2D.MipLevels = depthStencilDesc.MipLevels;
+    rViewDesc.Texture2D.MostDetailedMip = 0;
+
+    hr = d3dDevice->CreateShaderResourceView(texture, &rViewDesc, &resourceView);
+
+    if (FAILED(hr)) {
+      texture->Release();
+      depthStencilView->Release();
+      throw exception("error creating shader resource view");
+    }
+  }
+
+  depthBufferViews.push_back(depthStencilView);
+  depthBufferResourceViews.push_back(resourceView);
+
+  texture->Release();
+  info.id = depthBufferViews.size() - 1;
+}
+
+void DirectX11Graphics::createViewport(CreateInfo& info) {
+  D3D11_VIEWPORT vp;
+  vp.Width = (FLOAT) info.width;
+  vp.Height = (FLOAT) info.height;
+  vp.MinDepth = 0.0f;
+  vp.MaxDepth = 1.0f;
+  vp.TopLeftX = 0;
+  vp.TopLeftY = 0;
+  
+  viewPorts.push_back(vp);
+  info.id = viewPorts.size() - 1;
+}
+
 void DirectX11Graphics::loadInputLayout(InputLayoutInfo& info) {
   if (vertexShaderBlobs.find(info.vertexShader) != vertexShaderBlobs.end()) {
     ID3D11InputLayout* temp = nullptr;
@@ -314,12 +482,55 @@ void DirectX11Graphics::setShader(int shaderId) {
 }
 
 void DirectX11Graphics::beginFrame() {
+  //float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; // red,green,blue,alpha
+  //immediateContext->ClearRenderTargetView(renderTargetView, ClearColor);
+  //immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+  //immediateContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+  //immediateContext->PSSetConstantBuffers(0, 1, &constantBuffer);
+}
+
+void DirectX11Graphics::beginPass(const IPass& pass) {
+  int renderTargetCount = pass.getNumRenderTargets();
+  vector<int> renderTargetIndices = pass.getRenderTargets();
+  ID3D11RenderTargetView** renderTargets = new ID3D11RenderTargetView*[renderTargetCount];
+
+  for (int i = 0; i < renderTargetCount; i++) {
+    renderTargets[i] = renderTargetViews[renderTargetIndices[i]];
+  }
+
+  //immediateContext->OMSetRenderTargets(renderTargetCount, renderTargets, depthBufferViews[pass.getDepthBuffer()]);
+  immediateContext->OMSetRenderTargets(renderTargetCount, renderTargets, depthBufferViews[pass.getDepthBuffer()]);
+  immediateContext->RSSetViewports(1, &viewPorts[pass.getViewPort()]);
+
   float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; // red,green,blue,alpha
-  immediateContext->ClearRenderTargetView(renderTargetView, ClearColor);
-  immediateContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+  for (auto index : renderTargetIndices) {
+    if (renderTargetViews[index]) {
+      immediateContext->ClearRenderTargetView(renderTargetViews[index], ClearColor);
+    }
+  }
+
+  if (depthBufferViews[pass.getDepthBuffer()]) {
+    immediateContext->ClearDepthStencilView(depthBufferViews[pass.getDepthBuffer()], D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+  }
+
+  map<int, int> bindTargets = *(map<int, int>*) pass.getRenderTargetBindTargets();
+
+  for (auto kvp : bindTargets) {
+    immediateContext->PSSetShaderResources(kvp.first, 1, &renderTargetResourceViews[kvp.second]);
+  }
+
+  bindTargets = *(map<int, int>*) pass.getDepthBufferBindTargets();
+
+  for (auto kvp : bindTargets) {
+    immediateContext->PSSetShaderResources(kvp.first, 1, &depthBufferResourceViews[kvp.second]);
+  }
 
   immediateContext->VSSetConstantBuffers(0, 1, &constantBuffer);
   immediateContext->PSSetConstantBuffers(0, 1, &constantBuffer);
+
+  delete[] renderTargets;
 }
 
 void DirectX11Graphics::draw(DrawInfo data) {
@@ -400,6 +611,7 @@ HRESULT DirectX11Graphics::initDevice() {
     return hr;
   }
 
+  ID3D11Texture2D* depthStencilBuffer;
   D3D11_TEXTURE2D_DESC depthStencilTexDesc;
   depthStencilTexDesc.Width = 1920;
   depthStencilTexDesc.Height = 1080;
@@ -432,12 +644,13 @@ HRESULT DirectX11Graphics::initDevice() {
     return hr;
   }
 
-  hr = d3dDevice->CreateDepthStencilView(depthStencilBuffer, nullptr, &depthStencilView);
-  if (FAILED(hr)) {
-    return hr;
-  }
+  //hr = d3dDevice->CreateDepthStencilView(depthStencilBuffer, nullptr, &depthStencilView);
+  //if (FAILED(hr)) {
+  //  return hr;
+  //}
 
   immediateContext->OMSetDepthStencilState(depthStencilState, 0);
+  depthStencilBuffer->Release();
 
   // Create a render target view
   ID3D11Texture2D* backBuffer = nullptr;
@@ -447,14 +660,19 @@ HRESULT DirectX11Graphics::initDevice() {
     return hr;
   }
 
-  hr = d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
+//  hr = d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
   backBuffer->Release();
 
-  if (FAILED(hr)) {
-    return hr;
-  }
+  //if (FAILED(hr)) {
+  //  return hr;
+  //}
 
-  immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+  renderTargetViews.push_back(nullptr);
+  renderTargetResourceViews.push_back(nullptr);
+  depthBufferViews.push_back(nullptr);
+  depthBufferResourceViews.push_back(nullptr);
+
+//  immediateContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 
   D3D11_RASTERIZER_DESC solidDesc;
   ZeroMemory(&solidDesc, sizeof(D3D11_RASTERIZER_DESC));

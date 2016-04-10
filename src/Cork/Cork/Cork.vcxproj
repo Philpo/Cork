@@ -20,6 +20,7 @@
     <ClInclude Include="CollisionResolver.h" />
     <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="DirectX11Graphics.h" />
+    <ClInclude Include="DirectX11Pass.h" />
     <ClInclude Include="DirectX11Shader.h" />
     <ClInclude Include="DirectX11Texture.h" />
     <ClInclude Include="DirectX11XMLMeshLoader.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
+    <ClInclude Include="IPass.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="ITexture.h" />
     <ClInclude Include="JumpComponent.h" />
@@ -65,6 +67,7 @@
     <ClCompile Include="CollisionResolver.cpp" />
     <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="DirectX11Graphics.cpp" />
+    <ClCompile Include="DirectX11Pass.cpp" />
     <ClCompile Include="DirectX11Texture.cpp" />
     <ClCompile Include="DirectX11XMLMeshLoader.cpp" />
     <ClCompile Include="DirectxX11Shader.cpp" />
