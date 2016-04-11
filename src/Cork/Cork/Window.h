@@ -10,7 +10,7 @@ public:
 
   static inline HWND getWindowHandle() { return window; };
   static inline void setWindowCaption(const std::wostringstream& caption) { SetWindowText(window, caption.str().c_str()); }
-  static HRESULT initWindow(HINSTANCE instance, int cmdShow);
+  static HRESULT initWindow(HINSTANCE instance, int cmdShow, int height, int width);
 private:
   static HWND window;
 };

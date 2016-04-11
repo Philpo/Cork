@@ -172,7 +172,7 @@
       <Filter>Header Files\Components\Graphics Component</Filter>
     </ClInclude>
     <ClInclude Include="DirectX11Pass.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -270,7 +270,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11Pass.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

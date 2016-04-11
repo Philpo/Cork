@@ -1,11 +1,14 @@
 #include "ResourceManager.h"
 
 int ResourceManager::meshId = 0;
+int ResourceManager::passId = 0;
 map<int, ITexture* const> ResourceManager::textures;
 map<int, Mesh* const> ResourceManager::meshes;
 map<int, IShader* const> ResourceManager::shaders;
+map<int, IPass* const> ResourceManager::passes;
 map<string, int> ResourceManager::loadedTextureFiles;
 map<string, int> ResourceManager::loadedMeshFiles;
+map<string, vector<int>> ResourceManager::loadedPassFiles;
 
 void ResourceManager::cleanup() {
   for (auto kvp : textures) {
@@ -17,9 +20,18 @@ void ResourceManager::cleanup() {
   for (auto kvp : shaders) {
     delete kvp.second;
   }
+  for (auto kvp : passes) {
+    delete kvp.second;
+  }
+
   textures.clear();
   meshes.clear();
   shaders.clear();
+  passes.clear();
+
+  loadedTextureFiles.clear();
+  loadedMeshFiles.clear();
+  loadedPassFiles.clear();
 }
 
 ITexture* const ResourceManager::getTexture(int textureId) {
@@ -43,6 +55,13 @@ IShader* const ResourceManager::getShader(int shaderId) {
   return shaders[shaderId];
 }
 
+IPass* const ResourceManager::getPass(int passId) {
+  if (passes.find(passId) == passes.end()) {
+    return nullptr;
+  }
+  return passes[passId];
+}
+
 void ResourceManager::loadTexture(string& type, string& textureFile, int& textureId) {
   if (loadedTextureFiles.find(textureFile) == loadedTextureFiles.end()) {
     ITexture* texture = nullptr;
@@ -52,10 +71,11 @@ void ResourceManager::loadTexture(string& type, string& textureFile, int& textur
       MessageHandler::forwardMessage(Message(LOAD_TEXTURE_MESSAGE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
     }
     catch (exception&) {
+      if (texture) {
+        delete texture;
+      }
       throw;
     }
-
-    texture = (ITexture*) info.texture;
 
     loadedTextureFiles.insert(pair<string, int>(textureFile, texture->getId()));
     textures.insert(pair<int, ITexture* const>(texture->getId(), texture));
@@ -74,6 +94,7 @@ void ResourceManager::loadMesh(string& meshFile, int& meshId) {
       MessageHandler::forwardMessage(Message(LOAD_MESH_MESSAGE, mesh, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
     }
     catch (exception&) {
+      delete mesh;
       throw;
     }
 
@@ -94,11 +115,53 @@ void ResourceManager::loadShader(const string& shaderFile, const string& name, c
     MessageHandler::forwardMessage(Message(LOAD_SHADER_MESSAGE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   }
   catch (exception&) {
+    if (shader) {
+      delete shader;
+    }
     throw;
   }
 
-  shader = (IShader*) info.shader;
-
   shaders.insert(pair<int, IShader* const>(info.shaderId, shader));
   shaderId = info.shaderId;
+}
+
+void ResourceManager::loadPasses(const string& passesFile, vector<IPass* const>& loadedPasses) {
+  IPass* pass = nullptr;
+  vector<int> passIndices;
+
+  if (loadedPassFiles.find(passesFile) == loadedPassFiles.end()) {
+    try {
+      file<> file(passesFile.c_str());
+      xml_document<> doc;
+      doc.parse<0>(file.data());
+      xml_node<>* rootNode = doc.first_node();
+
+      for (xml_node<>* passNode = rootNode->first_node(); passNode; passNode = passNode->next_sibling()) {
+        PassInfo info(passNode, pass);
+        MessageHandler::forwardMessage(Message(LOAD_PASS_MESSAGE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+
+        loadedPasses.push_back(pass);
+        passes.insert(pair<int, IPass* const>(passId, pass));
+        passIndices.push_back(passId++);
+      }
+
+      loadedPassFiles.insert(pair<string, vector<int>>(passesFile, passIndices));
+    }
+    catch (exception&) {
+      if (pass) {
+        delete pass;
+      }
+      for (auto index : passIndices) {
+        delete passes[index];
+        passes.erase(index);
+      }
+      loadedPassFiles.erase(passesFile);
+      throw;
+    }
+  }
+  else {
+    for (auto pass : loadedPassFiles[passesFile]) {
+      loadedPasses.push_back(passes[pass]);
+    }
+  }
 }

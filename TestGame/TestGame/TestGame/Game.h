@@ -69,7 +69,7 @@ private:
   ID3D11InputLayout* inputLayout;
   BinaryData* cb;
   ObjectPool boxPool;
-  IPass* pass;
+  vector<IPass* const> passes;
 
   void update(double timeSinceLastFrame);
   void draw();

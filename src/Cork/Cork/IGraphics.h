@@ -22,6 +22,7 @@ private:
   virtual void loadTexture(TextureInfo& info) const = 0;
   virtual void loadMesh(const Mesh& mesh) = 0;
   virtual void loadShader(ShaderInfo& info) = 0;
+  virtual void loadPass(PassInfo& info) = 0;
   virtual void createRenderTarget(CreateInfo& info) = 0;
   virtual void createDepthBuffer(CreateInfo& info) = 0;
   virtual void createViewport(CreateInfo& info) = 0;

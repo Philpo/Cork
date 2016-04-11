@@ -4,7 +4,7 @@ HWND Window::window;
 
 LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 
-HRESULT Window::initWindow(HINSTANCE instance, int cmdShow) {
+HRESULT Window::initWindow(HINSTANCE instance, int cmdShow, int height, int width) {
   WNDCLASSEX wcex;
   wcex.cbSize = sizeof(WNDCLASSEX);
   wcex.style = CS_HREDRAW | CS_VREDRAW;
@@ -22,7 +22,7 @@ HRESULT Window::initWindow(HINSTANCE instance, int cmdShow) {
     return E_FAIL;
   }
 
-  RECT rc = { 0, 0, 640, 480 };
+  RECT rc = { 0, 0, width, height };
   AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
   window = CreateWindow(L"SampleWindowClass", L"DirectXTK Simple Sample", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, instance, nullptr);
   if (!window) {

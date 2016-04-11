@@ -13,11 +13,10 @@ Game::~Game() {
   if (inputLayout) {
     inputLayout->Release();
   }
-  delete pass;
 }
 
 HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
-  HRESULT hr = Window::initWindow(instance, cmdShow);
+  HRESULT hr = Window::initWindow(instance, cmdShow, 480, 640);
   if (FAILED(hr)) {
     return hr;
   }
@@ -26,7 +25,6 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   scheduler->setGameLoopFunction(std::bind(&Game::loopFunction, this, std::placeholders::_1));
 
   factory = new Factory();
-  pass = new DirectX11Pass;
 
   ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory, std::placeholders::_1));
@@ -113,24 +111,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   MessageHandler::forwardMessage(Message(SET_SHADER_MESSAGE, &pixelShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   MessageHandler::forwardMessage(Message(SET_INPUT_LAYOUT_MESSAGE, inputLayout, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
-  CreateInfo create;
-  create.height = 1080;
-  create.width = 1920;
-  create.createTextureView = true;
-  create.renderToBackBuffer = true;
-  int renderTarget, depthBuffer, viewport;
-
-  MessageHandler::forwardMessage(Message(CREATE_RENDER_TARGET_MESSAGE, &create, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  renderTarget = create.id;
-  MessageHandler::forwardMessage(Message(CREATE_DEPTH_BUFFER_MESSAGE, &create, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  depthBuffer = create.id;
-  MessageHandler::forwardMessage(Message(CREATE_VIEWPORT_MESSAGE, &create, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  viewport = create.id;
-
-  pass->setDepthBuffer(depthBuffer);
-  pass->setViewport(viewport);
-  vector<int> renderTargets = { renderTarget };
-  pass->setRenderTargets(renderTargets);
+  ResourceManager::loadPasses("passes.xml", passes);
 
   return S_OK;
 }
@@ -197,79 +178,76 @@ void Game::update(double timeSinceLastFrame) {
 }
 
 void Game::draw() {
-//  MessageHandler::forwardMessage(Message(BEGIN_FRAME_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  MessageHandler::forwardMessage(Message(BEGIN_PASS_MESSAGE, pass, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER_MESSAGE, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  //MessageHandler::forwardMessage(Message(SET_CAMERA_MESSAGE, camera, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  resolveViewMatrix(camera);
+  for (auto pass : passes) {
+    MessageHandler::forwardMessage(Message(BEGIN_PASS_MESSAGE, pass, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+    MessageHandler::forwardMessage(Message(SET_CONSTANT_BUFFER_MESSAGE, cb, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
+    resolveViewMatrix(camera);
 
-  for (auto light : lights) {
-    //MessageHandler::forwardMessage(Message(SET_LIGHT_MESSAGE, light, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-    setLight(light);
-  }
-
-  DrawInfo drawData;
-  //Transform& transform = *(Transform*) boxes[0]->getDataComponent(TRANSFORM_COMPONENT)->getData();
-  //transform.localRotation.setY(transform.localRotation.getY() + 1);
-  drawData.shaderId = pixelShader;
-
-  int enableDiffuse, enableSpecular, enableBump;
-  enableDiffuse = enableSpecular = enableBump = 0;
-  for (auto box : boxes) {
-    int enableDiffuse, enableSpecular, enableBump;
-    enableDiffuse = enableSpecular = enableBump = 0;
-
-    drawData.meshId = *(int*) box->getDataComponent(MESH_COMPONENT)->getData();
-    Mesh* mesh = ResourceManager::getMesh(drawData.meshId);
-
-    for (auto id : mesh->getTextures()) {
-      ITexture* texture = ResourceManager::getTexture(id);
-
-      if (texture->getType() == "diffuse") {
-        enableDiffuse = 1;
-      }
-      else if (texture->getType() == "specular") {
-        enableSpecular = 1;
-      }
-      else if (texture->getType() == "normal") {
-        enableBump = 1;
-      }
+    for (auto light : lights) {
+      setLight(light);
     }
 
+    DrawInfo drawData;
+    drawData.shaderId = pixelShader;
+
+    int enableDiffuse, enableSpecular, enableBump;
+    enableDiffuse = enableSpecular = enableBump = 0;
+    for (auto box : boxes) {
+      int enableDiffuse, enableSpecular, enableBump;
+      enableDiffuse = enableSpecular = enableBump = 0;
+
+      drawData.meshId = *(int*) box->getDataComponent(MESH_COMPONENT)->getData();
+      Mesh* mesh = ResourceManager::getMesh(drawData.meshId);
+
+      for (auto id : mesh->getTextures()) {
+        ITexture* texture = ResourceManager::getTexture(id);
+
+        if (texture->getType() == "diffuse") {
+          enableDiffuse = 1;
+        }
+        else if (texture->getType() == "specular") {
+          enableSpecular = 1;
+        }
+        else if (texture->getType() == "normal") {
+          enableBump = 1;
+        }
+      }
+
+      cb->updateData("enableTexturing", enableDiffuse);
+      cb->updateData("enableSpecularMapping", enableSpecular);
+      cb->updateData("enableBumpMapping", enableBump);
+      cb->updateData("enableClipTesting", enableDiffuse);
+
+      resolveSceneGraph(box);
+      setMaterial(box);
+
+      MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
+    }
+
+    //for (auto bullet : bullets) {
+    //  enableDiffuse = enableSpecular = enableBump = 1;
+
+    //  drawData.meshId = *(int*) bullet->getDataComponent(MESH_COMPONENT)->getData();
+
+    //  cb->updateData("enableTexturing", enableDiffuse);
+    //  cb->updateData("enableSpecularMapping", enableSpecular);
+    //  cb->updateData("enableBumpMapping", enableBump);
+    //  cb->updateData("enableClipTesting", enableDiffuse);
+
+    //  drawData.transform = *(Transform*) bullet->getDataComponent(TRANSFORM_COMPONENT)->getData();
+    //  MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, bullet->getMessageHandler(DRAW_MESSAGE)));
+    //}
+
+    drawData.meshId = *(int*) floorPlane->getDataComponent(MESH_COMPONENT)->getData();
+    enableDiffuse = enableSpecular = enableBump = 0;
     cb->updateData("enableTexturing", enableDiffuse);
     cb->updateData("enableSpecularMapping", enableSpecular);
     cb->updateData("enableBumpMapping", enableBump);
     cb->updateData("enableClipTesting", enableDiffuse);
-    
-    resolveSceneGraph(box);
-    setMaterial(box);
-
-    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
+    resolveSceneGraph(floorPlane);
+    setMaterial(floorPlane);
+    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, floorPlane->getMessageHandler(DRAW_MESSAGE)));
   }
-
-  //for (auto bullet : bullets) {
-  //  enableDiffuse = enableSpecular = enableBump = 1;
-
-  //  drawData.meshId = *(int*) bullet->getDataComponent(MESH_COMPONENT)->getData();
-
-  //  cb->updateData("enableTexturing", enableDiffuse);
-  //  cb->updateData("enableSpecularMapping", enableSpecular);
-  //  cb->updateData("enableBumpMapping", enableBump);
-  //  cb->updateData("enableClipTesting", enableDiffuse);
-
-  //  drawData.transform = *(Transform*) bullet->getDataComponent(TRANSFORM_COMPONENT)->getData();
-  //  MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, bullet->getMessageHandler(DRAW_MESSAGE)));
-  //}
-
-  drawData.meshId = *(int*) floorPlane->getDataComponent(MESH_COMPONENT)->getData();
-  enableDiffuse = enableSpecular = enableBump = 0;
-  cb->updateData("enableTexturing", enableDiffuse);
-  cb->updateData("enableSpecularMapping", enableSpecular);
-  cb->updateData("enableBumpMapping", enableBump);
-  cb->updateData("enableClipTesting", enableDiffuse);
-  resolveSceneGraph(floorPlane);
-  setMaterial(floorPlane);
-  MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, floorPlane->getMessageHandler(DRAW_MESSAGE)));
 
   MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 }

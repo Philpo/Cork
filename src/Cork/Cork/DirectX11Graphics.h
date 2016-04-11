@@ -7,6 +7,7 @@
 #include "BinaryData.h"
 #include "DirectX11Texture.h"
 #include "DirectX11Shader.h"
+#include "DirectX11Pass.h"
 #include "ResourceManager.h"
 #include <memory>
 #include <d3d11_1.h>
@@ -44,6 +45,7 @@ private:
   void loadTexture(TextureInfo& info) const override;
   void loadMesh(const Mesh& mesh) override;
   void loadShader(ShaderInfo& info) override;
+  void loadPass(PassInfo& info) override;
   void createRenderTarget(CreateInfo& info) override;
   void createDepthBuffer(CreateInfo& info) override;
   void createViewport(CreateInfo& info) override;
@@ -65,14 +67,13 @@ private:
   ID3D11Device* d3dDevice;
   ID3D11DeviceContext* immediateContext;
   IDXGISwapChain* swapChain;
-  vector<ID3D11RenderTargetView*> renderTargetViews;
-  ID3D11RenderTargetView* test[1];
-  vector<ID3D11ShaderResourceView*> renderTargetResourceViews;
-  vector<D3D11_VIEWPORT> viewPorts;
+  map<string, ID3D11RenderTargetView*> renderTargetViews;
+  map<string, ID3D11ShaderResourceView*> renderTargetResourceViews;
+  map<string, D3D11_VIEWPORT> viewPorts;
   ID3D11Buffer* constantBuffer;
   ID3D11SamplerState* anistropicSampler;
-  vector<ID3D11DepthStencilView*> depthBufferViews;
-  vector<ID3D11ShaderResourceView*> depthBufferResourceViews;
+  map<string, ID3D11DepthStencilView*> depthBufferViews;
+  map<string, ID3D11ShaderResourceView*> depthBufferResourceViews;
   ID3D11DepthStencilState* depthStencilState;
   ID3D11RasterizerState* solidState;
   ID3D11Debug* debug;
