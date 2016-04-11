@@ -28,7 +28,7 @@ DirectX11Pass::DirectX11Pass(xml_node<>* passNode) {
 
     if (passNode->first_node("depth_buffer_binds")) {
       for (xml_node<>* bindNode = passNode->first_node("depth_buffer_binds")->first_node(); bindNode; bindNode = bindNode->next_sibling()) {
-        renderTargetBindTargets.insert(readBindTarget(bindNode));
+        depthBufferBindTargets.insert(readBindTarget(bindNode));
       }
     }
   }
