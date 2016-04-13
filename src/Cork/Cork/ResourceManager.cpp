@@ -32,6 +32,9 @@ void ResourceManager::cleanup() {
   loadedTextureFiles.clear();
   loadedMeshFiles.clear();
   loadedPassFiles.clear();
+
+  meshId = 0;
+  passId = 0;
 }
 
 ITexture* const ResourceManager::getTexture(int textureId) {
@@ -88,7 +91,7 @@ void ResourceManager::loadTexture(string& type, string& textureFile, int& textur
 
 void ResourceManager::loadMesh(string& meshFile, int& meshId) {
   if (loadedMeshFiles.find(meshFile) == loadedMeshFiles.end()) {
-    Mesh* mesh = new Mesh(ResourceManager::meshId++, meshFile);
+    Mesh* mesh = new Mesh(ResourceManager::meshId, meshFile);
 
     try {
       MessageHandler::forwardMessage(Message(LOAD_MESH_MESSAGE, mesh, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
@@ -101,6 +104,7 @@ void ResourceManager::loadMesh(string& meshFile, int& meshId) {
     loadedMeshFiles.insert(pair<string, int>(meshFile, mesh->getId()));
     meshes.insert(pair<int, Mesh* const>(mesh->getId(), mesh));
     meshId = mesh->getId();
+    ResourceManager::meshId++;
   }
   else {
     meshId = loadedMeshFiles[meshFile];

@@ -3,6 +3,7 @@
 #include "Factory.h"
 #include "EntityLoader.h"
 #include "TypeDefs.h"
+#include "DirectX11XMLMeshLoader.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -168,8 +169,11 @@ namespace CorkUnitTests {
         ServiceLocator::addDataComponentFunction(TRANSFORM_COMPONENT, std::bind(&Factory::getTransformComponent, &factory, std::placeholders::_1));
         ServiceLocator::addDataComponentFunction(BOUNDING_BOX_COMPONENT, std::bind(&Factory::getBoundingBoxComponent, &factory, std::placeholders::_1));
         ServiceLocator::addDataComponentFunction(PARTICLE_COMPONENT, std::bind(&Factory::getParticleComponent, &factory, std::placeholders::_1));
+        ServiceLocator::addDataComponentFunction(MESH_COMPONENT, std::bind(&Factory::getMeshComponent, &factory, std::placeholders::_1));
         ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, &factory, std::placeholders::_1));
         ServiceLocator::addMessageHandlerFunction(APPLY_FORCE_COMPONENT, std::bind(&Factory::getApplyForceComponent, &factory, std::placeholders::_1));
+        ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, &factory, std::placeholders::_1));
+        Mesh::addMeshFileLoader(".xml", loadXMLMesh);
         EntityLoader::loadEntities("..\\CorkUnitTests\\game_objects.xml", entities);
         
         GameObject* entity = entities[0];
@@ -178,6 +182,8 @@ namespace CorkUnitTests {
         REQUIRE(typeid(*entity->getDataComponent(TRANSFORM_COMPONENT)) == typeid(TransformComponent));
         REQUIRE((entity->getDataComponent(BOUNDING_BOX_COMPONENT) != nullptr));
         REQUIRE(typeid(*entity->getDataComponent(BOUNDING_BOX_COMPONENT)) == typeid(BoundingBoxComponent));
+        REQUIRE((entity->getDataComponent(MESH_COMPONENT) != nullptr));
+        REQUIRE(typeid(*entity->getDataComponent(MESH_COMPONENT)) == typeid(MeshComponent));
         REQUIRE((entity->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE) != nullptr));
         REQUIRE(typeid(*entity->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE)) == typeid(UpdatePositionComponent));
 
@@ -207,6 +213,9 @@ namespace CorkUnitTests {
         REQUIRE(boxData.width == approx(4.0f));
         REQUIRE(boxData.depth == approx(4.0f));
 
+        int meshData = *(int*) entity->getDataComponent(MESH_COMPONENT)->getData();
+        REQUIRE(meshData == 0);
+
 
         GameObject* entity1 = entities[1];
         REQUIRE((entity1 != nullptr));
@@ -216,6 +225,8 @@ namespace CorkUnitTests {
         REQUIRE(typeid(*entity1->getDataComponent(BOUNDING_BOX_COMPONENT)) == typeid(BoundingBoxComponent));
         REQUIRE((entity1->getDataComponent(PARTICLE_COMPONENT) != nullptr));
         REQUIRE(typeid(*entity1->getDataComponent(PARTICLE_COMPONENT)) == typeid(ParticleComponent));
+        REQUIRE((entity->getDataComponent(MESH_COMPONENT) != nullptr));
+        REQUIRE(typeid(*entity->getDataComponent(MESH_COMPONENT)) == typeid(MeshComponent));
         REQUIRE((entity1->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE) != nullptr));
         REQUIRE(typeid(*entity1->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE)) == typeid(UpdatePositionComponent));
         REQUIRE((entity1->getMessageHandler(APPLY_FORCE_MESSAGE) != nullptr));
@@ -264,6 +275,11 @@ namespace CorkUnitTests {
         REQUIRE(particleData.maxSpeed == approx(100.0f));
         REQUIRE(particleData.gravityEnabled);
 
+        meshData = *(int*) entity->getDataComponent(MESH_COMPONENT)->getData();
+        REQUIRE(meshData == 0);
+
+        ((IGraphics*) ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT))->cleanup();
+        ResourceManager::cleanup();
         EntityLoader::cleanup();
         ServiceLocator::cleanup();
       }

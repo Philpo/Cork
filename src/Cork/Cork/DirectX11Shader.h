@@ -4,7 +4,7 @@
 
 class DirectX11Shader : public IShader {
 public:
-  DirectX11Shader() {}
+  DirectX11Shader() : shader(nullptr), type("") {}
   ~DirectX11Shader();
 
   void* const getShader() const override { return shader; }

@@ -1,39 +1,41 @@
 #include "DirectX11Pass.h"
 
-DirectX11Pass::DirectX11Pass(xml_node<>* passNode) {
-  try {
-    height = convertStringToNumber<int>(passNode->first_attribute("height")->value());
-    width = convertStringToNumber<int>(passNode->first_attribute("width")->value());
+DirectX11Pass::DirectX11Pass(xml_node<>* passNode) : depthBuffer(""), viewport("") {
+  if (passNode) {
+    try {
+      height = convertStringToNumber<int>(passNode->first_attribute("height")->value());
+      width = convertStringToNumber<int>(passNode->first_attribute("width")->value());
 
-    if (passNode->first_node("render_targets")) {
-      for (xml_node<>* renderTargetNode = passNode->first_node("render_targets")->first_node(); renderTargetNode; renderTargetNode = renderTargetNode->next_sibling()) {
-        readAndCreateRenderTarget(renderTargetNode);
+      if (passNode->first_node("render_targets")) {
+        for (xml_node<>* renderTargetNode = passNode->first_node("render_targets")->first_node(); renderTargetNode; renderTargetNode = renderTargetNode->next_sibling()) {
+          readAndCreateRenderTarget(renderTargetNode);
+        }
+      }
+      else {
+        renderTargets = { "null" };
+      }
+
+      if (passNode->first_node("depth_buffer")) {
+        readAndCreateDepthBuffer(passNode->first_node("depth_buffer"));
+      }
+
+      readAndCreateViewport(passNode->first_node("viewport"));
+
+      if (passNode->first_node("render_target_binds")) {
+        for (xml_node<>* bindNode = passNode->first_node("render_target_binds")->first_node(); bindNode; bindNode = bindNode->next_sibling()) {
+          renderTargetBindTargets.insert(readBindTarget(bindNode));
+        }
+      }
+
+      if (passNode->first_node("depth_buffer_binds")) {
+        for (xml_node<>* bindNode = passNode->first_node("depth_buffer_binds")->first_node(); bindNode; bindNode = bindNode->next_sibling()) {
+          depthBufferBindTargets.insert(readBindTarget(bindNode));
+        }
       }
     }
-    else {
-      renderTargets = { "null" };
+    catch (exception&) {
+      throw;
     }
-
-    if (passNode->first_node("depth_buffer")) {
-      readAndCreateDepthBuffer(passNode->first_node("depth_buffer"));
-    }
-
-    readAndCreateViewport(passNode->first_node("viewport"));
-
-    if (passNode->first_node("render_target_binds")) {
-      for (xml_node<>* bindNode = passNode->first_node("render_target_binds")->first_node(); bindNode; bindNode = bindNode->next_sibling()) {
-        renderTargetBindTargets.insert(readBindTarget(bindNode));
-      }
-    }
-
-    if (passNode->first_node("depth_buffer_binds")) {
-      for (xml_node<>* bindNode = passNode->first_node("depth_buffer_binds")->first_node(); bindNode; bindNode = bindNode->next_sibling()) {
-        depthBufferBindTargets.insert(readBindTarget(bindNode));
-      }
-    }
-  }
-  catch (exception&) {
-    throw;
   }
 }
 

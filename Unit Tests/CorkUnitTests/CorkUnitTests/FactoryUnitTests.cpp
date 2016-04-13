@@ -2,6 +2,7 @@
 #include "catch.hpp"
 #include "Factory.h"
 #include "TypeDefs.h"
+#include "DirectX11XMLMeshLoader.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -20,6 +21,11 @@ namespace CorkUnitTests {
         REQUIRE((component != nullptr));
         REQUIRE(typeid(*component) == typeid(BasicMovementComponent));
         delete component;
+
+        component = factory.getDirectX11Graphics(nullptr);
+        REQUIRE((component != nullptr));
+        REQUIRE(typeid(*component) == typeid(DirectX11Graphics));
+        ((IGraphics*) component)->cleanup();
 
         component = factory.getUpdatePositionComponent(nullptr);
         REQUIRE((component != nullptr));
@@ -171,6 +177,13 @@ namespace CorkUnitTests {
         REQUIRE(!jumpData.jumping);
         REQUIRE(!jumpData.falling);
         delete component;
+
+        component = factory.getMeshComponent(nullptr);
+        REQUIRE((component != nullptr));
+        REQUIRE(typeid(*component) == typeid(MeshComponent));
+        int meshData = *(int*) component->getData();
+        REQUIRE(meshData == -1);
+        delete component;
       }
 
       SECTION("test IDataComponent with data") {
@@ -286,6 +299,17 @@ namespace CorkUnitTests {
         REQUIRE(!jumpData.jumping);
         REQUIRE(!jumpData.falling);
         delete component;
+
+        ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, &factory, std::placeholders::_1));
+        Mesh::addMeshFileLoader(".xml", loadXMLMesh);
+        component_node = component_node->next_sibling();
+        component = factory.getMeshComponent(component_node);
+        REQUIRE((component != nullptr));
+        REQUIRE(typeid(*component) == typeid(MeshComponent));
+        int meshData = *(int*) component->getData();
+        REQUIRE(meshData == 0);
+        ResourceManager::cleanup();
+        ((IGraphics*) ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT))->cleanup();
       }
     }
   }

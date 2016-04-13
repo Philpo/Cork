@@ -168,6 +168,10 @@ void DirectX11Graphics::cleanup() {
   vertexShaderBlobs.clear();
 
   initialised = false;
+  DirectX11Graphics* temp = instance.release();
+  delete temp;
+  textureId = 0;
+  shaderId = 0;
 }
 
 void DirectX11Graphics::loadTexture(TextureInfo& info) const {
@@ -304,7 +308,7 @@ void DirectX11Graphics::createRenderTarget(CreateInfo& info) {
   ID3D11ShaderResourceView* resourceView = nullptr;
   HRESULT hr;
 
-  if (info.renderToBackBuffer) {
+  if (info.renderToBackBuffer && !UNIT_TESTS) {
     hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*) &texture);
 
     if (FAILED(hr)) {
@@ -617,8 +621,14 @@ HRESULT DirectX11Graphics::initDevice() {
 
   for (UINT driverTypeIndex = 0; driverTypeIndex < numDriverTypes; driverTypeIndex++) {
     driverType = driverTypes[driverTypeIndex];
-    hr = D3D11CreateDeviceAndSwapChain(nullptr, driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
-      D3D11_SDK_VERSION, &sd, &swapChain, &d3dDevice, &featureLevel, &immediateContext);
+    if (UNIT_TESTS) {
+      hr = D3D11CreateDevice(nullptr, driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
+        D3D11_SDK_VERSION, &d3dDevice, &featureLevel, &immediateContext);
+    }
+    else {
+      hr = D3D11CreateDeviceAndSwapChain(nullptr, driverType, nullptr, createDeviceFlags, featureLevels, numFeatureLevels,
+        D3D11_SDK_VERSION, &sd, &swapChain, &d3dDevice, &featureLevel, &immediateContext);
+    }
     if (SUCCEEDED(hr)) {
       break;
     }
@@ -676,16 +686,16 @@ HRESULT DirectX11Graphics::initDevice() {
   depthStencilBuffer->Release();
 
   // Create a render target view
-  ID3D11Texture2D* backBuffer = nullptr;
-  hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*) &backBuffer);
+  //ID3D11Texture2D* backBuffer = nullptr;
+  //hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*) &backBuffer);
 
-  if (FAILED(hr)) {
-    return hr;
-  }
+  //if (FAILED(hr)) {
+  //  return hr;
+  //}
 
   //renderTargetViews.push_back(nullptr);
   //hr = d3dDevice->CreateRenderTargetView(backBuffer, nullptr, &renderTargetViews[1]);
-  backBuffer->Release();
+  //backBuffer->Release();
 
   //if (FAILED(hr)) {
   //  return hr;
@@ -754,12 +764,12 @@ HRESULT DirectX11Graphics::compileShaderFromFile(LPCWSTR szFileName, LPCSTR szEn
   dwShaderFlags |= D3DCOMPILE_DEBUG;
 #endif
 
-  ID3DBlob* errorBlob;
+  ID3DBlob* errorBlob = nullptr;
 
   hr = D3DCompileFromFile(szFileName, nullptr, nullptr, szEntryPoint, szShaderModel, dwShaderFlags, 0, ppBlobOut, &errorBlob);
 
   if (FAILED(hr)) {
-    if (errorBlob != nullptr) {
+    if (errorBlob != nullptr && !UNIT_TESTS) {
       OutputDebugStringA((char*) errorBlob->GetBufferPointer());
     }
     if (errorBlob) errorBlob->Release();

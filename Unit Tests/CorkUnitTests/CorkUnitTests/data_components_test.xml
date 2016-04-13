@@ -24,4 +24,5 @@
   </component>
   <component type="ParticleComponent" mass="1.0" max_speed="100.0" />
   <component type="JumpDataComponent" max_jump_time="3.0" jump_force="1.0" jump_control_power="2.0" />
+  <component type="MeshComponent" mesh_file="..\CorkUnitTests\cube_mesh.xml" />
 </data_components>

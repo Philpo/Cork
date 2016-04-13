@@ -17,11 +17,11 @@ const std::string REGISTER_TEXTURE_REGISTERS_MESSAGE = "RegisterTextureRegisters
 const int MAX_LIGHTS = 1;
 
 struct InputLayoutInfo {
-  InputLayoutInfo(int vertexShader, D3D11_INPUT_ELEMENT_DESC* layout, int numElements, void* inputLayout) : 
+  InputLayoutInfo(int vertexShader, D3D11_INPUT_ELEMENT_DESC* layout, int numElements, ID3D11InputLayout*& inputLayout) :
     layout(layout), vertexShader(vertexShader), numElements(numElements), inputLayout(inputLayout) {}
   D3D11_INPUT_ELEMENT_DESC* layout;
   int vertexShader, numElements;
-  void* inputLayout;
+  ID3D11InputLayout*& inputLayout;
 };
 
 struct ShaderTexRegisterInfo {

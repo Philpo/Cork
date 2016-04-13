@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "BinaryData.h"
 
+const bool UNIT_TESTS = false;
+
 Game::Game() : scheduler(nullptr), factory(nullptr), inputLayout(nullptr), boxPool(10) {}
 
 Game::~Game() {
@@ -105,7 +107,6 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   InputLayoutInfo info(vertexShader, layout, ARRAYSIZE(layout), inputLayout);
 
   MessageHandler::forwardMessage(Message(LOAD_INPUT_LAYOUT_MESSAGE, &info, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
-  inputLayout = (ID3D11InputLayout*) info.inputLayout;
 
   MessageHandler::forwardMessage(Message(SET_SHADER_MESSAGE, &vertexShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
   MessageHandler::forwardMessage(Message(SET_SHADER_MESSAGE, &pixelShader, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));

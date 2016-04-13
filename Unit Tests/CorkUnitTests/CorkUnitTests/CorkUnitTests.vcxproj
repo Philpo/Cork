@@ -96,6 +96,9 @@
     <ClCompile Include="BinaryDataUnitTests.cpp" />
     <ClCompile Include="BoundingBoxUnitTests.cpp" />
     <ClCompile Include="CameraComponentUnitTests.cpp" />
+    <ClCompile Include="DirectX11GraphicsUnitTests.cpp" />
+    <ClCompile Include="DirectX11PassUnitTests.cpp" />
+    <ClCompile Include="DirectX11ShaderUnitTests.cpp" />
     <ClCompile Include="EntityLoaderUnitTests.cpp" />
     <ClCompile Include="FactoryUnitTests.cpp" />
     <ClCompile Include="GameObjectUnitTests.cpp" />

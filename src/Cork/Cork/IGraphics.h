@@ -10,6 +10,8 @@
 
 using namespace std;
 
+extern const bool UNIT_TESTS;
+
 class IGraphics : public IComponent {
 public:
   virtual ~IGraphics() {}

@@ -11,6 +11,7 @@
       <component type="BoundingBoxComponent" height="4.0" width="4.0" depth="4.0">
         <centre x="0.0" y="0.0" z="0.0"/>
       </component>
+      <component type="MeshComponent" mesh_file="..\CorkUnitTests\cube_mesh.xml" />
     </data_components>
     <message_handlers>
       <component message_type="UpdateAfterCollisionMessage" type="UpdatePositionComponent" />
@@ -28,6 +29,7 @@
         <centre x="0.0" y="5.0" z="0.0"/>
       </component>
       <component type="ParticleComponent" mass="1.0" max_speed="100.0" />
+      <component type="MeshComponent" mesh_file="..\CorkUnitTests\cube_mesh.xml" />
     </data_components>
     <message_handlers>
       <component message_type="ApplyForceMessage" type="ApplyForceComponent" />
