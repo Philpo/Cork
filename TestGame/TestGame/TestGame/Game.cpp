@@ -73,7 +73,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   EntityLoader::loadEntities("game_objects.xml", boxes);
 
   for (int i = 0; i < 10; i++) {
-    bullets.push_back(boxPool.createObject(3));
+    bullets.push_back(boxPool.createObject(boxes[0]->getUUId()));
   }
 
   scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
@@ -226,19 +226,19 @@ void Game::draw() {
       MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
     }
 
-    //for (auto bullet : bullets) {
-    //  enableDiffuse = enableSpecular = enableBump = 1;
+    for (auto bullet : bullets) {
+      enableDiffuse = enableSpecular = enableBump = 1;
 
-    //  drawData.meshId = *(int*) bullet->getDataComponent(MESH_COMPONENT)->getData();
+      drawData.meshId = *(int*) bullet->getDataComponent(MESH_COMPONENT)->getData();
 
-    //  cb->updateData("enableTexturing", enableDiffuse);
-    //  cb->updateData("enableSpecularMapping", enableSpecular);
-    //  cb->updateData("enableBumpMapping", enableBump);
-    //  cb->updateData("enableClipTesting", enableDiffuse);
+      cb->updateData("enableTexturing", enableDiffuse);
+      cb->updateData("enableSpecularMapping", enableSpecular);
+      cb->updateData("enableBumpMapping", enableBump);
+      cb->updateData("enableClipTesting", enableDiffuse);
 
-    //  drawData.transform = *(Transform*) bullet->getDataComponent(TRANSFORM_COMPONENT)->getData();
-    //  MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, bullet->getMessageHandler(DRAW_MESSAGE)));
-    //}
+      //resolveSceneGraph(bullet);
+      //MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, bullet->getMessageHandler(DRAW_MESSAGE)));
+    }
 
     drawData.meshId = *(int*) floorPlane->getDataComponent(MESH_COMPONENT)->getData();
     enableDiffuse = enableSpecular = enableBump = 0;

@@ -18,6 +18,9 @@ public:
   virtual ~GameObject();
 
   const vector<string>& getSupportedMessages() const override { return supportedMessages; }
+  int getUUId() const { return uuid; }
+
+  void setUUId(int uuid) { this->uuid = uuid; }
 
   void addDataComponent(const string& type, IDataComponent* const component) { dataComponents.insert(pair<string, IDataComponent* const>(type, component)); }
   IDataComponent* const getDataComponent(const string& type) const { return dataComponents.find(type) != dataComponents.end() ? dataComponents.at(type) : nullptr; }
@@ -25,6 +28,7 @@ public:
   void addComponent(const string& type, IComponent* const component);
   IComponent* const getMessageHandler(const string& type) const { return components.find(type) != components.end() ? components.at(type) : nullptr; }
 protected:
+  int uuid;
   map<string, IDataComponent* const> dataComponents;
   map<string, IComponent* const> components;
   vector<string> supportedMessages;

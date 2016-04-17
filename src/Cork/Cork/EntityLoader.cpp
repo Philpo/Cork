@@ -21,6 +21,7 @@ GameObject* const EntityLoader::loadEntity(const std::string& entityFile) {
     int uId = convertStringToNumber<int>(rootNode->first_attribute("uid")->value());
 
     loadEntity(rootNode, toReturn);
+    toReturn->setUUId(uId);
     allEntities.insert(pair<int, GameObject* const>(uId, toReturn));
   }
   catch (exception&) {
@@ -45,6 +46,7 @@ void EntityLoader::loadEntities(const std::string& entitiesFile, vector<GameObje
       int uId = convertStringToNumber<int>(entityNode->first_attribute("uid")->value());
       toAdd = new GameObject;
       loadEntity(entityNode, toAdd);
+      toAdd->setUUId(uId);
       entities.push_back(toAdd);
       allEntities.insert(pair<int, GameObject* const>(uId, toAdd));
     }
