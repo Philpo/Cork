@@ -35,11 +35,6 @@ namespace CorkUnitTests {
         REQUIRE(data.previousPosition.getX() == approx(0.0f));
         REQUIRE(data.previousPosition.getY() == approx(2.0f));
         REQUIRE(data.previousPosition.getZ() == approx(-10.0f));
-
-        BoundingBox boxData = *(BoundingBox*) entity->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
-        REQUIRE(boxData.centre.getX() == approx(0.0f));
-        REQUIRE(boxData.centre.getY() == approx(2.0f));
-        REQUIRE(boxData.centre.getZ() == approx(-9.0f));
       }
 
       SECTION("test basicmovement move backward") {
@@ -52,11 +47,6 @@ namespace CorkUnitTests {
         REQUIRE(data.previousPosition.getX() == approx(0.0f));
         REQUIRE(data.previousPosition.getY() == approx(2.0f));
         REQUIRE(data.previousPosition.getZ() == approx(-10.0f));
-
-        BoundingBox boxData = *(BoundingBox*) entity->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
-        REQUIRE(boxData.centre.getX() == approx(0.0f));
-        REQUIRE(boxData.centre.getY() == approx(2.0f));
-        REQUIRE(boxData.centre.getZ() == approx(-11.0f));
       }
 
       SECTION("test basicmovement strafe left") {
@@ -69,11 +59,6 @@ namespace CorkUnitTests {
         REQUIRE(data.previousPosition.getX() == approx(0.0f));
         REQUIRE(data.previousPosition.getY() == approx(2.0f));
         REQUIRE(data.previousPosition.getZ() == approx(-10.0f));
-
-        BoundingBox boxData = *(BoundingBox*) entity->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
-        REQUIRE(boxData.centre.getX() == approx(-1.0f));
-        REQUIRE(boxData.centre.getY() == approx(2.0f));
-        REQUIRE(boxData.centre.getZ() == approx(-10.0f));
       }
 
       SECTION("test basicmovement strafe right") {
@@ -86,11 +71,6 @@ namespace CorkUnitTests {
         REQUIRE(data.previousPosition.getX() == approx(0.0f));
         REQUIRE(data.previousPosition.getY() == approx(2.0f));
         REQUIRE(data.previousPosition.getZ() == approx(-10.0f));
-
-        BoundingBox boxData = *(BoundingBox*) entity->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
-        REQUIRE(boxData.centre.getX() == approx(1.0f));
-        REQUIRE(boxData.centre.getY() == approx(2.0f));
-        REQUIRE(boxData.centre.getZ() == approx(-10.0f));
       }
 
       SECTION("test basicmovement rotate up") {

@@ -20,7 +20,7 @@ public:
 
   static void cleanup();
 
-  inline static GameObject* const getEntity(int uId) { return allEntities.find(uId) != allEntities.end() ? allEntities.at(uId) : nullptr; }
+  static GameObject* const getEntity(int uId) { return allEntities.find(uId) != allEntities.end() ? allEntities.at(uId) : nullptr; }
 
   static GameObject* const loadEntity(const std::string& entityFile);
   static void loadEntities(const std::string& entitiesFile, vector<GameObject* const>& entities);

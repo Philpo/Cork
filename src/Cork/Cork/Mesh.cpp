@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-map<string, meshLoadFunction> Mesh::meshFileLoaders;
+map<string, MeshLoadFunction> Mesh::meshFileLoaders;
 
 Mesh::Mesh(int id, const std::string& meshFile) : id(id) {
   int fileExtensionStartIndex = meshFile.rfind(".");
@@ -18,8 +18,8 @@ Mesh::~Mesh() {
   }
 }
 
-void Mesh::addMeshFileLoader(const string& fileExtension, meshLoadFunction function) {
+void Mesh::addMeshFileLoader(const string& fileExtension, MeshLoadFunction function) {
   if (meshFileLoaders.find(fileExtension) == meshFileLoaders.end()) {
-    meshFileLoaders.insert(pair<string, meshLoadFunction>(fileExtension, function));
+    meshFileLoaders.insert(pair<string, MeshLoadFunction>(fileExtension, function));
   }
 }

@@ -6,10 +6,11 @@ using namespace std;
 
 class MessageHandler {
 public:
-  MessageHandler() {}
-  ~MessageHandler() {}
+  MessageHandler() = delete;
+  MessageHandler(MessageHandler& toCopy) = delete;
+  ~MessageHandler() = delete;
 
-  //static inline void addForwardingMapping(MessageType type, IMessageable* const target) { forwardingMappings.insert(pair<MessageType, IMessageable* const>(type, target)); }
+  MessageHandler& operator=(MessageHandler& rhs) = delete;
 
   static void forwardMessage(IMessage& message);
 };

@@ -127,18 +127,19 @@ void Game::loopFunction(double timeSinceLastFrame) {
 }
 
 void Game::update(double timeSinceLastFrame) {
+  Transform& t = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  BoundingBox& b = *(BoundingBox*) camera->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
+  Particle& p = *(Particle*) camera->getDataComponent(PARTICLE_COMPONENT)->getData();
   JumpData& jd = *(JumpData*) camera->getDataComponent(JUMP_DATA_COMPONENT)->getData();
+
+  b.centre = t.position;
 
   if (jd.jumping) {
     scheduler->scheduleComponent(JUMP_MESSAGE, camera->getMessageHandler(JUMP_MESSAGE));
   }
 
   MessageHandler::forwardMessage(Message(APPLY_FORCE_MESSAGE, &timeSinceLastFrame, camera->getMessageHandler(APPLY_FORCE_MESSAGE)));
-
-  Transform& t = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
-  BoundingBox& b = *(BoundingBox*) camera->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
-  Particle& p = *(Particle*) camera->getDataComponent(PARTICLE_COMPONENT)->getData();
-
+  
   t.position += p.displacement;
   b.centre += p.displacement;
 

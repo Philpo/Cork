@@ -13,8 +13,8 @@ public:
 
   BinaryData& operator=(BinaryData& rhs) = delete;
 
-  inline char* const getData() const { return buffer; }
-  inline size_t getSizeInBytes() const { return sizeInBytes; }
+  char* const getData() const { return buffer; }
+  size_t getSizeInBytes() const { return sizeInBytes; }
 
   void addVariable(const string& variableName, size_t variableSize);
 

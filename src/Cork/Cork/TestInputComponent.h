@@ -13,7 +13,7 @@ public:
   const string& getType() const override { return INPUT_COMPONENT; }
   const vector<string>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
 
-  inline void setPlayer(IMessageable* const player) { this->player = player; }
+  void setPlayer(IMessageable* const player) { this->player = player; }
 private:
   IMessageable* player;
   static const vector<string> SUPPORTED_MESSAGES;

@@ -40,12 +40,9 @@ void BasicMovementComponent::receiveMessage(IMessage& message) {
     }
 
     Transform* t = (Transform*) component->getData();
-    BoundingBox* b = (BoundingBox*) target->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
     t->previousPosition = t->position;
     t->position = newPosition;
-    b->centre = newPosition;
     t->localRotation = newRotation;
     component->setData(t);
-    target->getDataComponent(BOUNDING_BOX_COMPONENT)->setData(b);
   }
 }

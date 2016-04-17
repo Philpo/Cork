@@ -1,9 +1,9 @@
 #include "ServiceLocator.h"
 
-map<string, messageHandlerFunction> ServiceLocator::messageHandlerFunctions;
+map<string, MessageHandlerFunction> ServiceLocator::messageHandlerFunctions;
 map<string, vector<IComponent* const>> ServiceLocator::messageHandlers;
 
-map<string, dataComponentFunction> ServiceLocator::dataComponentFunctions;
+map<string, DataComponentFunction> ServiceLocator::dataComponentFunctions;
 map<string, vector<IDataComponent* const>> ServiceLocator::dataComponents;
 
 void ServiceLocator::cleanup() {
@@ -21,9 +21,9 @@ void ServiceLocator::cleanup() {
   dataComponents.clear();
 }
 
-void ServiceLocator::addMessageHandlerFunction(const string& componentType, messageHandlerFunction function) {
+void ServiceLocator::addMessageHandlerFunction(const string& componentType, MessageHandlerFunction function) {
   if (messageHandlerFunctions.find(componentType) == messageHandlerFunctions.end()) {
-    messageHandlerFunctions.insert(pair<string, messageHandlerFunction>(componentType, function));
+    messageHandlerFunctions.insert(pair<string, MessageHandlerFunction>(componentType, function));
   }
 }
 
@@ -65,9 +65,9 @@ void ServiceLocator::deleteMessageHandler(IComponent*& toDelete) {
   }
 }
 
-void ServiceLocator::addDataComponentFunction(const string& componentType, dataComponentFunction function) {
+void ServiceLocator::addDataComponentFunction(const string& componentType, DataComponentFunction function) {
   if (dataComponentFunctions.find(componentType) == dataComponentFunctions.end()) {
-    dataComponentFunctions.insert(pair<string, dataComponentFunction>(componentType, function));
+    dataComponentFunctions.insert(pair<string, DataComponentFunction>(componentType, function));
   }
 }
 

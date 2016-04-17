@@ -2,6 +2,11 @@
 
 GameObject::~GameObject() {}
 
+void GameObject::addComponent(const string& type, IComponent* const component) {
+  components.insert(pair<string, IComponent* const>(type, component));
+  supportedMessages.push_back(type);
+}
+
 void GameObject::receiveMessage(IMessage& message) {
   if (components.find(message.getType()) != components.end()) {
     message.setTarget(components[message.getType()]);

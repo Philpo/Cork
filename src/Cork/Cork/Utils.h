@@ -42,16 +42,11 @@ const std::string ROTATE_PITCH_UP = "RotatePitchUp";
 const std::string ROTATE_PITCH_DOWN = "RotatePitchDown";
 
 inline bool convertStringToBool(const std::string& toConvert) {
-  if (toConvert == "true") {
-    return true;
-  }
-  else {
-    return false;
-  }
+  return toConvert == "true";
 }
 
 template <class T>
-inline T convertStringToNumber(const std::string& toConvert) {
+T convertStringToNumber(const std::string& toConvert) {
   T r;
   std::stringstream(toConvert) >> r;
   return r;
