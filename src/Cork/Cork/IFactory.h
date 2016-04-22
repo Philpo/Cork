@@ -8,6 +8,7 @@ public:
 
   virtual IComponent* const getBasicInputComponent(void* data) const = 0;
   virtual IComponent* const getBasicMovementComponent(void* data) const = 0;
+  virtual IComponent* const getCameraMoveComponent(void* data) const = 0;
   virtual IComponent* const getDirectX11Graphics(void* data) const = 0;
   virtual IComponent* const getUpdatePositionComponent(void* data) const = 0;
   virtual IComponent* const getApplyForceComponent(void* data) const = 0;

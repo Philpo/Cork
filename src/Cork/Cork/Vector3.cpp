@@ -39,6 +39,60 @@ void Vector3::clamp(float maxValue) {
   }
 }
 
+Vector3 Vector3::rotateX(float angle) {
+  angle = angle * M_PI / 180.0f;
+  Vector3 toReturn;
+  Vector3 topRow(1.0f, 0.0f, 0.0f);
+  Vector3 middleRow(0.0f, cos(angle), sin(angle));
+  Vector3 bottomRow(0.0f, -sin(angle), cos(angle));
+
+  float newX = (topRow.x * x) + (topRow.y * y) + (topRow.z * z);
+  float newY = (middleRow.x * x) + (middleRow.y * y) + (middleRow.z * z);
+  float newZ = (bottomRow.x * x) + (bottomRow.y * y) + (bottomRow.z * z);
+
+  toReturn.x = newX;
+  toReturn.y = newY;
+  toReturn.z = newZ;
+  
+  return toReturn;
+}
+
+Vector3 Vector3::rotateY(float angle) {
+  angle = angle * M_PI / 180.0f;
+  Vector3 toReturn;
+  Vector3 topRow(cos(angle), 0.0f, -sin(angle));
+  Vector3 middleRow(0.0f, 1.0f, 0.0f);
+  Vector3 bottomRow(sin(angle), 0.0f, cos(angle));
+
+  float newX = (topRow.x * x) + (topRow.y * y) + (topRow.z * z);
+  float newY = (middleRow.x * x) + (middleRow.y * y) + (middleRow.z * z);
+  float newZ = (bottomRow.x * x) + (bottomRow.y * y) + (bottomRow.z * z);
+
+  toReturn.x = newX;
+  toReturn.y = newY;
+  toReturn.z = newZ;
+
+  return toReturn;
+}
+
+Vector3 Vector3::rotateZ(float angle) {
+  angle = angle * M_PI / 180.0f;
+  Vector3 toReturn;
+  Vector3 topRow(cos(angle), sin(angle), 0.0f);
+  Vector3 middleRow(-sin(angle), cos(angle), 0.0f);
+  Vector3 bottomRow(0.0f, 0.0f, 1.0f);
+
+  float newX = (topRow.x * x) + (topRow.y * y) + (topRow.z * z);
+  float newY = (middleRow.x * x) + (middleRow.y * y) + (middleRow.z * z);
+  float newZ = (bottomRow.x * x) + (bottomRow.y * y) + (bottomRow.z * z);
+
+  toReturn.x = newX;
+  toReturn.y = newY;
+  toReturn.z = newZ;
+
+  return toReturn;
+}
+
 Vector3 Vector3::crossProduct(Vector3& lhs, Vector3& rhs) {
   return Vector3((lhs.y * rhs.z) - (lhs.z * rhs.y), (lhs.z * rhs.x) - (lhs.x * rhs.z), (lhs.x * rhs.y) - (lhs.y * rhs.x));
 }

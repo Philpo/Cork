@@ -29,6 +29,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   factory = new Factory();
 
   ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(CAMERA_MOVE_COMPONENT, std::bind(&Factory::getCameraMoveComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, factory, std::placeholders::_1));

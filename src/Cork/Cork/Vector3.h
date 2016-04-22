@@ -1,4 +1,5 @@
 #pragma once
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 class Vector3 {
@@ -18,6 +19,9 @@ public:
   Vector3 normalise() const;
   void clamp(float maxValue);
   float magnitude() const { return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2)); }
+  Vector3 rotateX(float angle);
+  Vector3 rotateY(float angle);
+  Vector3 rotateZ(float angle);
   static float dotProduct(Vector3& lhs, Vector3& rhs) { return (lhs.x * rhs.x) + (lhs.y * rhs.y) + (lhs.z * rhs.z); }
   static Vector3 crossProduct(Vector3& lhs, Vector3& rhs);
 

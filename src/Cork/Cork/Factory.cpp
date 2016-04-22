@@ -12,6 +12,12 @@ IComponent* const Factory::getBasicMovementComponent(void* data) const {
   return m;
 }
 
+IComponent* const Factory::getCameraMoveComponent(void* data) const {
+  CameraMovementComponent* m = new CameraMovementComponent();
+  m->setTarget((GameObject*) data);
+  return m;
+}
+
 IComponent* const Factory::getDirectX11Graphics(void* data) const {
   try {
     return &DirectX11Graphics::getGraphics();

@@ -2,6 +2,7 @@
 #include "IFactory.h"
 #include "TestInputComponent.h"
 #include "BasicMovementComponent.h"
+#include "CameraMovementComponent.h"
 #include "DirectX11Graphics.h"
 #include "UpdatePositionComponent.h"
 #include "ApplyForceComponent.h"
@@ -26,6 +27,7 @@ public:
 
   virtual IComponent* const getBasicInputComponent(void* data) const override;
   virtual IComponent* const getBasicMovementComponent(void* data) const override;
+  virtual IComponent* const getCameraMoveComponent(void* data) const override;
   virtual IComponent* const getDirectX11Graphics(void* data) const override; 
   virtual IComponent* const getUpdatePositionComponent(void* data) const override;
   virtual IComponent* const getApplyForceComponent(void* data) const override;

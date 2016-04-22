@@ -19,7 +19,7 @@
     <component type="JumpDataComponent" max_jump_time="3.0" jump_force="2.0" jump_control_power="2.0" />
   </data_components>
   <message_handlers>
-    <component message_type="InputReceivedMessage" type="BasicMoveComponent" />
+    <component message_type="InputReceivedMessage" type="CameraMovementComponent" />
     <component message_type="JumpMessage" type="JumpComponent" />
     <component message_type="ApplyForceMessage" type="ApplyForceComponent" />
     <component message_type="UpdateAfterCollisionMessage" type="UpdatePositionComponent" />
