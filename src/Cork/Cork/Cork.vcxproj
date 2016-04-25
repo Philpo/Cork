@@ -11,33 +11,100 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplyForceComponent.h" />
     <ClInclude Include="BasicMovementComponent.h" />
-    <ClInclude Include="ConsoleGraphicsComponent.h" />
+    <ClInclude Include="BinaryData.h" />
+    <ClInclude Include="BoundingBoxComponent.h" />
+    <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="CollisionDetector.h" />
+    <ClInclude Include="CollisionResolver.h" />
+    <ClInclude Include="DDSTextureLoader.h" />
+    <ClInclude Include="DirectX11Graphics.h" />
+    <ClInclude Include="DirectX11Pass.h" />
+    <ClInclude Include="DirectX11Shader.h" />
+    <ClInclude Include="DirectX11Texture.h" />
+    <ClInclude Include="DirectX11XMLMeshLoader.h" />
+    <ClInclude Include="CameraMovementComponent.h" />
+    <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="DirectX11TypeDefs.h" />
+    <ClInclude Include="GraphicsTypeDefs.h" />
     <ClInclude Include="IComponent.h" />
+    <ClInclude Include="IDataComponent.h" />
     <ClInclude Include="IFactory.h" />
+    <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputMessenger.h" />
+    <ClInclude Include="InputMethod.h" />
+    <ClInclude Include="IPass.h" />
+    <ClInclude Include="IShader.h" />
+    <ClInclude Include="ITexture.h" />
+    <ClInclude Include="JumpComponent.h" />
+    <ClInclude Include="JumpDataComponent.h" />
+    <ClInclude Include="KeyMap.h" />
+    <ClInclude Include="LightComponent.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="MessageHandler.h" />
+    <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="ParticleComponent.h" />
+    <ClInclude Include="RawDevice.h" />
+    <ClInclude Include="RawInput.h" />
+    <ClInclude Include="RawKeyboard.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="TestInputComponent.h" />
+    <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="UpdatePositionComponent.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ApplyForceComponent.cpp" />
     <ClCompile Include="BasicMovementComponent.cpp" />
-    <ClCompile Include="ConsoleGraphicsComponent.cpp" />
+    <ClCompile Include="BinaryData.cpp" />
+    <ClCompile Include="BoundingBoxComponent.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="CollisionDetector.cpp" />
+    <ClCompile Include="CollisionResolver.cpp" />
+    <ClCompile Include="DDSTextureLoader.cpp" />
+    <ClCompile Include="DirectX11Graphics.cpp" />
+    <ClCompile Include="DirectX11Pass.cpp" />
+    <ClCompile Include="DirectX11Texture.cpp" />
+    <ClCompile Include="DirectX11XMLMeshLoader.cpp" />
+    <ClCompile Include="DirectxX11Shader.cpp" />
+    <ClCompile Include="CameraMovementComponent.cpp" />
+    <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputMessenger.cpp" />
+    <ClCompile Include="InputMethod.cpp" />
+    <ClCompile Include="JumpComponent.cpp" />
+    <ClCompile Include="JumpDataComponent.cpp" />
+    <ClCompile Include="KeyMap.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
+    <ClCompile Include="ParticleComponent.cpp" />
+    <ClCompile Include="RawDevice.cpp" />
+    <ClCompile Include="RawInput.cpp" />
+    <ClCompile Include="RawKeyboard.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="TestInputComponent.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="UpdatePositionComponent.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -68,7 +135,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+    <IncludePath>RapidXML;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -77,6 +148,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d2d1.lib;d3d11.lib;d3dcompiler.lib;dxguid.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

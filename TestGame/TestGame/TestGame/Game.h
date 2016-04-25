@@ -5,6 +5,48 @@
 #include "Message.h"
 #include "ServiceLocator.h"
 #include "Factory.h"
+#include "Mesh.h"
+#include "DirectX11XMLMeshLoader.h"
+#include "ResourceManager.h"
+#include "EntityLoader.h"
+#include "CollisionDetector.h"
+#include "CollisionResolver.h"
+#include "ObjectPool.h"
+#include "DirectX11Pass.h"
+
+struct LightStruct {
+  LightStruct() : range(0.0f), exponent(0.0f), enabled(1) {
+    ambient = XMFLOAT4{ 0.0f, 0.0f, 0.0f, 0.0f };
+    diffuse = XMFLOAT4{ 0.0f, 0.0f, 0.0f, 0.0f };
+    specular = XMFLOAT4{ 0.0f, 0.0f, 0.0f, 0.0f };
+    position = XMFLOAT3{ 0.0f, 0.0f, 0.0f };
+    direction = XMFLOAT3{ 0.0f, 0.0f, 0.0f };
+    attenuation = XMFLOAT3{ 0.0f, 0.0f, 0.0f };
+  }
+
+  XMFLOAT4 ambient;
+  XMFLOAT4 diffuse;
+  XMFLOAT4 specular;
+  XMFLOAT3 position;
+  float range;
+  XMFLOAT3 direction;
+  float exponent;
+  XMFLOAT3 attenuation;
+  int enabled;
+  int type;
+  XMFLOAT3 padding;
+};
+
+struct Material {
+  Material() : specularPower(0.0f) {
+    ambient = XMFLOAT4{ 0.0f, 0.0f, 0.0f, 0.0f };
+    diffuse = XMFLOAT4{ 0.0f, 0.0f, 0.0f, 0.0f };
+    specular = XMFLOAT4{ 0.0f, 0.0f, 0.0f, 0.0f };
+  }
+
+  XMFLOAT4 ambient, diffuse, specular;
+  float specularPower;
+};
 
 class Game {
 public:
@@ -16,8 +58,28 @@ public:
 
   void loopFunction(double timeSinceLastFrame);
 private:
-  Window window;
   Scheduler* scheduler;
-  GameObject* entity;
+  GameObject* camera;
+  GameObject* floorPlane;
+  vector<GameObject* const> lights, boxes, bullets;
   const Factory* factory;
+  int meshId, vertexShader, pixelShader;
+  float fogStart = 40.0f;
+  float fogRange = 50.0f;
+  ID3D11InputLayout* inputLayout;
+  BinaryData* cb;
+  ObjectPool boxPool;
+  vector<IPass* const> passes;
+
+  void update(double timeSinceLastFrame);
+  void draw();
+
+  // performs collision detection on 2 axis-aligned bounding boxes
+  bool axisAlignedBoundingBoxCollisionDetection(IDataComponent& lhs, IDataComponent& rhs);
+  // resolves collisions by adjusting the position of the first object to touch the second object
+  void basicCollisionResolution(const GameObject& lhs, const GameObject& rhs);
+  void resolveSceneGraph(GameObject* const entity);
+  void resolveViewMatrix(GameObject* const camera);
+  void setMaterial(GameObject* const entity);
+  void setLight(GameObject* const light);
 };

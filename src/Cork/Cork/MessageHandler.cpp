@@ -1,8 +1,12 @@
 #include "MessageHandler.h"
 
 void MessageHandler::forwardMessage(IMessage& message) {
-  message.getTarget()->receiveMessage(message);
-  //if (forwardingMappings.find(message.getType()) != forwardingMappings.end()) {
-  //  forwardingMappings[message.getType()]->receiveMessage(message);
-  //}
+  try {
+    if (contains(message.getTarget()->getSupportedMessages(), message.getType())) {
+      message.getTarget()->receiveMessage(message);
+    }
+  }
+  catch (exception&) {
+    throw;
+  }
 }

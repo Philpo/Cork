@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data_components>
+  <component type="TransformComponent">
+    <position x="0.0" y="0.0" z="0.0" />
+    <local_rotation x="0.0" y="0.0" z="0.0" />
+    <scale x="2.0" y="2.0" z="2.0" />
+    <world_rotation x="0.0" y="0.0" z="0.0" />
+  </component>
+  <component type="CameraComponent">
+    <position x="0.0" y="2.0" z="-10" />
+    <look x="0.0" y="0.0" z="1.0" />
+    <right x="1.0" y="0.0" z="0.0" />
+    <up x="0.0" y="1.0" z="0.0" />
+  </component>
+  <component type="LightComponent" range="1000.0" light_type="1">
+    <ambient x="0.2" y="0.2" z="0.2" />
+    <diffuse x="1.0" y="1.0" z="1.0" />
+    <specular x="0.5" y="0.5" z="0.5" />
+    <attenuation x="0.0" y="0.1" z="0.0" />
+    <position x="0.0" y="5.0" z="-10" />
+  </component>
+  <component type="BoundingBoxComponent" height="1.0" width="1.0" depth="1.0">
+    <centre x="0.0" y="5.0" z="0.0"/>
+  </component>
+  <component type="ParticleComponent" mass="1.0" max_speed="100.0" />
+  <component type="JumpDataComponent" max_jump_time="3.0" jump_force="1.0" jump_control_power="2.0" />
+  <component type="MeshComponent" mesh_file="..\CorkUnitTests\cube_mesh.xml" />
+</data_components>

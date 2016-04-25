@@ -3,29 +3,33 @@
 #include "Window.h"
 #include "MessageHandler.h"
 #include "Message.h"
+#include "ServiceLocator.h"
+#include "IGraphics.h"
+#include "ResourceManager.h"
+#include "EntityLoader.h"
 #include <map>
 #include <functional>
 
 using namespace std;
 
-typedef function<void (double)> gameLoopFunction;
+typedef function<void (double)> GameLoopFunction;
 
 class Scheduler {
 public:
   Scheduler();
-  Scheduler(const Window& window, double frameRateTarget, const wstring caption);
+  Scheduler(double frameRateTarget, const wstring caption);
   ~Scheduler();
 
-  inline void registerPollComponent(const string& messageType, IComponent* const component) { pollEveryFrame.insert(pair<string, IComponent* const>(messageType, component)); }
-  inline void setGameLoopFunction(gameLoopFunction function) { this->function = function; }
+  void scheduleComponent(const string& messageType, IComponent* const component) { pollEveryFrame.insert(pair<string, IComponent* const>(messageType, component)); }
+  void unscheduleComponent(const string& messageType) { pollEveryFrame.erase(messageType); }
+  void setGameLoopFunction(GameLoopFunction function) { this->function = function; }
 
   WPARAM gameLoop();
 private:
   double timeLastFrame, frameRate, freq;
   __int64 counterStart; 
   wstring caption;
-  Window window;
-  gameLoopFunction function;
+  GameLoopFunction function;
   map<string, IComponent* const> pollEveryFrame;
 
   HRESULT startCounter();

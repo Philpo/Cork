@@ -234,3 +234,7 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+Unit Tests/teste/teste.sln
+Unit Tests/teste/teste/Source.cpp
+Unit Tests/teste/teste/teste.vcxproj
+Unit Tests/teste/teste/teste.vcxproj.filters

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<passes>
+  <pass height="1080" width="1920">
+    <render_targets>
+      <render_target id="BackBuffer" create_texture_view="false" render_to_back_buffer="true" format="31" texture_view_format="31" />
+    </render_targets>
+    <depth_buffer id="DepthBuffer" create_texture_view="false" format="44" depth_buffer_format="45" texture_view_format="46" />
+    <viewport id="FullHD" />
+    <render_target_binds>
+      <bind shader_slot="0" target="BackBuffer" />
+    </render_target_binds>
+    <depth_buffer_binds>
+      <bind shader_slot="1" target="DepthBuffer" />
+    </depth_buffer_binds>
+  </pass>
+</passes>

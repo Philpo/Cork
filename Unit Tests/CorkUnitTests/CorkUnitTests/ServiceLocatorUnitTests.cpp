@@ -7,30 +7,30 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace CorkUnitTests {
   namespace servicelocator {
-    Factory factory = Factory::getFactory();
+    Factory factory;
 
     TEST_CASE("test service locator getComponent") {
       SECTION("test mapped component") {
-        ServiceLocator::addFactoryFunction("a", std::bind(&Factory::getBasicGraphicsComponent, factory));
-        IComponent* c = ServiceLocator::getComponent("a");
+        ServiceLocator::addMessageHandlerFunction("a", std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
+        IComponent* c = ServiceLocator::getMessageHandler("a");
         REQUIRE((c != nullptr));
-        REQUIRE(typeid(*c) == typeid(ConsoleGraphicsComponent));
+        REQUIRE(typeid(*c) == typeid(TestInputComponent));
         ServiceLocator::cleanup();
       }
       SECTION("test unmapped component") {
-        IComponent* c = ServiceLocator::getComponent("b");
+        IComponent* c = ServiceLocator::getMessageHandler("b");
         REQUIRE((c == nullptr));
       }
     }
 
     TEST_CASE("test deleteComponent") {
-      ServiceLocator::addFactoryFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getBasicGraphicsComponent, factory));
-      IComponent* c = ServiceLocator::getComponent(GRAPHICS_COMPONENT);
-      ServiceLocator::deleteComponent(c);
+      ServiceLocator::addMessageHandlerFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
+      IComponent* c = ServiceLocator::getMessageHandler(INPUT_COMPONENT);
+      ServiceLocator::deleteMessageHandler(c);
       REQUIRE((c == nullptr));
 
-      c = new ConsoleGraphicsComponent;
-      ServiceLocator::deleteComponent(c);
+      c = new JumpComponent;
+      ServiceLocator::deleteMessageHandler(c);
       REQUIRE((c != nullptr));
       delete c;
     }

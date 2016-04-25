@@ -13,8 +13,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Components">
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{e9917254-4ba9-4e7a-b5cc-e4f1539967d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Graphics Component">
+      <UniqueIdentifier>{29c8e479-1f29-4153-b520-0186cd1da232}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Graphics Component\DirectX11">
+      <UniqueIdentifier>{b010c4a9-db4c-4a9d-9e1d-a083fd17ac75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
       <UniqueIdentifier>{62c44347-7ea9-4561-a18a-f95f6e466e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Graphics Component">
+      <UniqueIdentifier>{8c9b4e0e-8991-4ea6-8b4b-32f623a5a1fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Graphics Component\DirectX11">
+      <UniqueIdentifier>{f02231c6-808f-48b8-9dd6-05ab906649b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Physics Component">
+      <UniqueIdentifier>{b3285cf8-299f-4953-bd24-8f6ec7c8a409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Physics Component">
+      <UniqueIdentifier>{9385b1db-5215-40a9-8e71-3ac507e79246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{78c301b6-60ea-46e7-a41d-6607173a920f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input\InputMethods">
+      <UniqueIdentifier>{ea67016a-232f-4fab-9265-ae67c96b16db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input\InputMethods\Raw">
+      <UniqueIdentifier>{95799a69-a0d8-475d-9a91-679a5184837d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,17 +84,128 @@
     <ClInclude Include="ServiceLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleGraphicsComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
     <ClInclude Include="BasicMovementComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TestInputComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="IComponent.h">
-      <Filter>Components</Filter>
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="IGraphics.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ITexture.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Texture.h">
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11TypeDefs.h">
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSTextureLoader.h">
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Graphics.h">
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11XMLMeshLoader.h">
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsTypeDefs.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="IDataComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="LightComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IShader.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Shader.h">
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBoxComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetector.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionResolver.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdatePositionComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplyForceComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpDataComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="JumpComponent.h">
+      <Filter>Header Files\Components\Physics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IPass.h">
+      <Filter>Header Files\Components\Graphics Component</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11Pass.h">
+      <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraMovementComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyMap.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMessenger.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="RawKeyboard.h">
+      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+    </ClInclude>
+    <ClInclude Include="RawDevice.h">
+      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+    </ClInclude>
+    <ClInclude Include="RawInput.h">
+      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMethod.h">
+      <Filter>Header Files\Input\InputMethods</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,23 +221,113 @@
     <ClCompile Include="Scheduler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Factory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicMovementComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConsoleGraphicsComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TestInputComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicMovementComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Components\Graphics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TestInputComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11Graphics.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11Texture.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DDSTextureLoader.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11XMLMeshLoader.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\Components\Graphics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="LightComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BinaryData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectxX11Shader.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBoxComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDetector.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionResolver.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplyForceComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatePositionComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpDataComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="JumpComponent.cpp">
+      <Filter>Source Files\Components\Physics Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11Pass.cpp">
+      <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovementComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Header Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyMap.cpp">
+      <Filter>Header Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputMessenger.cpp">
+      <Filter>Header Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="RawDevice.cpp">
+      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+    </ClCompile>
+    <ClCompile Include="RawInput.cpp">
+      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+    </ClCompile>
+    <ClCompile Include="RawKeyboard.cpp">
+      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+    </ClCompile>
+    <ClCompile Include="InputMethod.cpp">
+      <Filter>Header Files\Input\InputMethods</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

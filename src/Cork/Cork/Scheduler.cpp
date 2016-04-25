@@ -2,12 +2,21 @@
 
 Scheduler::Scheduler() : timeLastFrame(0.0), frameRate(0.0), function(nullptr), caption(L"") {}
 
-Scheduler::Scheduler(const Window& window, double frameRateTarget, const wstring caption) : 
-  timeLastFrame(0.0), frameRate(1000.0 / frameRateTarget), function(nullptr), caption(caption), window(window) {
+Scheduler::Scheduler(double frameRateTarget, const wstring caption) : 
+  timeLastFrame(0.0), frameRate(1000.0 / frameRateTarget), function(nullptr), caption(caption) {
   startCounter();
 }
 
 Scheduler::~Scheduler() {}
+
+void shutdown() {
+  ResourceManager::cleanup();
+  EntityLoader::cleanup();
+  if (ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)) {
+    ((IGraphics*) ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT))->cleanup();
+  }
+  ServiceLocator::cleanup();
+}
 
 WPARAM Scheduler::gameLoop() {
   MSG msg = { 0 };
@@ -35,7 +44,7 @@ WPARAM Scheduler::gameLoop() {
 
       //TODO figure out how to poll components every frame; is there a better way than the below?
       for (auto kvp : pollEveryFrame) {
-        MessageHandler::forwardMessage(Message(kvp.first, nullptr, kvp.second));
+        MessageHandler::forwardMessage(Message(kvp.first, &elapsedTime, kvp.second));
       }
 
       if (function) {
@@ -49,6 +58,7 @@ WPARAM Scheduler::gameLoop() {
       timeLastFrame = currentTime;
     }
   }
+  shutdown();
   return msg.wParam;
 }
 
@@ -94,7 +104,7 @@ void Scheduler::calculateFrameRateStats() {
     wostringstream outs;
     outs.precision(6);
     outs  << L"Cork    " << L"FPS: " << fps << L"    " << L"Frame Time: " << mspf << L" (ms)";
-    window.setWindowCaption(outs);
+    Window::setWindowCaption(outs);
 
     frameCnt = 0;
     timeElapsed += 1000.0;
