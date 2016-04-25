@@ -8,11 +8,16 @@
 
 HWND Window::window;
 
+HWND Window::window;
+
 LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 
+<<<<<<< HEAD
 Input* input;
 RawDevice* rawDevice;
 
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
 HRESULT Window::initWindow(HINSTANCE instance, int cmdShow, int height, int width) {
   WNDCLASSEX wcex;
   wcex.cbSize = sizeof(WNDCLASSEX);

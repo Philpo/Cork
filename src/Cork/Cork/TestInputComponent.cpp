@@ -14,18 +14,30 @@ void TestInputComponent::receiveMessage(IMessage& message) {
   string event;
   double deltaTime = *(double*) message.getData();
 
+<<<<<<< HEAD
 //  if ()
 
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
   if (player) {
     returnMessage.setType(INPUT_RECEIVED_MESSAGE);
     returnMessage.setTarget(player);
 
+<<<<<<< HEAD
 	if (GetAsyncKeyState('W')) {			//87
 	  while (GetAsyncKeyState('W')) {}
       event = MOVE_FORWARD;
       returnMessage.setData(&event);
     }
     else if (GetAsyncKeyState('S')) {		//83
+=======
+    if (GetAsyncKeyState('W')) {
+      while (GetAsyncKeyState('W')) {}
+      event = MOVE_FORWARD;
+      returnMessage.setData(&event);
+    }
+    else if (GetAsyncKeyState('S')) {
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
       while (GetAsyncKeyState('S')) {}
       event = MOVE_BACK;
       returnMessage.setData(&event);

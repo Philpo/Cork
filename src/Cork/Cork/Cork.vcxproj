@@ -36,15 +36,21 @@
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
+<<<<<<< HEAD
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputMessenger.h" />
     <ClInclude Include="InputMethod.h" />
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
     <ClInclude Include="IPass.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="ITexture.h" />
     <ClInclude Include="JumpComponent.h" />
     <ClInclude Include="JumpDataComponent.h" />
+<<<<<<< HEAD
     <ClInclude Include="KeyMap.h" />
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshComponent.h" />
@@ -52,9 +58,12 @@
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ParticleComponent.h" />
+<<<<<<< HEAD
     <ClInclude Include="RawDevice.h" />
     <ClInclude Include="RawInput.h" />
     <ClInclude Include="RawKeyboard.h" />
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="ServiceLocator.h" />
@@ -83,21 +92,29 @@
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputMessenger.cpp" />
     <ClCompile Include="InputMethod.cpp" />
     <ClCompile Include="JumpComponent.cpp" />
     <ClCompile Include="JumpDataComponent.cpp" />
     <ClCompile Include="KeyMap.cpp" />
+=======
+    <ClCompile Include="JumpComponent.cpp" />
+    <ClCompile Include="JumpDataComponent.cpp" />
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="ParticleComponent.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="RawDevice.cpp" />
     <ClCompile Include="RawInput.cpp" />
     <ClCompile Include="RawKeyboard.cpp" />
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />

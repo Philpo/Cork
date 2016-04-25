@@ -37,6 +37,7 @@
     <Filter Include="Source Files\Components\Physics Component">
       <UniqueIdentifier>{9385b1db-5215-40a9-8e71-3ac507e79246}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="Header Files\Input">
       <UniqueIdentifier>{78c301b6-60ea-46e7-a41d-6607173a920f}</UniqueIdentifier>
     </Filter>
@@ -46,6 +47,8 @@
     <Filter Include="Header Files\Input\InputMethods\Raw">
       <UniqueIdentifier>{95799a69-a0d8-475d-9a91-679a5184837d}</UniqueIdentifier>
     </Filter>
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h">
@@ -185,6 +188,7 @@
     </ClInclude>
     <ClInclude Include="CameraMovementComponent.h">
       <Filter>Header Files\Components</Filter>
+<<<<<<< HEAD
     </ClInclude>
     <ClInclude Include="KeyMap.h">
       <Filter>Header Files\Input</Filter>
@@ -206,6 +210,8 @@
     </ClInclude>
     <ClInclude Include="InputMethod.h">
       <Filter>Header Files\Input\InputMethods</Filter>
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -308,6 +314,7 @@
     <ClCompile Include="CameraMovementComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Input.cpp">
       <Filter>Header Files\Input</Filter>
     </ClCompile>
@@ -329,5 +336,7 @@
     <ClCompile Include="InputMethod.cpp">
       <Filter>Header Files\Input\InputMethods</Filter>
     </ClCompile>
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
   </ItemGroup>
 </Project>

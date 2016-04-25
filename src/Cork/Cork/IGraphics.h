@@ -5,7 +5,10 @@
 #include "IPass.h"
 #include "GraphicsTypeDefs.h"
 #include "Mesh.h"
+<<<<<<< HEAD
 #include "GameObject.h"
+=======
+>>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
 #include <windows.h>
 
 using namespace std;
