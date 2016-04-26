@@ -2,7 +2,7 @@
 
 GameObject::~GameObject() {}
 
-void GameObject::addComponent(const string& type, IComponent* const component) {
+void GameObject::addMessageHandler(const string& type, IComponent* const component) {
   components.insert(pair<string, IComponent* const>(type, component));
   supportedMessages.push_back(type);
 }
@@ -22,6 +22,6 @@ void GameObject::copy(const GameObject& toCopy) {
   }
 
   for (auto kvp : toCopy.components) {
-    addComponent(kvp.first, ServiceLocator::getMessageHandler(kvp.second->getType(), this));
+    addMessageHandler(kvp.first, ServiceLocator::getMessageHandler(kvp.second->getType(), this));
   }
 }

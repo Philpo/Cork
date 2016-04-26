@@ -9,10 +9,10 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace CorkUnitTests {
   namespace gameobject {
-    TEST_CASE("test addComponent") {
+    TEST_CASE("test addMessageHandler") {
       GameObject go;
       IComponent* c = new ApplyForceComponent();
-      go.addComponent("test", c);
+      go.addMessageHandler ("test", c);
       REQUIRE((go.getMessageHandler("test") != nullptr));
       REQUIRE(typeid(*go.getMessageHandler("test")) == typeid(*c));
       REQUIRE(go.getSupportedMessages().size() == 1);
@@ -20,7 +20,7 @@ namespace CorkUnitTests {
       delete c;
     }
 
-    TEST_CASE("test getComponent") {
+    TEST_CASE("test getMessageHandler") {
       GameObject go;
       REQUIRE((go.getMessageHandler("test") == nullptr));
     }

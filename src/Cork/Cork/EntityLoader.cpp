@@ -75,7 +75,7 @@ void EntityLoader::loadEntity(xml_node<>* entityNode, GameObject*& entity) {
       for (xml_node<>* componentNode = entityNode->first_node("message_handlers")->first_node(); componentNode; componentNode = componentNode->next_sibling()) {
         std::string messageType = componentNode->first_attribute("message_type")->value();
         std::string componentType = componentNode->first_attribute("type")->value();
-        entity->addComponent(messageType, ServiceLocator::getMessageHandler(componentType, entity));
+        entity->addMessageHandler(messageType, ServiceLocator::getMessageHandler(componentType, entity));
       }
     }
   }
