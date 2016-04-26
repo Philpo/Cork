@@ -17,29 +17,14 @@ namespace CorkUnitTests {
         REQUIRE(typeid(*component) == typeid(TestInputComponent));
         delete component;
 
-        component = factory.getBasicMovementComponent(nullptr);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(BasicMovementComponent));
-        delete component;
-
         component = factory.getDirectX11Graphics(nullptr);
         REQUIRE((component != nullptr));
         REQUIRE(typeid(*component) == typeid(DirectX11Graphics));
         ((IGraphics*) component)->cleanup();
 
-        component = factory.getUpdatePositionComponent(nullptr);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(UpdatePositionComponent));
-        delete component;
-
         component = factory.getApplyForceComponent(nullptr);
         REQUIRE((component != nullptr));
         REQUIRE(typeid(*component) == typeid(ApplyForceComponent));
-        delete component;
-
-        component = factory.getJumpComponent(nullptr);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(JumpComponent));
         delete component;
       }
 
@@ -51,24 +36,9 @@ namespace CorkUnitTests {
         REQUIRE(typeid(*component) == typeid(TestInputComponent));
         delete component;
 
-        component = factory.getBasicMovementComponent(go);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(BasicMovementComponent));
-        delete component;
-
-        component = factory.getUpdatePositionComponent(go);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(UpdatePositionComponent));
-        delete component;
-
         component = factory.getApplyForceComponent(go);
         REQUIRE((component != nullptr));
         REQUIRE(typeid(*component) == typeid(ApplyForceComponent));
-        delete component;
-
-        component = factory.getJumpComponent(go);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(JumpComponent));
         delete component;
 
         delete go;
@@ -114,25 +84,6 @@ namespace CorkUnitTests {
         REQUIRE(cameraData.up.getZ() == approx(0.0f));
         delete component;
 
-        component = factory.getLightComponent(nullptr);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(LightComponent));
-        Light lightData = *(Light*) component->getData();
-        REQUIRE(lightData.range == approx(0.0f));
-        REQUIRE(lightData.ambient.getX() == approx(0.0f));
-        REQUIRE(lightData.ambient.getY() == approx(0.0f));
-        REQUIRE(lightData.ambient.getZ() == approx(0.00));
-        REQUIRE(lightData.diffuse.getX() == approx(0.0f));
-        REQUIRE(lightData.diffuse.getY() == approx(0.0f));
-        REQUIRE(lightData.diffuse.getZ() == approx(0.0f));
-        REQUIRE(lightData.specular.getX() == approx(0.0f));
-        REQUIRE(lightData.specular.getY() == approx(0.0f));
-        REQUIRE(lightData.specular.getZ() == approx(0.0f));
-        REQUIRE(lightData.attenuation.getX() == approx(0.0f));
-        REQUIRE(lightData.attenuation.getY() == approx(0.0f));
-        REQUIRE(lightData.attenuation.getZ() == approx(0.0f));
-        delete component;
-
         component = factory.getBoundingBoxComponent(nullptr);
         REQUIRE((component != nullptr));
         REQUIRE(typeid(*component) == typeid(BoundingBoxComponent));
@@ -164,18 +115,6 @@ namespace CorkUnitTests {
         REQUIRE(particleData.displacement.getX() == approx(0.0f));
         REQUIRE(particleData.displacement.getY() == approx(0.0f));
         REQUIRE(particleData.displacement.getZ() == approx(0.0f));
-        delete component;
-
-        component = factory.getJumpDataComponent(nullptr);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(JumpDataComponent));
-        JumpData jumpData = *(JumpData*) component->getData();
-        REQUIRE(jumpData.maxJumpTime == approx(0.0f));
-        REQUIRE(jumpData.jumpForce == approx(0.0f));
-        REQUIRE(jumpData.jumpControlPower == approx(0.0f));
-        REQUIRE(jumpData.jumpTime == approx(0.0f));
-        REQUIRE(!jumpData.jumping);
-        REQUIRE(!jumpData.falling);
         delete component;
 
         component = factory.getMeshComponent(nullptr);
@@ -232,27 +171,6 @@ namespace CorkUnitTests {
         delete component;
 
         component_node = component_node->next_sibling();
-        component = factory.getLightComponent(component_node);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(LightComponent));
-        Light lightData = *(Light*) component->getData();
-        REQUIRE(lightData.range == approx(1000.0f));
-        REQUIRE(lightData.type == POINT_LIGHT);
-        REQUIRE(lightData.ambient.getX() == approx(0.2f));
-        REQUIRE(lightData.ambient.getY() == approx(0.2f));
-        REQUIRE(lightData.ambient.getZ() == approx(0.2f));
-        REQUIRE(lightData.diffuse.getX() == approx(1.0f));
-        REQUIRE(lightData.diffuse.getY() == approx(1.0f));
-        REQUIRE(lightData.diffuse.getZ() == approx(1.0f));
-        REQUIRE(lightData.specular.getX() == approx(0.5f));
-        REQUIRE(lightData.specular.getY() == approx(0.5f));
-        REQUIRE(lightData.specular.getZ() == approx(0.5f));
-        REQUIRE(lightData.attenuation.getX() == approx(0.0f));
-        REQUIRE(lightData.attenuation.getY() == approx(0.1f));
-        REQUIRE(lightData.attenuation.getZ() == approx(0.0f));
-        delete component;
-
-        component_node = component_node->next_sibling();
         component = factory.getBoundingBoxComponent(component_node);
         REQUIRE((component != nullptr));
         REQUIRE(typeid(*component) == typeid(BoundingBoxComponent));
@@ -285,19 +203,6 @@ namespace CorkUnitTests {
         REQUIRE(particleData.displacement.getX() == approx(0.0f));
         REQUIRE(particleData.displacement.getY() == approx(0.0f));
         REQUIRE(particleData.displacement.getZ() == approx(0.0f));
-        delete component;
-
-        component_node = component_node->next_sibling();
-        component = factory.getJumpDataComponent(component_node);
-        REQUIRE((component != nullptr));
-        REQUIRE(typeid(*component) == typeid(JumpDataComponent));
-        JumpData jumpData = *(JumpData*) component->getData();
-        REQUIRE(jumpData.maxJumpTime == approx(3.0f));
-        REQUIRE(jumpData.jumpForce == approx(1.0f));
-        REQUIRE(jumpData.jumpControlPower == approx(2.0f));
-        REQUIRE(jumpData.jumpTime == approx(0.0f));
-        REQUIRE(!jumpData.jumping);
-        REQUIRE(!jumpData.falling);
         delete component;
 
         ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, &factory, std::placeholders::_1));

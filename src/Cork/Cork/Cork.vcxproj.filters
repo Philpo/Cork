@@ -84,9 +84,6 @@
     <ClInclude Include="ServiceLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BasicMovementComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="TestInputComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -129,9 +126,6 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="LightComponent.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="CameraComponent.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
@@ -162,16 +156,7 @@
     <ClInclude Include="ParticleComponent.h">
       <Filter>Header Files\Components\Physics Component</Filter>
     </ClInclude>
-    <ClInclude Include="UpdatePositionComponent.h">
-      <Filter>Header Files\Components\Physics Component</Filter>
-    </ClInclude>
     <ClInclude Include="ApplyForceComponent.h">
-      <Filter>Header Files\Components\Physics Component</Filter>
-    </ClInclude>
-    <ClInclude Include="JumpDataComponent.h">
-      <Filter>Header Files\Components\Physics Component</Filter>
-    </ClInclude>
-    <ClInclude Include="JumpComponent.h">
       <Filter>Header Files\Components\Physics Component</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h">
@@ -182,9 +167,6 @@
     </ClInclude>
     <ClInclude Include="DirectX11Pass.h">
       <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraMovementComponent.h">
-      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="KeyMap.h">
       <Filter>Header Files\Input</Filter>
@@ -227,9 +209,6 @@
     <ClCompile Include="ServiceLocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BasicMovementComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\Components\Graphics Component</Filter>
     </ClCompile>
@@ -252,9 +231,6 @@
       <Filter>Source Files\Components\Graphics Component</Filter>
     </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="LightComponent.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="CameraComponent.cpp">
@@ -290,23 +266,11 @@
     <ClCompile Include="ApplyForceComponent.cpp">
       <Filter>Source Files\Components\Physics Component</Filter>
     </ClCompile>
-    <ClCompile Include="UpdatePositionComponent.cpp">
-      <Filter>Source Files\Components\Physics Component</Filter>
-    </ClCompile>
-    <ClCompile Include="JumpDataComponent.cpp">
-      <Filter>Source Files\Components\Physics Component</Filter>
-    </ClCompile>
-    <ClCompile Include="JumpComponent.cpp">
-      <Filter>Source Files\Components\Physics Component</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11Pass.cpp">
       <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraMovementComponent.cpp">
-      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Header Files\Input</Filter>

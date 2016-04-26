@@ -29,7 +29,7 @@ namespace CorkUnitTests {
       ServiceLocator::deleteMessageHandler(c);
       REQUIRE((c == nullptr));
 
-      c = new JumpComponent;
+      c = new ApplyForceComponent;
       ServiceLocator::deleteMessageHandler(c);
       REQUIRE((c != nullptr));
       delete c;

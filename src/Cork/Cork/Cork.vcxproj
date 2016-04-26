@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplyForceComponent.h" />
-    <ClInclude Include="BasicMovementComponent.h" />
     <ClInclude Include="BinaryData.h" />
     <ClInclude Include="BoundingBoxComponent.h" />
     <ClInclude Include="CameraComponent.h" />
@@ -24,7 +23,6 @@
     <ClInclude Include="DirectX11Shader.h" />
     <ClInclude Include="DirectX11Texture.h" />
     <ClInclude Include="DirectX11XMLMeshLoader.h" />
-    <ClInclude Include="CameraMovementComponent.h" />
     <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="Factory.h" />
     <ClInclude Include="GameObject.h" />
@@ -42,10 +40,7 @@
     <ClInclude Include="IPass.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="ITexture.h" />
-    <ClInclude Include="JumpComponent.h" />
-    <ClInclude Include="JumpDataComponent.h" />
     <ClInclude Include="KeyMap.h" />
-    <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="Message.h" />
@@ -60,14 +55,12 @@
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="TestInputComponent.h" />
     <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="UpdatePositionComponent.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ApplyForceComponent.cpp" />
-    <ClCompile Include="BasicMovementComponent.cpp" />
     <ClCompile Include="BinaryData.cpp" />
     <ClCompile Include="BoundingBoxComponent.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
@@ -79,17 +72,13 @@
     <ClCompile Include="DirectX11Texture.cpp" />
     <ClCompile Include="DirectX11XMLMeshLoader.cpp" />
     <ClCompile Include="DirectxX11Shader.cpp" />
-    <ClCompile Include="CameraMovementComponent.cpp" />
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputMessenger.cpp" />
     <ClCompile Include="InputMethod.cpp" />
-    <ClCompile Include="JumpComponent.cpp" />
-    <ClCompile Include="JumpDataComponent.cpp" />
     <ClCompile Include="KeyMap.cpp" />
-    <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="MessageHandler.cpp" />
@@ -103,7 +92,6 @@
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="TestInputComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
-    <ClCompile Include="UpdatePositionComponent.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

@@ -1,15 +1,19 @@
 #pragma once
 #include "IComponent.h"
-#include "JumpDataComponent.h"
-#include "ParticleComponent.h"
 #include "GameObject.h"
+#include "TransformComponent.h"
+#include "CameraComponent.h"
+#include "TestGameComponents.h"
+#include <directxmath.h>
 
-class JumpComponent : public IComponent {
+using namespace DirectX;
+
+class CameraMovementComponent : public IComponent {
 public:
-  JumpComponent() {}
-  ~JumpComponent() {}
+  CameraMovementComponent() : target(nullptr) {}
+  ~CameraMovementComponent() {}
 
-  const string& getType() const override { return JUMP_COMPONENT; }
+  const string& getType() const override { return CAMERA_MOVE_COMPONENT; }
   const vector<string>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
 
   void setTarget(GameObject* const target) { this->target = target; }
@@ -19,3 +23,4 @@ private:
 
   void receiveMessage(IMessage& message) override;
 };
+

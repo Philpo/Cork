@@ -26,24 +26,24 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   scheduler = new Scheduler(60.0, L"Test Game");
   scheduler->setGameLoopFunction(std::bind(&Game::loopFunction, this, std::placeholders::_1));
 
-  factory = new Factory();
+  factory = new TestGameFactory();
 
-  ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, factory, std::placeholders::_1));
-  ServiceLocator::addMessageHandlerFunction(CAMERA_MOVE_COMPONENT, std::bind(&Factory::getCameraMoveComponent, factory, std::placeholders::_1));
-  ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&TestGameFactory::getBasicMovementComponent, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(CAMERA_MOVE_COMPONENT, std::bind(&TestGameFactory::getCameraMoveComponent, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&TestGameFactory::getDirectX11Graphics, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(INPUT_COMPONENT, std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
   //ServiceLocator::addMessageHandlerFunction(INPUT_COMPONENT, std::bind(&Factory::getInputMessenger, factory, std::placeholders::_1));
-  ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&TestGameFactory::getUpdatePositionComponent, factory, std::placeholders::_1));
   ServiceLocator::addMessageHandlerFunction(APPLY_FORCE_COMPONENT, std::bind(&Factory::getApplyForceComponent, factory, std::placeholders::_1));
-  ServiceLocator::addMessageHandlerFunction(JUMP_COMPONENT, std::bind(&Factory::getJumpComponent, factory, std::placeholders::_1));
+  ServiceLocator::addMessageHandlerFunction(JUMP_COMPONENT, std::bind(&TestGameFactory::getJumpComponent, factory, std::placeholders::_1));
 
   ServiceLocator::addDataComponentFunction(TRANSFORM_COMPONENT, std::bind(&Factory::getTransformComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(MESH_COMPONENT, std::bind(&Factory::getMeshComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(CAMERA_COMPONENT, std::bind(&Factory::getCameraComponent, factory, std::placeholders::_1));
-  ServiceLocator::addDataComponentFunction(LIGHT_COMPONENT, std::bind(&Factory::getLightComponent, factory, std::placeholders::_1));
+  ServiceLocator::addDataComponentFunction(LIGHT_COMPONENT, std::bind(&TestGameFactory::getLightComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(BOUNDING_BOX_COMPONENT, std::bind(&Factory::getBoundingBoxComponent, factory, std::placeholders::_1));
   ServiceLocator::addDataComponentFunction(PARTICLE_COMPONENT, std::bind(&Factory::getParticleComponent, factory, std::placeholders::_1));
-  ServiceLocator::addDataComponentFunction(JUMP_DATA_COMPONENT, std::bind(&Factory::getJumpDataComponent, factory, std::placeholders::_1));
+  ServiceLocator::addDataComponentFunction(JUMP_DATA_COMPONENT, std::bind(&TestGameFactory::getJumpDataComponent, factory, std::placeholders::_1));
 
   Mesh::addMeshFileLoader(".xml", loadXMLMesh);
 

@@ -4,7 +4,7 @@
 #include "Window.h"
 #include "Message.h"
 #include "ServiceLocator.h"
-#include "Factory.h"
+#include "TestGameFactory.h"
 #include "Mesh.h"
 #include "DirectX11XMLMeshLoader.h"
 #include "ResourceManager.h"
@@ -13,6 +13,7 @@
 #include "CollisionResolver.h"
 #include "ObjectPool.h"
 #include "DirectX11Pass.h"
+#include "TestGameComponents.h"
 
 struct LightStruct {
   LightStruct() : range(0.0f), exponent(0.0f), enabled(1) {
@@ -62,7 +63,7 @@ private:
   GameObject* camera;
   GameObject* floorPlane;
   vector<GameObject* const> lights, boxes, bullets;
-  const Factory* factory;
+  const TestGameFactory* factory;
   int meshId, vertexShader, pixelShader;
   float fogStart = 40.0f;
   float fogRange = 50.0f;

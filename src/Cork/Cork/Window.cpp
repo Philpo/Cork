@@ -56,55 +56,53 @@ LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam
       PostQuitMessage(0);
       break;
 
-	case WM_CREATE:	//on creating a window
-	{
-		input = new Input(window);
-	}
-	break;
+    case WM_CREATE:	//on creating a window
+    {
+      input = new Input(window);
+    }
+    break;
 
-	case WM_INPUT:
-	{
-		//if (input->InputMethodsInUse(rawInput))
-		//if (input->CheckInputMethod("rawInput") == true)
-		{
-			UINT dwSize = 0;
+    case WM_INPUT:
+    {
+      //if (input->InputMethodsInUse(rawInput))
+      //if (input->CheckInputMethod("rawInput") == true)
+      {
+        UINT dwSize = 0;
 
-			GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));			//calling buffer to find size
+        GetRawInputData((HRAWINPUT) lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));			//calling buffer to find size
 
-			LPBYTE inputBuffer = new BYTE[dwSize];															//create buffer of correct size | LPBYTE == BYTE*
-			if (inputBuffer == NULL)
-				return 0;
+        LPBYTE inputBuffer = new BYTE[dwSize];															//create buffer of correct size | LPBYTE == BYTE*
+        if (inputBuffer == NULL)
+          return 0;
 
-			GetRawInputData((HRAWINPUT)lParam, RID_INPUT, inputBuffer, &dwSize, sizeof(RAWINPUTHEADER));	//Call function with correct data
-			RAWINPUT* raw = (RAWINPUT*)inputBuffer;
+        GetRawInputData((HRAWINPUT) lParam, RID_INPUT, inputBuffer, &dwSize, sizeof(RAWINPUTHEADER));	//Call function with correct data
+        RAWINPUT* raw = (RAWINPUT*) inputBuffer;
 
-			switch (raw->header.dwType)
-			{
-				case RIM_TYPEKEYBOARD:
-				{
-					if (raw->data.keyboard.Message == WM_KEYDOWN || raw->data.keyboard.Message == WM_SYSKEYDOWN)
-					{
-						std::wstring information =
-							L"VKey - " + std::to_wstring(raw->data.keyboard.VKey) + L"\n";
-						OutputDebugString(information.c_str());
+        switch (raw->header.dwType) {
+          case RIM_TYPEKEYBOARD:
+          {
+            if (raw->data.keyboard.Message == WM_KEYDOWN || raw->data.keyboard.Message == WM_SYSKEYDOWN) {
+              std::wstring information =
+                L"VKey - " + std::to_wstring(raw->data.keyboard.VKey) + L"\n";
+              OutputDebugString(information.c_str());
 
-						//input->inputMethods.
-						rawDevice = input->GetRawInputDevice(KEYBOARD);
-						rawDevice->NewInput(raw->data.keyboard.VKey);
-					}
-				}
-				//case RIM_TYPEMOUSE:
-				//{
-				//}
-				//break;
-			}
+              //input->inputMethods.
+              rawDevice = input->GetRawInputDevice(KEYBOARD);
+              rawDevice->NewInput(raw->data.keyboard.VKey);
+            }
+          }
+          //case RIM_TYPEMOUSE:
+          //{
+          //}
+          //break;
+        }
 
 
-		}
-		break;
+      }
+      break;
 
 
-	}
+    }
 
     default:
       return DefWindowProc(window, message, wParam, lParam);

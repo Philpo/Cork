@@ -1,14 +1,16 @@
 #pragma once
 #include "IComponent.h"
+#include "JumpDataComponent.h"
+#include "ParticleComponent.h"
 #include "GameObject.h"
-#include "TransformComponent.h"
+#include "TestGameComponents.h"
 
-class UpdatePositionComponent : public IComponent {
+class JumpComponent : public IComponent {
 public:
-  UpdatePositionComponent() : target(nullptr) {}
-  ~UpdatePositionComponent() {}
+  JumpComponent() {}
+  ~JumpComponent() {}
 
-  const string& getType() const override { return UPDATE_POSITION_COMPONENT; }
+  const string& getType() const override { return JUMP_COMPONENT; }
   const vector<string>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
 
   void setTarget(GameObject* const target) { this->target = target; }

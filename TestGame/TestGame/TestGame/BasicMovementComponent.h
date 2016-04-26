@@ -2,17 +2,14 @@
 #include "IComponent.h"
 #include "GameObject.h"
 #include "TransformComponent.h"
-#include "CameraComponent.h"
-#include <directxmath.h>
+#include "TestGameComponents.h"
 
-using namespace DirectX;
-
-class CameraMovementComponent : public IComponent {
+class BasicMovementComponent : public IComponent {
 public:
-  CameraMovementComponent() : target(nullptr) {}
-  ~CameraMovementComponent() {}
+  BasicMovementComponent() : target(nullptr) {}
+  ~BasicMovementComponent() {}
 
-  const string& getType() const override { return CAMERA_MOVE_COMPONENT; }
+  const string& getType() const override { return BASIC_MOVE_COMPONENT; }
   const vector<string>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
 
   void setTarget(GameObject* const target) { this->target = target; }
@@ -22,4 +19,3 @@ private:
 
   void receiveMessage(IMessage& message) override;
 };
-

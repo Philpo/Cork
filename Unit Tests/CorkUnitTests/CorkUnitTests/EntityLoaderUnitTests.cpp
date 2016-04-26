@@ -18,11 +18,7 @@ namespace CorkUnitTests {
         ServiceLocator::addDataComponentFunction(CAMERA_COMPONENT, std::bind(&Factory::getCameraComponent, &factory, std::placeholders::_1));
         ServiceLocator::addDataComponentFunction(BOUNDING_BOX_COMPONENT, std::bind(&Factory::getBoundingBoxComponent, &factory, std::placeholders::_1));
         ServiceLocator::addDataComponentFunction(PARTICLE_COMPONENT, std::bind(&Factory::getParticleComponent, &factory, std::placeholders::_1));
-        ServiceLocator::addDataComponentFunction(JUMP_DATA_COMPONENT, std::bind(&Factory::getJumpDataComponent, &factory, std::placeholders::_1));
-        ServiceLocator::addMessageHandlerFunction(BASIC_MOVE_COMPONENT, std::bind(&Factory::getBasicMovementComponent, &factory, std::placeholders::_1));
-        ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, &factory, std::placeholders::_1));
         ServiceLocator::addMessageHandlerFunction(APPLY_FORCE_COMPONENT, std::bind(&Factory::getApplyForceComponent, &factory, std::placeholders::_1));
-        ServiceLocator::addMessageHandlerFunction(JUMP_COMPONENT, std::bind(&Factory::getJumpComponent, &factory, std::placeholders::_1));
         GameObject* entity = EntityLoader::loadEntity("..\\CorkUnitTests\\camera.xml");
 
         REQUIRE((entity != nullptr));
@@ -34,17 +30,9 @@ namespace CorkUnitTests {
         REQUIRE(typeid(*entity->getDataComponent(BOUNDING_BOX_COMPONENT)) == typeid(BoundingBoxComponent));
         REQUIRE((entity->getDataComponent(PARTICLE_COMPONENT) != nullptr));
         REQUIRE(typeid(*entity->getDataComponent(PARTICLE_COMPONENT)) == typeid(ParticleComponent));
-        REQUIRE((entity->getDataComponent(JUMP_DATA_COMPONENT) != nullptr));
-        REQUIRE(typeid(*entity->getDataComponent(JUMP_DATA_COMPONENT)) == typeid(JumpDataComponent));
 
-        REQUIRE((entity->getMessageHandler(INPUT_RECEIVED_MESSAGE) != nullptr));
-        REQUIRE(typeid(*entity->getMessageHandler(INPUT_RECEIVED_MESSAGE)) == typeid(BasicMovementComponent));
-        REQUIRE((entity->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE) != nullptr));
-        REQUIRE(typeid(*entity->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE)) == typeid(UpdatePositionComponent));
         REQUIRE((entity->getMessageHandler(APPLY_FORCE_MESSAGE) != nullptr));
         REQUIRE(typeid(*entity->getMessageHandler(APPLY_FORCE_MESSAGE)) == typeid(ApplyForceComponent));
-        REQUIRE((entity->getMessageHandler(JUMP_MESSAGE) != nullptr));
-        REQUIRE(typeid(*entity->getMessageHandler(JUMP_MESSAGE)) == typeid(JumpComponent));
 
         Transform data = *(Transform*) entity->getDataComponent(TRANSFORM_COMPONENT)->getData();
         REQUIRE(data.position.getX() == approx(0.0f));
@@ -100,14 +88,6 @@ namespace CorkUnitTests {
         REQUIRE(particleData.maxSpeed == approx(100.0f));
         REQUIRE(particleData.gravityEnabled);
 
-        JumpData jumpData = *(JumpData*) entity->getDataComponent(JUMP_DATA_COMPONENT)->getData();
-        REQUIRE(jumpData.maxJumpTime == approx(3.0f));
-        REQUIRE(jumpData.jumpForce == approx(2.0f));
-        REQUIRE(jumpData.jumpControlPower == approx(2.0f));
-        REQUIRE(jumpData.jumpTime == approx(0.0f));
-        REQUIRE(!jumpData.jumping);
-        REQUIRE(!jumpData.falling);
-
         EntityLoader::cleanup();
         ServiceLocator::cleanup();
       }
@@ -116,15 +96,12 @@ namespace CorkUnitTests {
     TEST_CASE("test load entities") {
       SECTION("test load lights") {
         ServiceLocator::addDataComponentFunction(TRANSFORM_COMPONENT, std::bind(&Factory::getTransformComponent, &factory, std::placeholders::_1));
-        ServiceLocator::addDataComponentFunction(LIGHT_COMPONENT, std::bind(&Factory::getLightComponent, &factory, std::placeholders::_1));
         EntityLoader::loadEntities("..\\CorkUnitTests\\lights.xml", entities);
         GameObject* entity = entities[0];
 
         REQUIRE((entity != nullptr));
         REQUIRE((entity->getDataComponent(TRANSFORM_COMPONENT) != nullptr));
         REQUIRE(typeid(*entity->getDataComponent(TRANSFORM_COMPONENT)) == typeid(TransformComponent));
-        REQUIRE((entity->getDataComponent(LIGHT_COMPONENT) != nullptr));
-        REQUIRE(typeid(*entity->getDataComponent(LIGHT_COMPONENT)) == typeid(LightComponent));
 
         Transform data = *(Transform*) entity->getDataComponent(TRANSFORM_COMPONENT)->getData();
         REQUIRE(data.position.getX() == approx(0.0f));
@@ -144,22 +121,6 @@ namespace CorkUnitTests {
         REQUIRE(data.worldRotation.getZ() == approx(0.0f));
         REQUIRE((data.parent == nullptr));
 
-        Light lightData = *(Light*) entity->getDataComponent(LIGHT_COMPONENT)->getData();
-        REQUIRE(lightData.range == approx(1000.0f));
-        REQUIRE(lightData.type == POINT_LIGHT);
-        REQUIRE(lightData.ambient.getX() == approx(0.2f));
-        REQUIRE(lightData.ambient.getY() == approx(0.2f));
-        REQUIRE(lightData.ambient.getZ() == approx(0.2f));
-        REQUIRE(lightData.diffuse.getX() == approx(1.0f));
-        REQUIRE(lightData.diffuse.getY() == approx(1.0f));
-        REQUIRE(lightData.diffuse.getZ() == approx(1.0f));
-        REQUIRE(lightData.specular.getX() == approx(0.5f));
-        REQUIRE(lightData.specular.getY() == approx(0.5f));
-        REQUIRE(lightData.specular.getZ() == approx(0.5f));
-        REQUIRE(lightData.attenuation.getX() == approx(0.0f));
-        REQUIRE(lightData.attenuation.getY() == approx(0.1f));
-        REQUIRE(lightData.attenuation.getZ() == approx(0.0f));
-
         EntityLoader::cleanup();
         ServiceLocator::cleanup();
       }
@@ -170,7 +131,6 @@ namespace CorkUnitTests {
         ServiceLocator::addDataComponentFunction(BOUNDING_BOX_COMPONENT, std::bind(&Factory::getBoundingBoxComponent, &factory, std::placeholders::_1));
         ServiceLocator::addDataComponentFunction(PARTICLE_COMPONENT, std::bind(&Factory::getParticleComponent, &factory, std::placeholders::_1));
         ServiceLocator::addDataComponentFunction(MESH_COMPONENT, std::bind(&Factory::getMeshComponent, &factory, std::placeholders::_1));
-        ServiceLocator::addMessageHandlerFunction(UPDATE_POSITION_COMPONENT, std::bind(&Factory::getUpdatePositionComponent, &factory, std::placeholders::_1));
         ServiceLocator::addMessageHandlerFunction(APPLY_FORCE_COMPONENT, std::bind(&Factory::getApplyForceComponent, &factory, std::placeholders::_1));
         ServiceLocator::addMessageHandlerFunction(GRAPHICS_COMPONENT, std::bind(&Factory::getDirectX11Graphics, &factory, std::placeholders::_1));
         Mesh::addMeshFileLoader(".xml", loadXMLMesh);
@@ -184,8 +144,6 @@ namespace CorkUnitTests {
         REQUIRE(typeid(*entity->getDataComponent(BOUNDING_BOX_COMPONENT)) == typeid(BoundingBoxComponent));
         REQUIRE((entity->getDataComponent(MESH_COMPONENT) != nullptr));
         REQUIRE(typeid(*entity->getDataComponent(MESH_COMPONENT)) == typeid(MeshComponent));
-        REQUIRE((entity->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE) != nullptr));
-        REQUIRE(typeid(*entity->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE)) == typeid(UpdatePositionComponent));
 
         Transform data = *(Transform*) entity->getDataComponent(TRANSFORM_COMPONENT)->getData();
         REQUIRE(data.position.getX() == approx(0.0f));
@@ -227,8 +185,6 @@ namespace CorkUnitTests {
         REQUIRE(typeid(*entity1->getDataComponent(PARTICLE_COMPONENT)) == typeid(ParticleComponent));
         REQUIRE((entity->getDataComponent(MESH_COMPONENT) != nullptr));
         REQUIRE(typeid(*entity->getDataComponent(MESH_COMPONENT)) == typeid(MeshComponent));
-        REQUIRE((entity1->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE) != nullptr));
-        REQUIRE(typeid(*entity1->getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE)) == typeid(UpdatePositionComponent));
         REQUIRE((entity1->getMessageHandler(APPLY_FORCE_MESSAGE) != nullptr));
         REQUIRE(typeid(*entity1->getMessageHandler(APPLY_FORCE_MESSAGE)) == typeid(ApplyForceComponent));
 
