@@ -7,10 +7,7 @@ public:
   virtual ~IFactory() {}
 
   virtual IComponent* const getBasicInputComponent(void* data) const = 0;
-<<<<<<< HEAD
   virtual IComponent* const getInputMessenger(void* data) const = 0;
-=======
->>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
   virtual IComponent* const getBasicMovementComponent(void* data) const = 0;
   virtual IComponent* const getCameraMoveComponent(void* data) const = 0;
   virtual IComponent* const getDirectX11Graphics(void* data) const = 0;

@@ -21,19 +21,13 @@ public:
   static void cleanup();
 
   static void addMessageHandlerFunction(const string& componentType, MessageHandlerFunction function);
-<<<<<<< HEAD
-=======
   static void removeMessageHandlerFunction(const string& componentType) { messageHandlerFunctions.erase(componentType); }
->>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
   static IComponent* const getMessageHandler(const string& componentType);
   static IComponent* const getMessageHandler(const string& componentType, void* data);
   static void deleteMessageHandler(IComponent*& toDelete);
 
   static void addDataComponentFunction(const string& componentType, DataComponentFunction function);
-<<<<<<< HEAD
-=======
   static void removeDataComponentFunction(const string& componentType) { dataComponentFunctions.erase(componentType); }
->>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
   static IDataComponent* const getDataComponent(const string& componentType, void* data);
   static void deleteDataComponent(const string& componentType, IDataComponent*& toDelete);
 private:

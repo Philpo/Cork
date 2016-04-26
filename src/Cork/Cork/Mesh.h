@@ -24,11 +24,7 @@ public:
   const vector<BinaryData* const>& getVertices() const { return vertices; }
   const vector<int>& getIndices() const { return indices; }
   const vector<int>& getTextures() const { return textures; }
-<<<<<<< HEAD
-  const MeshMaterial getMaterial() const { return material; }
-=======
   const MeshMaterial& getMaterial() const { return material; }
->>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
 
   static void addMeshFileLoader(const string& fileExtension, MeshLoadFunction function);
 private:

@@ -19,10 +19,7 @@ private:
   IMessageable* player;
   static const vector<string> SUPPORTED_MESSAGES;
 
-<<<<<<< HEAD
   //SHORT inputData = 0;
 
-=======
->>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
   void receiveMessage(IMessage& message) override;
 };

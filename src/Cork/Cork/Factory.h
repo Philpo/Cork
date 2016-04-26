@@ -27,10 +27,7 @@ public:
   ~Factory() {}
 
   virtual IComponent* const getBasicInputComponent(void* data) const override;
-<<<<<<< HEAD
   virtual IComponent* const getInputMessenger(void* data) const override;
-=======
->>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
   virtual IComponent* const getBasicMovementComponent(void* data) const override;
   virtual IComponent* const getCameraMoveComponent(void* data) const override;
   virtual IComponent* const getDirectX11Graphics(void* data) const override; 

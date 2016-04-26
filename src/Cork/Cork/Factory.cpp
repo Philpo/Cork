@@ -6,21 +6,17 @@ IComponent* const Factory::getBasicInputComponent(void* data) const {
   return c;
 }
 
-<<<<<<< HEAD
 IComponent* const Factory::getInputMessenger(void* data) const {
 	InputMessenger* c = new InputMessenger();
 	c->setPlayer((IMessageable*)data);
 	return c;
 }
 
-=======
->>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
 IComponent* const Factory::getBasicMovementComponent(void* data) const {
   BasicMovementComponent* m = new BasicMovementComponent();
   m->setTarget((GameObject*) data);
   return m;
 }
-<<<<<<< HEAD
 
 IComponent* const Factory::getCameraMoveComponent(void* data) const {
   CameraMovementComponent* m = new CameraMovementComponent();
@@ -131,118 +127,6 @@ IDataComponent* const Factory::getMeshComponent(void* data) const {
   return mesh;
 }
 
-=======
-
-IComponent* const Factory::getCameraMoveComponent(void* data) const {
-  CameraMovementComponent* m = new CameraMovementComponent();
-  m->setTarget((GameObject*) data);
-  return m;
-}
-
-IComponent* const Factory::getDirectX11Graphics(void* data) const {
-  try {
-    return &DirectX11Graphics::getGraphics();
-  }
-  catch (exception&) {
-    throw;
-  }
-}
-
-IComponent* const Factory::getUpdatePositionComponent(void* data) const {
-  UpdatePositionComponent* u = new UpdatePositionComponent;
-  u->setTarget((GameObject*) data);
-  return u;
-}
-
-IComponent* const Factory::getApplyForceComponent(void* data) const {
-  ApplyForceComponent* a = new ApplyForceComponent;
-  if (data) {
-    GameObject* go = (GameObject*) data;
-    if (go->getDataComponent(PARTICLE_COMPONENT)) {
-      a->setParticle((Particle*) go->getDataComponent(PARTICLE_COMPONENT)->getData());
-    }
-  }
-  return a;
-}
-
-IComponent* const Factory::getJumpComponent(void* data) const {
-  JumpComponent* jc = new JumpComponent;
-  jc->setTarget((GameObject*) data);
-  return jc;
-}
-
-IDataComponent* const Factory::getTransformComponent(void* data) const {
-  TransformComponent* transform = new TransformComponent;
-  Transform transformData;
-
-  if (data) {
-    xml_node<>* transformNode = (xml_node<>*) data;
-
-    try {
-      if (transformNode->first_attribute("parent")) {
-        int parentUId = convertStringToNumber<int>(transformNode->first_attribute("parent")->value());
-        GameObject* parent = EntityLoader::getEntity(parentUId);
-        if (parent) {
-          transformData.parent = (Transform*) parent->getDataComponent(TRANSFORM_COMPONENT)->getData();
-        }
-      }
-
-      xml_node<>* component = transformNode->first_node("position");
-      transformData.position.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
-      transformData.position.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
-      transformData.position.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
-
-      transformData.previousPosition = transformData.position;
-
-      component = transformNode->first_node("local_rotation");
-      transformData.localRotation.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
-      transformData.localRotation.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
-      transformData.localRotation.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
-
-      component = transformNode->first_node("scale");
-      transformData.scale.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
-      transformData.scale.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
-      transformData.scale.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
-
-      component = transformNode->first_node("world_rotation");
-      transformData.worldRotation.setX(convertStringToNumber<float>(component->first_attribute("x")->value()));
-      transformData.worldRotation.setY(convertStringToNumber<float>(component->first_attribute("y")->value()));
-      transformData.worldRotation.setZ(convertStringToNumber<float>(component->first_attribute("z")->value()));
-
-      transform->setData(&transformData);
-    }
-    catch (exception&) {
-      delete transform;
-      throw;
-    }
-  }
-
-  return transform;
-}
-
-IDataComponent* const Factory::getMeshComponent(void* data) const {
-  MeshComponent* mesh = new MeshComponent;
-  int meshId;
-
-  if (data) {
-    xml_node<>* meshNode = (xml_node<>*) data;
-
-    try {
-      string meshFile = meshNode->first_attribute("mesh_file")->value();
-      ResourceManager::loadMesh(meshFile, meshId);
-
-      mesh->setData(&meshId);
-    }
-    catch (exception&) {
-      delete mesh;
-      throw;
-    }
-  }
-
-  return mesh;
-}
-
->>>>>>> 52a51f58ff3e8ee3cd3e848a451a444d40f4bcfc
 IDataComponent* const Factory::getCameraComponent(void* data) const {
   CameraComponent* camera = new CameraComponent;
   Camera cameraData;
