@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entities>
+  <entity uid="3">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="-8.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="-8.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="4">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="-6.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="-6.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="5">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="-4.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="-4.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="6">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="-2.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="-2.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="7">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="0.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="0.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="8">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="2.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="2.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="9">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="4.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="4.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="10">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="6.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="6.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="11">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="8.0" y="-2.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="1.0" y="1.0" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="2.0" width="2.0" depth="0.0">
+        <centre x="8.0" y="-2.0" z="0.0"/>
+      </component>
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+    </message_handlers>
+  </entity>
+  <entity uid="12">
+    <data_components>
+      <component type="TransformComponent">
+        <position x="0.0" y="5.0" z="0.0" />
+        <local_rotation x="0.0" y="0.0" z="0.0" />
+        <scale x="0.5" y="0.5" z="1.0" />
+        <world_rotation x="0.0" y="0.0" z="0.0" />
+      </component>
+      <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+      <component type="BoundingBoxComponent" height="1.0" width="1.0" depth="0.0">
+        <centre x="0.0" y="5.0" z="0.0"/>
+      </component>
+      <component type="ParticleComponent" mass="1.0" max_speed="100.0" />
+      <component type="JumpDataComponent" max_jump_time="3.0" jump_force="2.0" jump_control_power="2.0" />
+    </data_components>
+    <message_handlers>
+      <component message_type="DrawMessage" type="GraphicsComponent" />
+      <component message_type="ApplyForceMessage" type="ApplyForceComponent" />
+      <component message_type="UpdateAfterCollisionMessage" type="UpdatePositionComponent" />
+      <component message_type="InputReceivedMessage" type="BasicMoveComponent" />
+    <component message_type="JumpMessage" type="JumpComponent" />
+    </message_handlers>
+  </entity>
+</entities>

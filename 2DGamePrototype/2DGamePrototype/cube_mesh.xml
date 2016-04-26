@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mesh num_vertices="4" num_indices="6" num_textures="3" vertex_size_in_bytes="44">
+  <vertices>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "1" z="-1" />
+      <normal num_attributes="3" x="0" y="0" z="-1" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "1" z="-1" />
+      <normal num_attributes="3" x="0" y="0" z="-1" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="0" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="-1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="0" y="0" z="-1" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="0" v="1" />
+    </vertex>
+    <vertex>
+      <position num_attributes="3" x="1" y = "-1" z="-1" />
+      <normal num_attributes="3" x="0" y="0" z="-1" />
+      <tangent num_attributes="3" x="1" y="0" z="0" />
+      <tex_coords num_attributes="2" u="1" v="1" />
+    </vertex>
+  </vertices>
+  <indices>
+    <index> 0 </index>
+    <index> 1 </index>
+    <index> 2 </index>
+    <index> 2 </index>
+    <index> 1 </index>
+    <index> 3 </index>
+  </indices>
+  <textures>
+    <texture type="diffuse" file_path=".\Crate_COLOR.dds" />
+    <texture type="specular" file_path=".\Crate_SPEC.dds" />
+    <texture type="normal" file_path=".\Crate_NRM.dds" />
+  </textures>
+  <material a="1.0">
+    <ambient r="0.2" g="0.2" b="0.2" />
+    <diffuse r="0.8" g="0.5" b="0.5" />
+    <specular r="0.8" g="0.8" b="0.8" power="10.0" />
+  </material>
+</mesh>

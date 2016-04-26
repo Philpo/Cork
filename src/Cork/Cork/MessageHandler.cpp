@@ -2,7 +2,7 @@
 
 void MessageHandler::forwardMessage(IMessage& message) {
   try {
-    if (contains(message.getTarget()->getSupportedMessages(), message.getType())) {
+    if (message.getTarget() && contains(message.getTarget()->getSupportedMessages(), message.getType())) {
       message.getTarget()->receiveMessage(message);
     }
   }
