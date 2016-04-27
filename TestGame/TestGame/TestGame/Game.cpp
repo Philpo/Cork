@@ -78,7 +78,8 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
     bullets.push_back(boxPool.createObject(boxes[0]->getUUId()));
   }
 
-  scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
+  Window::setPlayer(camera);
+  //scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
 
   stringstream lightName;
   for (unsigned i = 0; i < lights.size(); i++) {

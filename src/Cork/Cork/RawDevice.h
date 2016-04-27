@@ -4,10 +4,12 @@
 //#include <chrono>
 #include <thread>
 #include "KeyMap.h"
+#include "IComponent.h"
+#include "MessageHandler.h"
 
 using namespace std;
 
-class RawDevice
+class RawDevice : public IComponent
 {
 public:
 	RawDevice();
@@ -28,7 +30,11 @@ public:
 
 	void StartTimer();
 
+  const std::string& getType() const { return INPUT_COMPONENT; }
+  const std::vector<std::string>& getSupportedMessages() const {
+    return temp;
+  }
 private:
-
+  vector < string >  temp;
 };
 

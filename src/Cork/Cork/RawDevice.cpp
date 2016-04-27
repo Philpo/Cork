@@ -3,6 +3,7 @@
 
 RawDevice::RawDevice()
 {
+  temp.push_back("CheckInputMessage");
 }
 
 
