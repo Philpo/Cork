@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entity uid="6">
+  <data_components>
+    <component type="TransformComponent">
+      <position x="0.0" y="0.0" z="0.0" />
+      <local_rotation x="0.0" y="0.0" z="0.0" />
+      <scale x="0.5" y="0.5" z="1.5" />
+      <world_rotation x="0.0" y="0.0" z="0.0" />
+    </component>
+    <component type="MeshComponent" mesh_file=".\cube_mesh.xml" />
+    <component type="BoundingBoxComponent" height="1.0" width="1.0" depth="3.0">
+      <centre x="0.0" y="0.0" z="0.0"/>
+    </component>
+    <component type="ParticleComponent" mass="1.0" max_speed="100.0" />
+    <component type="BulletDataComponent" speed="0.1" />
+  </data_components>
+  <message_handlers>
+    <component message_type="DrawMessage" type="GraphicsComponent" />
+    <component message_type="ApplyForceMessage" type="ApplyForceComponent" />
+    <component message_type="UpdateAfterCollisionMessage" type="UpdatePositionComponent" />
+  </message_handlers>
+</entity>

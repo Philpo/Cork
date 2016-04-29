@@ -13,6 +13,7 @@ public:
   int getSize() const { return poolSize; }
   int getAvailableSpace() const { return available.size(); }
   int getUsedSpace() const { return used.size(); }
+  vector<GameObject*>& getObjects() { return used; }
 
   GameObject* const createObject(int masterUUId);
   void removeObject(GameObject* const object);

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3DGamePrototype", "3DGamePrototype\3DGamePrototype.vcxproj", "{C8459529-7F33-4499-8D76-21C7C8514571}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2E29DBCE-9966-45DA-9040-056261FF73F3} = {2E29DBCE-9966-45DA-9040-056261FF73F3}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cork", "..\src\Cork\Cork\Cork.vcxproj", "{2E29DBCE-9966-45DA-9040-056261FF73F3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8459529-7F33-4499-8D76-21C7C8514571}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C8459529-7F33-4499-8D76-21C7C8514571}.Debug|Win32.Build.0 = Debug|Win32
+		{C8459529-7F33-4499-8D76-21C7C8514571}.Release|Win32.ActiveCfg = Release|Win32
+		{C8459529-7F33-4499-8D76-21C7C8514571}.Release|Win32.Build.0 = Release|Win32
+		{2E29DBCE-9966-45DA-9040-056261FF73F3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E29DBCE-9966-45DA-9040-056261FF73F3}.Debug|Win32.Build.0 = Debug|Win32
+		{2E29DBCE-9966-45DA-9040-056261FF73F3}.Release|Win32.ActiveCfg = Release|Win32
+		{2E29DBCE-9966-45DA-9040-056261FF73F3}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

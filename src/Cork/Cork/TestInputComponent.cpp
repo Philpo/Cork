@@ -65,6 +65,11 @@ void TestInputComponent::receiveMessage(IMessage& message) {
       returnMessage.setData(&deltaTime);
       returnMessage.setType(JUMP_MESSAGE);
     }
+    else if (GetAsyncKeyState('F')) {
+      while (GetAsyncKeyState('F')) {}
+      event = FIRE;
+      returnMessage.setData(&event);
+    }
 
     MessageHandler::forwardMessage(returnMessage);
   }

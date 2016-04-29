@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<entity uid="5">
+  <data_components>
+    <component type="TransformComponent">
+      <position x="0.0" y="-2.0" z="0.0" />
+      <local_rotation x="0.0" y="0.0" z="0.0" />
+      <scale x="1.0" y="1.0" z="1.0" />
+      <world_rotation x="0.0" y="0.0" z="0.0" />
+    </component>
+    <component type="MeshComponent" mesh_file=".\floor_mesh.xml" />
+    <component type="BoundingBoxComponent" height="200.0" width="200.0" depth="200.0">
+      <centre x="0.0" y="-102.0" z="0.0"/>
+    </component>
+  </data_components>
+  <message_handlers>
+    <component message_type="DrawMessage" type="GraphicsComponent" />
+  </message_handlers>
+</entity>

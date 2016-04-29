@@ -35,6 +35,7 @@ const std::string ROTATE_YAW_CLOCKWISE = "RotateYawClockwise";
 const std::string ROTATE_YAW_ANTICLOCKWISE = "RotateYawAntiClockwise";
 const std::string ROTATE_PITCH_UP = "RotatePitchUp";
 const std::string ROTATE_PITCH_DOWN = "RotatePitchDown";
+const std::string FIRE = "Fire";
 
 inline bool convertStringToBool(const std::string& toConvert) {
   return toConvert == "true";
@@ -58,7 +59,7 @@ bool contains(const std::vector<T>& toCheck, const T value) {
 }
 
 template <class T>
-bool remove(std::vector<T>& v, const T toRemove) {
+bool remove(std::vector<T>& v, const T& toRemove) {
   for (std::vector<T>::iterator iter = v.begin(); iter != v.end(); iter++) {
     if (*iter == toRemove) {
       v.erase(iter, iter + 1);
