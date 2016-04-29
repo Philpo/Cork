@@ -21,6 +21,8 @@ public:
 
 	void recieveMessage(IMessage &message);
 
-	IMessageable* player;
+  IMessageable* player;
+private:
+  void receiveMessage(IMessage& message);
 };
 

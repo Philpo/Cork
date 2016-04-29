@@ -4,6 +4,7 @@
 
 RawInput::RawInput()
 {
+  temp.push_back("CheckInputMessage");
 	InitializeInput(KEYBOARD);
 }
 

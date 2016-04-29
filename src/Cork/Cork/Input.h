@@ -4,12 +4,13 @@
 #include <vector>
 #include "RawInput.h"
 #include "InputTypeEnums.h"
+#include "IComponent.h"
 
 using namespace std;
 
 //#include "DirectInput.h"
 
-class Input
+class Input : public IComponent
 {
 public:
 	Input();
@@ -36,7 +37,16 @@ public:
 		return (inputMethod == "rawInput" && _rawInput != nullptr) ? (true) : (false);
 	};
 
+  const std::string& getType() const { return INPUT_COMPONENT; }
+  const std::vector<std::string>& getSupportedMessages() const {
+    return temp;
+  }
+  void setPlayer(IMessageable* const player) { _rawInput->setPlayer(player); }
 private:
+  void receiveMessage(IMessage& message) { 
+    message.setTarget(_rawInput);
+    MessageHandler::forwardMessage(message);
+  }
 
 	//|| TODO || make this into an vector so it doesn't need to be updated each time
 
@@ -44,5 +54,6 @@ private:
 	//InputMethod* _xInput = nullptr;
 	//InputMethod* _directInput = nullptr;
 	HWND _window;
+  vector < string >  temp;
 };
 

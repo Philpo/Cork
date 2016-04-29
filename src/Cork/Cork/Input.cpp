@@ -20,6 +20,7 @@ Input::Input(HWND window)
 {
 	setCurrentWindow(window);
 
+  temp.push_back("CheckInputMessage");
 	_rawInput = new RawInput;
 	//InputMethod* rawInput = new RawInput;
 	inputMethods.push_back(new RawInput);

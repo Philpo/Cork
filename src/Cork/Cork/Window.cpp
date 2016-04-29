@@ -43,6 +43,10 @@ HRESULT Window::initWindow(HINSTANCE instance, int cmdShow, int height, int widt
   return S_OK;
 }
 
+void Window::setPlayer(IMessageable* const player) {
+  input->setPlayer(player);
+}
+
 LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
   PAINTSTRUCT ps;
   HDC hdc;
@@ -87,8 +91,9 @@ LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam
               OutputDebugString(information.c_str());
 
               //input->inputMethods.
-              rawDevice = input->GetRawInputDevice(KEYBOARD);
-              rawDevice->NewInput(raw->data.keyboard.VKey);
+              //rawDevice = input->GetRawInputDevice(KEYBOARD);
+              //rawDevice->NewInput(raw->data.keyboard.VKey);
+              MessageHandler::forwardMessage(Message("CheckInputMessage", &raw->data.keyboard.VKey, input));
             }
           }
           //case RIM_TYPEMOUSE:
