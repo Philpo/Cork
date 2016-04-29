@@ -3,14 +3,15 @@
 
 KeyMap::KeyMap()
 {
-  inputMap[MOVE_LEFT] = 65;
-  inputMap[MOVE_RIGHT] = 68;
-  inputMap[MOVE_FORWARD] = 87;
-  inputMap[MOVE_BACK] = 83;
-  inputMap[ROTATE_YAW_CLOCKWISE] = 76;
-  inputMap[ROTATE_YAW_ANTICLOCKWISE] = 74;
-  inputMap[ROTATE_PITCH_UP] = 73;
-  inputMap[ROTATE_PITCH_DOWN] = 75;
+  inputMap[MOVE_LEFT] = 65; // A
+  inputMap[MOVE_RIGHT] = 68; // D
+  inputMap[MOVE_FORWARD] = 87; // W
+  inputMap[MOVE_BACK] = 83; // S
+  inputMap[ROTATE_YAW_CLOCKWISE] = 76; // L
+  inputMap[ROTATE_YAW_ANTICLOCKWISE] = 74; // J
+  inputMap[ROTATE_PITCH_UP] = 73; // I
+  inputMap[ROTATE_PITCH_DOWN] = 75; // K
+  inputMap[FIRE] = 70; // F
 
 	//inputMap[MOVE_UP] = 87;
 	//inputMap[MOVE_DOWN] = 83;

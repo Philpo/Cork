@@ -79,7 +79,6 @@ private:
   bool axisAlignedBoundingBoxCollisionDetection(IDataComponent& lhs, IDataComponent& rhs);
   // resolves collisions by adjusting the position of the first object to touch the second object
   void basicCollisionResolution(const GameObject& lhs, const GameObject& rhs);
-  void bulletCollisionResolution(const GameObject& lhs, const GameObject& rhs);
   void resolveSceneGraph(GameObject* const entity);
   void resolveViewMatrix(GameObject* const camera);
   void setMaterial(GameObject* const entity);

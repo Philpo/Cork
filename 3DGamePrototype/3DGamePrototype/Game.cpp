@@ -80,7 +80,8 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
 
   boxPool = ((PoolData*) camera->getDataComponent(OBJECT_POOL_DATA_COMPONENT)->getData())->pool;
 
-  scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
+  Window::setPlayer(camera);
+  //scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, camera));
 
   stringstream lightName;
   for (unsigned i = 0; i < lights.size(); i++) {
@@ -205,7 +206,6 @@ void Game::update(double timeSinceLastFrame) {
     CollisionResolver::resolveCollision(*camera, *floorPlane);
   }
 
-  CollisionResolver::setResolvingFunction(std::bind(&Game::bulletCollisionResolution, this, std::placeholders::_1, std::placeholders::_2));
   vector<GameObject*> bulletsToRemove, boxesToRemove;
   for (auto bullet : boxPool->getObjects()) {
     if (CollisionDetector::collisionDetection(*bullet->getDataComponent(BOUNDING_BOX_COMPONENT), *floorPlane->getDataComponent(BOUNDING_BOX_COMPONENT))) {
@@ -546,8 +546,4 @@ void Game::basicCollisionResolution(const GameObject& lhs, const GameObject& rhs
 
   lhsBox.centre += Vector3(xCorrection, yCorrection, zCorrection);
   MessageHandler::forwardMessage(Message(UPDATE_AFTER_COLLISION_MESSAGE, &lhsBox.centre, lhs.getMessageHandler(UPDATE_AFTER_COLLISION_MESSAGE)));
-}
-
-void Game::bulletCollisionResolution(const GameObject& lhs, const GameObject& rhs) {
-  MessageHandler::forwardMessage(Message(REMOVE_BULLET_MESSAGE, (void*) &lhs, camera->getMessageHandler(REMOVE_BULLET_MESSAGE)));
 }
