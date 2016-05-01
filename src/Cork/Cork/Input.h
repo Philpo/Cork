@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <vector>
 #include "RawInput.h"
-#include "InputTypeEnums.h"
+//#include "InputTypeEnums.h"
 #include "IComponent.h"
 
 using namespace std;
@@ -20,7 +20,7 @@ public:
 	void setCurrentWindow(HWND window) { _window = window; }
 	HWND GetCurrentWindow = _window;
 
-	RawDevice* GetRawInputDevice(int inputType);
+	RawDevice* GetRawInputDevice(string inputType);
 
 	vector<InputMethod*> inputMethods;
 

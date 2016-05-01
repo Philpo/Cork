@@ -47,15 +47,12 @@ Input::~Input()
 
 
 
-RawDevice* Input::GetRawInputDevice(int inputType)
+RawDevice* Input::GetRawInputDevice(string inputType)
 {
-	switch (inputType)
-	{
-	case KEYBOARD:
+	if (inputType == INPUTMETHOD_KEYBOARD)
 		return _rawInput->GetKeyboard();
-		break;
-	case JOYSTICK:
+
+	if (inputType == INPUTMETHOD_JOYSTICK)
 		return _rawInput->GetJoystick();
-		break;
-	}
+
 }

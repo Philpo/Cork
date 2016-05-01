@@ -10,6 +10,7 @@
 #include "InputMethod.h"
 #include "IComponent.h"
 #include "MessageHandler.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -21,7 +22,7 @@ public:
 	RawInput(HWND currentWindow);
 	~RawInput();
 
-	bool InitializeInput(int inputType);
+	bool InitializeInput(string inputType);
 	RawDevice* GetKeyboard() { return _keyboard; }
 	RawDevice* GetJoystick() { return _Joystick; }
 	RawDevice* GetMouse()	 { return _mouse; }
