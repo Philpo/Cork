@@ -38,4 +38,6 @@ void RawInput::InitializeInput(string inputType)
 
 RawInput::~RawInput()
 {
+	delete _keyboard;
+	_keyboard = nullptr;
 }

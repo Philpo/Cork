@@ -48,7 +48,7 @@ public:
 private:
   vector < string >  _temp;
 
-  KeyMap* _keyMap = new KeyMap;
+  KeyMap* _keyMap = new KeyMap(INPUTMETHOD_KEYBOARD);
 
   vector <USHORT>	_recentInput;
   USHORT			_lastInput;

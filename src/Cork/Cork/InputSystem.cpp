@@ -30,6 +30,8 @@ InputSystem::InputSystem(HWND window)
 
 InputSystem::~InputSystem()
 {
+	delete _rawInput;
+	_rawInput = nullptr;
 }
 
 

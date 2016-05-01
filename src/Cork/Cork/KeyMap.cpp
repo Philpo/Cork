@@ -56,7 +56,9 @@ KeyMap::KeyMap(string inputType)
 	}
 	else
 	{
-		//throw error
+		std::wstring errorMessage =	L"ERROR!!! - input method for map constructor not found\n";
+		OutputDebugString(errorMessage.c_str());
+		std::cout << errorMessage.c_str();
 	}
 }
 
