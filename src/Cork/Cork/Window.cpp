@@ -1,6 +1,6 @@
 
 #include "RawInput.h"
-#include "Input.h"
+#include "InputSystem.h"
 
 #include <algorithm>
 #include <iterator>
@@ -10,8 +10,8 @@ HWND Window::window;
 
 LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 
-Input* input;
-RawInput* RawInput;
+InputSystem* inputSystem;
+//RawInput* RawInput;
 
 HRESULT Window::initWindow(HINSTANCE instance, int cmdShow, int height, int width) {
   WNDCLASSEX wcex;
@@ -44,7 +44,7 @@ HRESULT Window::initWindow(HINSTANCE instance, int cmdShow, int height, int widt
 }
 
 void Window::setPlayer(IMessageable* const player) {
-  input->setPlayer(player);
+	inputSystem->setPlayer(player);
 }
 
 LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam) {
@@ -62,14 +62,12 @@ LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam
 
     case WM_CREATE:	//on creating a window
     {
-      input = new Input(window);
+		inputSystem = new InputSystem(window);
     }
     break;
 
     case WM_INPUT:
     {
-      //if (input->InputMethodsInUse(rawInput))
-      //if (input->CheckInputMethod("rawInput") == true)
       {
         UINT dwSize = 0;
 
@@ -90,16 +88,9 @@ LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam
                 L"VKey - " + std::to_wstring(raw->data.keyboard.VKey) + L"\n";
               OutputDebugString(information.c_str());
 
-              //input->inputMethods.
-              //rawDevice = input->GetRawInputDevice(KEYBOARD);
-              //rawDevice->NewInput(raw->data.keyboard.VKey);
-              MessageHandler::forwardMessage(Message("CheckInputMessage", &raw->data.keyboard.VKey, input));
+              MessageHandler::forwardMessage(Message("CheckInputMessage", &raw->data.keyboard.VKey, inputSystem));
             }
           }
-          //case RIM_TYPEMOUSE:
-          //{
-          //}
-          //break;
         }
 
 

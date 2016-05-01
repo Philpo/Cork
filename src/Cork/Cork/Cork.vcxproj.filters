@@ -171,9 +171,6 @@
     <ClInclude Include="KeyMap.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files\Input</Filter>
-    </ClInclude>
     <ClInclude Include="RawKeyboard.h">
       <Filter>Header Files\Input\InputMethods\Raw</Filter>
     </ClInclude>
@@ -185,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="IRawDevice.h">
       <Filter>Header Files\Input\InputMethods\Raw</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>Header Files\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -269,9 +269,6 @@
     <ClCompile Include="DirectX11Pass.cpp">
       <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Header Files\Input</Filter>
-    </ClCompile>
     <ClCompile Include="KeyMap.cpp">
       <Filter>Header Files\Input</Filter>
     </ClCompile>
@@ -286,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="IRawDevice.cpp">
       <Filter>Header Files\Input\InputMethods\Raw</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>Header Files\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -34,7 +34,7 @@
     <ClInclude Include="IGraphics.h" />
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="InputMethod.h" />
     <ClInclude Include="IPass.h" />
     <ClInclude Include="IShader.h" />
@@ -74,7 +74,7 @@
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="InputMethod.cpp" />
     <ClCompile Include="KeyMap.cpp" />
     <ClCompile Include="Mesh.cpp" />

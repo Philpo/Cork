@@ -1,4 +1,4 @@
-#include "Input.h"
+#include "InputSystem.h"
 #include "IMessageable.h"
 #include "IMessage.h"
 #include "Message.h"
@@ -12,11 +12,11 @@
 
 using namespace std;
 
-Input::Input()
-{
-}
+//InputSystem::InputSystem()
+//{
+//}
 
-Input::Input(HWND window)
+InputSystem::InputSystem(HWND window)
 {
 	setCurrentWindow(window);
 
@@ -31,12 +31,12 @@ Input::Input(HWND window)
 }
 
 
-Input::~Input()
+InputSystem::~InputSystem()
 {
 }
 
 
-//bool Input::IsInputMethodInUse(InputMethod* inputMethod)
+//bool InputSystem::IsInputMethodInUse(InputMethod* inputMethod)
 //{
 //	//http://stackoverflow.com/questions/571394/how-to-find-an-item-in-a-stdvector
 //	if (find(inputMethods.begin(), inputMethods.end(), inputMethod) != inputMethods.end())
@@ -47,7 +47,7 @@ Input::~Input()
 
 
 
-IRawDevice* Input::GetRawInputDevice(string inputType)
+IRawDevice* InputSystem::GetRawInputDevice(string inputType)
 {
 	if (inputType == INPUTMETHOD_KEYBOARD)
 		return _rawInput->GetKeyboard();

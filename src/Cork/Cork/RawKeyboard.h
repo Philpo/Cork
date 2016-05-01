@@ -22,8 +22,6 @@ public:
 	void InitialiseRawInput();
 	void recieveMessage(IMessage &message);
 
-  IMessageable* player;
-
 private:
   void receiveMessage(IMessage& message);
 };

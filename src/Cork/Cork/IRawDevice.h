@@ -36,6 +36,8 @@ public:
 
 	void StartTimer();
 
+	IMessageable* player;
+
   const std::string& getType() const		{ return INPUT_COMPONENT; }
   const std::vector<std::string>& getSupportedMessages() const
   {

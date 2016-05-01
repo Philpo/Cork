@@ -10,12 +10,12 @@ using namespace std;
 
 //#include "DirectInput.h"
 
-class Input : public IComponent
+class InputSystem : public IComponent
 {
 public:
-	Input();
-	Input(HWND window);
-	~Input();
+	//InputSystem();
+	InputSystem(HWND window);
+	~InputSystem();
 
 	void setCurrentWindow(HWND window) { _window = window; }
 	HWND GetCurrentWindow = _window;
