@@ -13,18 +13,17 @@ using namespace std;
 class InputSystem : public IComponent
 {
 public:
-	//InputSystem();
+
 	InputSystem(HWND window);
 	~InputSystem();
 
 	void setCurrentWindow(HWND window) { _window = window; }
 	HWND GetCurrentWindow = _window;
 
-	IRawDevice* GetRawInputDevice(string inputType);
+	const IRawDevice* GetRawInputDevice(string inputType);
 
-	vector<InputMethod*> inputMethods;
-
-	bool IsInputMethodInUse(InputMethod*);
+	//vector<InputMethod*> inputMethods;
+	//bool IsInputMethodInUse(InputMethod*);
 
 	//bool InputMethodsInUse(InputMethod*);
 	//InputMethod* GetInputMethod(string inputMethod)

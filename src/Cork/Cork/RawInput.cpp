@@ -14,29 +14,25 @@ RawInput::RawInput(HWND window)
 	InitializeInput(INPUTMETHOD_KEYBOARD);
 }
 
-bool RawInput::InitializeInput(string inputType)
+void RawInput::InitializeInput(string inputType)
 {
 
 	if (inputType == INPUTMETHOD_KEYBOARD)
 		{
 			_keyboard = new RawKeyboard;
+			//GetKeyboard().push_back(new RawKeyboard);
 		}
 	else if (inputType == INPUTMETHOD_JOYSTICK)
 		{
+
+			//_keyboard = new RawJoyStick;
+
 			//rawinput[0].usUsagePage = 1;
 			//rawinput[0].usUsage = 4;
 			//rawinput[0].dwFlags = 0;
 			//rawinput[0].hwndTarget = _window;
 			//_Joystick = new RawJoystick;
 		}
-
-	//||TODO|| can currently only have 1 of each input device
-	//if (RegisterRawInputDevices(rawinput, 1 /*device quantity*/, sizeof(rawinput[0])) == false)
-	//{
-	//	return false;
-	//}
-
-	return true;
 }
 
 

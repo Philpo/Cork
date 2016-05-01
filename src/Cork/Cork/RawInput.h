@@ -22,10 +22,14 @@ public:
 	RawInput(HWND currentWindow);
 	~RawInput();
 
-	bool InitializeInput(string inputType);
+	void InitializeInput(string inputType);
 	IRawDevice* GetKeyboard() { return _keyboard; }
 	IRawDevice* GetJoystick() { return _Joystick; }
 	IRawDevice* GetMouse()	 { return _mouse; }
+
+	//vector<IRawDevice*> GetKeyboard() { return _keyboard; }
+	//vector<IRawDevice*> GetJoystick() { return _joystick; }
+	//vector<IRawDevice*> GetMouse()	 { return _mouse; }
 
   const std::string& getType() const { return INPUT_COMPONENT; }
   const std::vector<std::string>& getSupportedMessages() const {
@@ -33,15 +37,26 @@ public:
   }
 
   void setPlayer(IMessageable* const player) { ((RawKeyboard*) _keyboard)->player = player; }
+
+
 private:
-  void receiveMessage(IMessage& message) {
+
+  void receiveMessage(IMessage& message)
+  {
     message.setTarget(_keyboard);
     MessageHandler::forwardMessage(message);
   }
 	HWND _window = 0;
+
 	IRawDevice* _keyboard = nullptr;
 	IRawDevice* _Joystick = nullptr;
 	IRawDevice* _mouse	 = nullptr;
+
+	//vector<IRawDevice*> _keyboard;
+	//vector<IRawDevice*> _joystick;
+	//vector<IRawDevice*> _mouse;
+	//vector<IRawDevice*> _misc;
+
   vector < string >  _temp;
 };
 
