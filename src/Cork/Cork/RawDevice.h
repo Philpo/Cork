@@ -15,6 +15,7 @@ public:
 	RawDevice();
 	~RawDevice();
 
+	virtual void InitialiseRawInput() = 0;
 	void NewInput(USHORT input);
 
 	vector <USHORT> recentInput;

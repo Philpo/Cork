@@ -19,6 +19,7 @@ public:
 	RawKeyboard();
 	~RawKeyboard();
 
+	void InitialiseRawInput();
 	void recieveMessage(IMessage &message);
 
   IMessageable* player;
