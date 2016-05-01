@@ -6,12 +6,6 @@ IComponent* const Factory::getBasicInputComponent(void* data) const {
   return c;
 }
 
-IComponent* const Factory::getInputMessenger(void* data) const {
-	InputMessenger* c = new InputMessenger();
-	c->setPlayer((IMessageable*)data);
-	return c;
-}
-
 IComponent* const Factory::getDirectX11Graphics(void* data) const {
   try {
     return &DirectX11Graphics::getGraphics();

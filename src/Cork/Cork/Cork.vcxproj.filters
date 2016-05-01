@@ -37,13 +37,13 @@
     <Filter Include="Source Files\Components\Physics Component">
       <UniqueIdentifier>{9385b1db-5215-40a9-8e71-3ac507e79246}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Input">
+    <Filter Include="Input">
       <UniqueIdentifier>{78c301b6-60ea-46e7-a41d-6607173a920f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Input\InputMethods">
+    <Filter Include="Input\InputMethods">
       <UniqueIdentifier>{ea67016a-232f-4fab-9265-ae67c96b16db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Input\InputMethods\Raw">
+    <Filter Include="Input\InputMethods\Raw">
       <UniqueIdentifier>{95799a69-a0d8-475d-9a91-679a5184837d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -169,25 +169,22 @@
       <Filter>Header Files\Components\Graphics Component\DirectX11</Filter>
     </ClInclude>
     <ClInclude Include="KeyMap.h">
-      <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="InputMessenger.h">
-      <Filter>Header Files\Input</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="RawKeyboard.h">
-      <Filter>Header Files\Input\InputMethods\Raw</Filter>
-    </ClInclude>
-    <ClInclude Include="RawDevice.h">
-      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+      <Filter>Input\InputMethods\Raw</Filter>
     </ClInclude>
     <ClInclude Include="RawInput.h">
-      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+      <Filter>Input\InputMethods\Raw</Filter>
     </ClInclude>
     <ClInclude Include="InputMethod.h">
-      <Filter>Header Files\Input\InputMethods</Filter>
+      <Filter>Input\InputMethods</Filter>
+    </ClInclude>
+    <ClInclude Include="IRawDevice.h">
+      <Filter>Input\InputMethods\Raw</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -272,26 +269,23 @@
     <ClCompile Include="DirectX11Pass.cpp">
       <Filter>Source Files\Components\Graphics Component\DirectX11</Filter>
     </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Header Files\Input</Filter>
-    </ClCompile>
     <ClCompile Include="KeyMap.cpp">
-      <Filter>Header Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="InputMessenger.cpp">
-      <Filter>Header Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="RawDevice.cpp">
-      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="RawInput.cpp">
-      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+      <Filter>Input\InputMethods\Raw</Filter>
     </ClCompile>
     <ClCompile Include="RawKeyboard.cpp">
-      <Filter>Header Files\Input\InputMethods\Raw</Filter>
+      <Filter>Input\InputMethods\Raw</Filter>
     </ClCompile>
     <ClCompile Include="InputMethod.cpp">
-      <Filter>Header Files\Input\InputMethods</Filter>
+      <Filter>Input\InputMethods</Filter>
+    </ClCompile>
+    <ClCompile Include="IRawDevice.cpp">
+      <Filter>Input\InputMethods\Raw</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

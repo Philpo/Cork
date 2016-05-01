@@ -4,7 +4,7 @@
 #include "MessageHandler.h"
 #include "Message.h"
 #include <windows.h>
-#include "input.h"
+#include "InputSystem.h"
 
 class TestInputComponent : public IComponent {
 public:

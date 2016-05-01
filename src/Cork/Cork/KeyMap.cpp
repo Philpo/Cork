@@ -1,31 +1,73 @@
 #include "KeyMap.h"
 
 
-KeyMap::KeyMap()
+KeyMap::KeyMap(string inputType)
 {
-  inputMap[MOVE_LEFT] = 65; // A
-  inputMap[MOVE_RIGHT] = 68; // D
-  inputMap[MOVE_FORWARD] = 87; // W
-  inputMap[MOVE_BACK] = 83; // S
-  inputMap[ROTATE_YAW_CLOCKWISE] = 76; // L
-  inputMap[ROTATE_YAW_ANTICLOCKWISE] = 74; // J
-  inputMap[ROTATE_PITCH_UP] = 73; // I
-  inputMap[ROTATE_PITCH_DOWN] = 75; // K
-  inputMap[FIRE] = 70; // F
-
-	//inputMap[MOVE_UP] = 87;
-	//inputMap[MOVE_DOWN] = 83;
-	//inputMap[MOVE_LEFT] = 75;
-	//inputMap[MOVE_RIGHT] = 68;
-	//inputMap[MOVE_FORWARD] = 38;
-	//inputMap[MOVE_BACK] = 40;
-	//inputMap[ROTATE_YAW_CLOCKWISE] = 69;
-	//inputMap[ROTATE_YAW_ANTICLOCKWISE] = 81;
-	//inputMap[ROTATE_PITCH_UP] = 82;
-	//inputMap[ROTATE_PITCH_DOWN] = 70;
+	if (inputType == INPUTMETHOD_KEYBOARD)
+	{
+		inputMap[MOVE_LEFT] = 65; // A
+		inputMap[MOVE_RIGHT] = 68; // D
+		inputMap[MOVE_FORWARD] = 87; // W
+		inputMap[MOVE_BACK] = 83; // S
+		inputMap[ROTATE_YAW_CLOCKWISE] = 76; // L
+		inputMap[ROTATE_YAW_ANTICLOCKWISE] = 74; // J
+		inputMap[ROTATE_PITCH_UP] = 73; // I
+		inputMap[ROTATE_PITCH_DOWN] = 75; // K
+		inputMap[FIRE] = 70; // F
+	}
+	else if (inputType == INPUTMETHOD_MOUSE)
+	{
+		///customise
+		inputMap[MOVE_LEFT] = 65; // A
+		inputMap[MOVE_RIGHT] = 68; // D
+		inputMap[MOVE_FORWARD] = 87; // W
+		inputMap[MOVE_BACK] = 83; // S
+		inputMap[ROTATE_YAW_CLOCKWISE] = 76; // L
+		inputMap[ROTATE_YAW_ANTICLOCKWISE] = 74; // J
+		inputMap[ROTATE_PITCH_UP] = 73; // I
+		inputMap[ROTATE_PITCH_DOWN] = 75; // K
+		inputMap[FIRE] = 70; // F
+	}
+	else if (inputType == INPUTMETHOD_JOYSTICK)
+	{
+		///customise
+		inputMap[MOVE_LEFT] = 65; // A
+		inputMap[MOVE_RIGHT] = 68; // D
+		inputMap[MOVE_FORWARD] = 87; // W
+		inputMap[MOVE_BACK] = 83; // S
+		inputMap[ROTATE_YAW_CLOCKWISE] = 76; // L
+		inputMap[ROTATE_YAW_ANTICLOCKWISE] = 74; // J
+		inputMap[ROTATE_PITCH_UP] = 73; // I
+		inputMap[ROTATE_PITCH_DOWN] = 75; // K
+		inputMap[FIRE] = 70; // F
+	}
+	else if (inputType == INPUTMETHOD_MISC)
+	{
+		///customise
+		inputMap[MOVE_LEFT] = 65; // A
+		inputMap[MOVE_RIGHT] = 68; // D
+		inputMap[MOVE_FORWARD] = 87; // W
+		inputMap[MOVE_BACK] = 83; // S
+		inputMap[ROTATE_YAW_CLOCKWISE] = 76; // L
+		inputMap[ROTATE_YAW_ANTICLOCKWISE] = 74; // J
+		inputMap[ROTATE_PITCH_UP] = 73; // I
+		inputMap[ROTATE_PITCH_DOWN] = 75; // K
+		inputMap[FIRE] = 70; // F
+	}
+	else
+	{
+		std::wstring errorMessage =	L"ERROR!!! - input method for map constructor not found\n";
+		OutputDebugString(errorMessage.c_str());
+		std::cout << errorMessage.c_str();
+	}
 }
 
 
 KeyMap::~KeyMap()
 {
+}
+
+void ChangeMappedKey(USHORT previousKey, USHORT newKey)
+{
+	//inputMap
 }

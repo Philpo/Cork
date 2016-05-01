@@ -37,6 +37,13 @@ const std::string ROTATE_PITCH_UP = "RotatePitchUp";
 const std::string ROTATE_PITCH_DOWN = "RotatePitchDown";
 const std::string FIRE = "Fire";
 
+// input methods
+const std::string INPUTMETHOD_KEYBOARD = "Keyboard";
+const std::string INPUTMETHOD_JOYSTICK = "Joystick";
+const std::string INPUTMETHOD_MOUSE = "Mouse";
+const std::string INPUTMETHOD_MISC = "MiscInput";
+
+
 inline bool convertStringToBool(const std::string& toConvert) {
   return toConvert == "true";
 }

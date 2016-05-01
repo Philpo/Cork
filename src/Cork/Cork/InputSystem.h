@@ -3,28 +3,27 @@
 #include <windows.h>
 #include <vector>
 #include "RawInput.h"
-#include "InputTypeEnums.h"
+//#include "InputTypeEnums.h"
 #include "IComponent.h"
 
 using namespace std;
 
 //#include "DirectInput.h"
 
-class Input : public IComponent
+class InputSystem : public IComponent
 {
 public:
-	Input();
-	Input(HWND window);
-	~Input();
+
+	InputSystem(HWND window);
+	~InputSystem();
 
 	void setCurrentWindow(HWND window) { _window = window; }
 	HWND GetCurrentWindow = _window;
 
-	RawDevice* GetRawInputDevice(int inputType);
+	const IRawDevice* GetRawInputDevice(string inputType);
 
-	vector<InputMethod*> inputMethods;
-
-	bool IsInputMethodInUse(InputMethod*);
+	//vector<InputMethod*> inputMethods;
+	//bool IsInputMethodInUse(InputMethod*);
 
 	//bool InputMethodsInUse(InputMethod*);
 	//InputMethod* GetInputMethod(string inputMethod)
