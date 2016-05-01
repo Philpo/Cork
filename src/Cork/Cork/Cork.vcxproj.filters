@@ -174,13 +174,7 @@
     <ClInclude Include="Input.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
-    <ClInclude Include="InputMessenger.h">
-      <Filter>Header Files\Input</Filter>
-    </ClInclude>
     <ClInclude Include="RawKeyboard.h">
-      <Filter>Header Files\Input\InputMethods\Raw</Filter>
-    </ClInclude>
-    <ClInclude Include="RawDevice.h">
       <Filter>Header Files\Input\InputMethods\Raw</Filter>
     </ClInclude>
     <ClInclude Include="RawInput.h">
@@ -188,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="InputMethod.h">
       <Filter>Header Files\Input\InputMethods</Filter>
+    </ClInclude>
+    <ClInclude Include="IRawDevice.h">
+      <Filter>Header Files\Input\InputMethods\Raw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -278,12 +275,6 @@
     <ClCompile Include="KeyMap.cpp">
       <Filter>Header Files\Input</Filter>
     </ClCompile>
-    <ClCompile Include="InputMessenger.cpp">
-      <Filter>Header Files\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="RawDevice.cpp">
-      <Filter>Header Files\Input\InputMethods\Raw</Filter>
-    </ClCompile>
     <ClCompile Include="RawInput.cpp">
       <Filter>Header Files\Input\InputMethods\Raw</Filter>
     </ClCompile>
@@ -292,6 +283,9 @@
     </ClCompile>
     <ClCompile Include="InputMethod.cpp">
       <Filter>Header Files\Input\InputMethods</Filter>
+    </ClCompile>
+    <ClCompile Include="IRawDevice.cpp">
+      <Filter>Header Files\Input\InputMethods\Raw</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IComponent.h"
-#include "RawDevice.h"
+#include "IRawDevice.h"
 #include "IMessageable.h"
 #include "MessageHandler.h"
 #include "Message.h"
@@ -13,7 +13,7 @@
 using namespace std;
 
 
-class RawKeyboard : public RawDevice
+class RawKeyboard : public IRawDevice
 {
 public:
 	RawKeyboard();
@@ -23,6 +23,7 @@ public:
 	void recieveMessage(IMessage &message);
 
   IMessageable* player;
+
 private:
   void receiveMessage(IMessage& message);
 };

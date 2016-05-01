@@ -27,8 +27,6 @@ void RawKeyboard::receiveMessage(IMessage &message)
 	Message returnMessage;
 	string event;
 
-	keyMap;
-
   USHORT input = *(USHORT*) message.getData();
 
 	if (player)
@@ -45,8 +43,10 @@ void RawKeyboard::receiveMessage(IMessage &message)
     //  }
     //}
 
-    for (auto iter = keyMap.inputMap.begin(); iter != keyMap.inputMap.end(); iter++) {
-      if (input == iter->second) {
+		for (auto iter = GetKeyMap()->inputMap.begin(); iter != GetKeyMap()->inputMap.end(); iter++)
+	{
+      if (input == iter->second) 
+	  {
         returnMessage.setData((void*) &iter->first);
         break;
       }

@@ -5,7 +5,7 @@
 
 #include <Windows.h>
 #include <string>
-#include "RawDevice.h"
+#include "IRawDevice.h"
 #include "RawKeyboard.h"
 #include "InputMethod.h"
 #include "IComponent.h"
@@ -23,13 +23,13 @@ public:
 	~RawInput();
 
 	bool InitializeInput(string inputType);
-	RawDevice* GetKeyboard() { return _keyboard; }
-	RawDevice* GetJoystick() { return _Joystick; }
-	RawDevice* GetMouse()	 { return _mouse; }
+	IRawDevice* GetKeyboard() { return _keyboard; }
+	IRawDevice* GetJoystick() { return _Joystick; }
+	IRawDevice* GetMouse()	 { return _mouse; }
 
   const std::string& getType() const { return INPUT_COMPONENT; }
   const std::vector<std::string>& getSupportedMessages() const {
-    return temp;
+    return _temp;
   }
 
   void setPlayer(IMessageable* const player) { ((RawKeyboard*) _keyboard)->player = player; }
@@ -39,9 +39,9 @@ private:
     MessageHandler::forwardMessage(message);
   }
 	HWND _window = 0;
-	RawDevice* _keyboard = nullptr;
-	RawDevice* _Joystick = nullptr;
-	RawDevice* _mouse	 = nullptr;
-  vector < string >  temp;
+	IRawDevice* _keyboard = nullptr;
+	IRawDevice* _Joystick = nullptr;
+	IRawDevice* _mouse	 = nullptr;
+  vector < string >  _temp;
 };
 

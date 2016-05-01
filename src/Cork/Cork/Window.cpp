@@ -11,7 +11,7 @@ HWND Window::window;
 LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
 
 Input* input;
-RawDevice* rawDevice;
+RawInput* RawInput;
 
 HRESULT Window::initWindow(HINSTANCE instance, int cmdShow, int height, int width) {
   WNDCLASSEX wcex;

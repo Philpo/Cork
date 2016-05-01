@@ -35,7 +35,6 @@
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="InputMessenger.h" />
     <ClInclude Include="InputMethod.h" />
     <ClInclude Include="IPass.h" />
     <ClInclude Include="IShader.h" />
@@ -47,7 +46,7 @@
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="ParticleComponent.h" />
-    <ClInclude Include="RawDevice.h" />
+    <ClInclude Include="IRawDevice.h" />
     <ClInclude Include="RawInput.h" />
     <ClInclude Include="RawKeyboard.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -76,7 +75,6 @@
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="InputMessenger.cpp" />
     <ClCompile Include="InputMethod.cpp" />
     <ClCompile Include="KeyMap.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -84,7 +82,7 @@
     <ClCompile Include="MessageHandler.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="ParticleComponent.cpp" />
-    <ClCompile Include="RawDevice.cpp" />
+    <ClCompile Include="IRawDevice.cpp" />
     <ClCompile Include="RawInput.cpp" />
     <ClCompile Include="RawKeyboard.cpp" />
     <ClCompile Include="ResourceManager.cpp" />

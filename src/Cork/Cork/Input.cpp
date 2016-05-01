@@ -47,7 +47,7 @@ Input::~Input()
 
 
 
-RawDevice* Input::GetRawInputDevice(string inputType)
+IRawDevice* Input::GetRawInputDevice(string inputType)
 {
 	if (inputType == INPUTMETHOD_KEYBOARD)
 		return _rawInput->GetKeyboard();

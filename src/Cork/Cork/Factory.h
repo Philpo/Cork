@@ -1,7 +1,6 @@
 #pragma once
 #include "IFactory.h"
 #include "TestInputComponent.h"
-#include "InputMessenger.h"
 #include "DirectX11Graphics.h"
 #include "ApplyForceComponent.h"
 #include "TransformComponent.h"
@@ -21,7 +20,6 @@ public:
   ~Factory() {}
 
   virtual IComponent* const getBasicInputComponent(void* data) const override;
-  virtual IComponent* const getInputMessenger(void* data) const override;
   virtual IComponent* const getDirectX11Graphics(void* data) const override; 
   virtual IComponent* const getApplyForceComponent(void* data) const override;
 

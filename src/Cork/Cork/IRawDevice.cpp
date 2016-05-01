@@ -1,14 +1,16 @@
-#include "RawDevice.h"
+#include "IRawDevice.h"
 
 
-RawDevice::RawDevice()
+IRawDevice::IRawDevice()
 {
-  temp.push_back("CheckInputMessage");
+  _temp.push_back("CheckInputMessage");
 }
 
 
-RawDevice::~RawDevice()
+IRawDevice::~IRawDevice()
 {
+	delete _keyMap;
+	_keyMap = nullptr;
 }
 
 //void RawDevice::StartTimer()
@@ -19,17 +21,17 @@ RawDevice::~RawDevice()
 //	//remeber to use guards for thread accessing vector
 //}
 
-void RawDevice::NewInput(USHORT input)
+void IRawDevice::NewInput(USHORT input)
 {
-	lastInput = currentInput;
-	currentInput = input;
+	SetLastInput(GetCurrentInput());
+	SetCurrentInput(input);
 	//thread timer(&RawDevice::StartTimer, this);		//http://stackoverflow.com/questions/28574004/how-do-i-use-threading-in-a-class
 	//timer.join();
 
 	ExecuteInputEvent(input);
 }
 
-void RawDevice::ExecuteInputEvent(USHORT input)
+void IRawDevice::ExecuteInputEvent(USHORT input)
 {
 	
 }

@@ -20,7 +20,7 @@ public:
 	void setCurrentWindow(HWND window) { _window = window; }
 	HWND GetCurrentWindow = _window;
 
-	RawDevice* GetRawInputDevice(string inputType);
+	IRawDevice* GetRawInputDevice(string inputType);
 
 	vector<InputMethod*> inputMethods;
 
