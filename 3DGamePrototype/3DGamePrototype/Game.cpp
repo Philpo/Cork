@@ -2,6 +2,14 @@
 #include "BinaryData.h"
 
 const bool UNIT_TESTS = false;
+const int Game::SPAWN_BOX_FRAME_COUNT = 60;
+
+float randomFloat(float a, float b) {
+  float random = ((float) rand()) / (float) RAND_MAX;
+  float diff = b - a;
+  float r = random * diff;
+  return a + r;
+}
 
 Game::Game() : scheduler(nullptr), factory(nullptr), inputLayout(nullptr) {}
 
@@ -18,6 +26,8 @@ Game::~Game() {
 }
 
 HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
+  srand(time(0));
+
   HRESULT hr = Window::initWindow(instance, cmdShow, 480, 640);
   if (FAILED(hr)) {
     return hr;
@@ -77,6 +87,7 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   EntityLoader::loadEntities("lights.xml", lights);
   EntityLoader::loadEntities("game_objects.xml", boxes);
   EntityLoader::loadEntity("bullet.xml");
+  EntityLoader::loadEntity("box_prototype.xml");
 
   boxPool = ((PoolData*) camera->getDataComponent(OBJECT_POOL_DATA_COMPONENT)->getData())->pool;
 
@@ -177,6 +188,25 @@ void Game::update(double timeSinceLastFrame) {
     b.centre += p.displacement;
   }
 
+  if (spawnBoxTimer == SPAWN_BOX_FRAME_COUNT) {
+    spawnBoxTimer = 0;
+
+    GameObject* newBox = EntityLoader::createEntity(7);
+
+    Transform& t = *(Transform*) newBox->getDataComponent(TRANSFORM_COMPONENT)->getData();
+    BoundingBox& b = *(BoundingBox*) newBox->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
+
+    float x, z;
+    x = randomFloat(-50, 50);
+    z = randomFloat(-50, 50);
+
+    t.position.setX(x);
+    t.position.setZ(z);
+    b.centre = t.position;
+
+    boxes.push_back(newBox);
+  }
+
   for (auto box1 : boxes) {
     bool noCollision = true;
 
@@ -227,6 +257,8 @@ void Game::update(double timeSinceLastFrame) {
   for (auto box : boxesToRemove) {
     remove<GameObject* const>(boxes, box);
   }
+
+  spawnBoxTimer++;
 }
 
 void Game::draw() {

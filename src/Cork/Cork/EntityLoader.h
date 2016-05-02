@@ -24,7 +24,9 @@ public:
 
   static GameObject* const loadEntity(const std::string& entityFile);
   static void loadEntities(const std::string& entitiesFile, vector<GameObject* const>& entities);
+  static GameObject* const createEntity(int masterId);
 private:
+  static int entityId;
   static map<int, GameObject* const> allEntities;
   static void loadEntity(xml_node<>* entityNode, GameObject*& entity);
 };

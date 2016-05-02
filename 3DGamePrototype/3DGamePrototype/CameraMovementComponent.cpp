@@ -58,6 +58,10 @@ void CameraMovementComponent::receiveMessage(IMessage& message) {
       else if (*event == FIRE) {
         MessageHandler::forwardMessage(Message(ADD_BULLET_MESSAGE, nullptr, target->getMessageHandler(ADD_BULLET_MESSAGE)));
       }
+      else if (*event == JUMP) {
+        double time = 0.01;
+        MessageHandler::forwardMessage(Message(JUMP_MESSAGE, &time, target->getMessageHandler(JUMP_MESSAGE)));
+      }
     }
 
     Transform* t = (Transform*) component->getData();

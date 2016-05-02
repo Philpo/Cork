@@ -60,7 +60,7 @@ public:
   void loopFunction(double timeSinceLastFrame);
 private:
   Scheduler* scheduler;
-  GameObject* camera;
+  GameObject *camera, *player;
   vector<GameObject* const> lights, boxes;
   const GameFactory* factory;
   int meshId, vertexShader, pixelShader;

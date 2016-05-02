@@ -12,10 +12,11 @@ using namespace std;
 class ObjectPool;
 
 class GameObject : public IMessageable {
-  friend class ObjectPool;
 public:
   GameObject() {}
   virtual ~GameObject();
+
+  void copy(const GameObject& toCopy);
 
   const vector<string>& getSupportedMessages() const override { return supportedMessages; }
   int getUUId() const { return uuid; }
@@ -36,5 +37,4 @@ protected:
   vector<string> supportedMessages;
 private:
   void receiveMessage(IMessage& message) override;
-  void copy(const GameObject& toCopy);
 };

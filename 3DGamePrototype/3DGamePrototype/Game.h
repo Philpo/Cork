@@ -14,6 +14,8 @@
 #include "ObjectPool.h"
 #include "DirectX11Pass.h"
 #include "GameComponents.h"
+#include <random>
+#include <cstdio>
 
 struct LightStruct {
   LightStruct() : range(0.0f), exponent(0.0f), enabled(1) {
@@ -71,6 +73,8 @@ private:
   BinaryData* cb;
   ObjectPool* boxPool;
   vector<IPass* const> passes;
+  int spawnBoxTimer = 0;
+  static const int SPAWN_BOX_FRAME_COUNT;
 
   void update(double timeSinceLastFrame);
   void draw();

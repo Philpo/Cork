@@ -1,5 +1,6 @@
 #include "EntityLoader.h"
 
+int EntityLoader::entityId = 0;
 map<int, GameObject* const> EntityLoader::allEntities;
 
 void EntityLoader::cleanup() {
@@ -23,6 +24,7 @@ GameObject* const EntityLoader::loadEntity(const std::string& entityFile) {
     loadEntity(rootNode, toReturn);
     toReturn->setUUId(uId);
     allEntities.insert(pair<int, GameObject* const>(uId, toReturn));
+    entityId = uId + 1;
   }
   catch (exception&) {
     delete toReturn;
@@ -47,6 +49,7 @@ void EntityLoader::loadEntities(const std::string& entitiesFile, vector<GameObje
       toAdd = new GameObject;
       loadEntity(entityNode, toAdd);
       toAdd->setUUId(uId);
+      entityId = uId + 1;
       entities.push_back(toAdd);
       allEntities.insert(pair<int, GameObject* const>(uId, toAdd));
     }
@@ -82,4 +85,15 @@ void EntityLoader::loadEntity(xml_node<>* entityNode, GameObject*& entity) {
   catch (exception&) {
     throw;
   }
+}
+
+GameObject* const EntityLoader::createEntity(int masterId) {
+  if (allEntities.find(masterId) != allEntities.end()) {
+    GameObject* toReturn = new GameObject;
+    toReturn->copy(*allEntities[masterId]);
+    toReturn->setUUId(entityId);
+    allEntities.insert(pair<int, GameObject* const>(entityId++, toReturn));
+    return toReturn;
+  }
+  return nullptr;
 }

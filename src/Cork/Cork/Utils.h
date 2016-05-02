@@ -36,6 +36,7 @@ const std::string ROTATE_YAW_ANTICLOCKWISE = "RotateYawAntiClockwise";
 const std::string ROTATE_PITCH_UP = "RotatePitchUp";
 const std::string ROTATE_PITCH_DOWN = "RotatePitchDown";
 const std::string FIRE = "Fire";
+const std::string JUMP = "Jump";
 
 // input methods
 const std::string INPUTMETHOD_KEYBOARD = "Keyboard";

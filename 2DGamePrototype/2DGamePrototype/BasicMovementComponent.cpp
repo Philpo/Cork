@@ -19,6 +19,10 @@ void BasicMovementComponent::receiveMessage(IMessage& message) {
       else if (*event == MOVE_RIGHT) {
         newPosition.setX(newPosition.getX() + 0.1f);
       }
+      else if (*event == JUMP) {
+        double time = 0.01;
+        MessageHandler::forwardMessage(Message(JUMP_MESSAGE, &time, target->getMessageHandler(JUMP_MESSAGE)));
+      }
     }
 
     Transform* t = (Transform*) component->getData();

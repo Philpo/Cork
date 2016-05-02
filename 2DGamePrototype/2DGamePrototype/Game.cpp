@@ -70,10 +70,12 @@ HRESULT Game::initGame(HINSTANCE instance, int cmdShow) {
   MessageHandler::forwardMessage(Message(CREATE_CONSTANT_BUFFER_MESSAGE, &cbSize, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
 
   camera = EntityLoader::loadEntity("camera.xml");
+  player = EntityLoader::loadEntity("player.xml");
   EntityLoader::loadEntities("lights.xml", lights);
   EntityLoader::loadEntities("game_objects.xml", boxes);
 
-  scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, boxes[boxes.size() - 1]));
+  Window::setPlayer(player);
+  //scheduler->scheduleComponent(POLL_INPUT_MESSAGE, ServiceLocator::getMessageHandler(INPUT_COMPONENT, player));
 
   stringstream lightName;
   for (unsigned i = 0; i < lights.size(); i++) {
@@ -124,36 +126,41 @@ void Game::loopFunction(double timeSinceLastFrame) {
 }
 
 void Game::update(double timeSinceLastFrame) {
-  Transform& t = *(Transform*) boxes[boxes.size() - 1]->getDataComponent(TRANSFORM_COMPONENT)->getData();
-  BoundingBox& b = *(BoundingBox*) boxes[boxes.size() - 1]->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
-  Particle& p = *(Particle*) boxes[boxes.size() - 1]->getDataComponent(PARTICLE_COMPONENT)->getData();
-  JumpData& jd = *(JumpData*) boxes[boxes.size() - 1]->getDataComponent(JUMP_DATA_COMPONENT)->getData();
+  Transform& t = *(Transform*) player->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  BoundingBox& b = *(BoundingBox*) player->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
+  Particle& p = *(Particle*) player->getDataComponent(PARTICLE_COMPONENT)->getData();
+  JumpData& jd = *(JumpData*) player->getDataComponent(JUMP_DATA_COMPONENT)->getData();
 
   b.centre = t.position;
 
   if (jd.jumping) {
-    scheduler->scheduleComponent(JUMP_MESSAGE, boxes[boxes.size() - 1]->getMessageHandler(JUMP_MESSAGE));
+    scheduler->scheduleComponent(JUMP_MESSAGE, player->getMessageHandler(JUMP_MESSAGE));
   }
 
-  for (auto box : boxes) {
-    if (box->getDataComponent(PARTICLE_COMPONENT)) {
-      MessageHandler::forwardMessage(Message(APPLY_FORCE_MESSAGE, &timeSinceLastFrame, box->getMessageHandler(APPLY_FORCE_MESSAGE)));
+  MessageHandler::forwardMessage(Message(APPLY_FORCE_MESSAGE, &timeSinceLastFrame, player->getMessageHandler(APPLY_FORCE_MESSAGE)));
 
-      Transform& t = *(Transform*) box->getDataComponent(TRANSFORM_COMPONENT)->getData();
-      BoundingBox& b = *(BoundingBox*) box->getDataComponent(BOUNDING_BOX_COMPONENT)->getData();
-      Particle p = *(Particle*) box->getDataComponent(PARTICLE_COMPONENT)->getData();
+  t.position += p.displacement;
+  b.centre += p.displacement;
 
-      t.position += p.displacement;
-      b.centre += p.displacement;
-    }
-  }
+  Transform& ct = *(Transform*) camera->getDataComponent(TRANSFORM_COMPONENT)->getData();
+  ct.position.setX(ct.position.getX() + 0.005f);
 
+  bool playerCollided = false;
   for (auto box1 : boxes) {
+    if (CollisionDetector::collisionDetection(*player->getDataComponent(BOUNDING_BOX_COMPONENT), *box1->getDataComponent(BOUNDING_BOX_COMPONENT))) {
+      CollisionResolver::resolveCollision(*player, *box1);
+      playerCollided = true;
+    }
+
     for (auto box2 : boxes) {
       if (box1 != box2 && CollisionDetector::collisionDetection(*box1->getDataComponent(BOUNDING_BOX_COMPONENT), *box2->getDataComponent(BOUNDING_BOX_COMPONENT))) {
         CollisionResolver::resolveCollision(*box1, *box2);
       }
     }
+  }
+
+  if (!playerCollided) {
+    p.gravityEnabled = true;
   }
 }
 
@@ -203,6 +210,16 @@ void Game::draw() {
 
       MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, box->getMessageHandler(DRAW_MESSAGE)));
     }
+
+    drawData.meshId = *(int*) player->getDataComponent(MESH_COMPONENT)->getData();
+    enableDiffuse = enableSpecular = enableBump = 1;
+    cb->updateData("enableTexturing", enableDiffuse);
+    cb->updateData("enableSpecularMapping", enableSpecular);
+    cb->updateData("enableBumpMapping", enableBump);
+    cb->updateData("enableClipTesting", enableDiffuse);
+    resolveSceneGraph(player);
+    setMaterial(player);
+    MessageHandler::forwardMessage(Message(DRAW_MESSAGE, &drawData, player->getMessageHandler(DRAW_MESSAGE)));
   }
 
   MessageHandler::forwardMessage(Message(SWAP_BUFFER_MESSAGE, nullptr, ServiceLocator::getMessageHandler(GRAPHICS_COMPONENT)));
@@ -423,7 +440,6 @@ void Game::basicCollisionResolution(const GameObject& lhs, const GameObject& rhs
 
     if (lhs.getDataComponent(JUMP_DATA_COMPONENT)) {
       JumpData* jump = (JumpData*) lhs.getDataComponent(JUMP_DATA_COMPONENT)->getData();
-      jump->jumping = false;
       jump->jumpTime = jump->maxJumpTime;
     }
   }

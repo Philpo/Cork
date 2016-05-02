@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 #include "GameComponents.h"
+#include "Message.h"
 
 class BasicMovementComponent : public IComponent {
 public:
