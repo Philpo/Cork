@@ -23,9 +23,8 @@ public:
 
 	KeyMap* GetKeyMap() { return _keyMap; }
 
-	bool usingComboSystem = true;
-	void IfUsingComboSystem()	{ (usingComboSystem = true) ? (_timer = new thread(functorTimer, GetRecentInput(), _timer)) : (_timer = nullptr); }
-	Functor functorTimer;
+	void UsingComboSystem(bool option)	{ (option = true) ? (_timer = new thread(*functorTimer, GetRecentInput(), _timer)) : (_timer = nullptr); }
+	Functor* functorTimer = new Functor;
 
 
 	USHORT GetLastInput()										{ return _lastInput; }

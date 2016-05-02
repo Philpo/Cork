@@ -4,6 +4,7 @@
 IRawDevice::IRawDevice()
 {
   _temp.push_back("CheckInputMessage");
+  UsingComboSystem(true);
 }
 
 
@@ -50,4 +51,5 @@ void IRawDevice::RecordInput(USHORT input)
 	SetLastInput(GetCurrentInput());
 	SetCurrentInput(input);
 	SetRecentInput(input);
+	functorTimer->updateInput = true;
 }
