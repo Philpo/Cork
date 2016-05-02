@@ -1,11 +1,14 @@
 #pragma once
 #include <Windows.h>
 #include <vector>
-//#include <chrono>
+#include <chrono>
 #include <thread>
 #include "KeyMap.h"
 #include "IComponent.h"
 #include "MessageHandler.h"
+#include "Functor.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -16,27 +19,32 @@ public:
 	~IRawDevice();
 
 	virtual void InitialiseRawInput() = 0;
-	virtual void NewInput(USHORT input);
-	virtual void ExecuteInputEvent(USHORT input);
+	virtual void RecordInput(USHORT input);
 
-	//||TODO|| move
 	KeyMap* GetKeyMap() { return _keyMap; }
+
+	bool usingComboSystem = true;
+	void IfUsingComboSystem()	{ (usingComboSystem = true) ? (_timer = new thread(functorTimer, GetRecentInput(), _timer)) : (_timer = nullptr); }
+	Functor functorTimer;
+
 
 	USHORT GetLastInput()										{ return _lastInput; }
 	USHORT GetCurrentInput()									{ return _currentInput; }
-	vector<USHORT>GetRecentInput()								{ return _recentInput; }
+	vector<USHORT>*GetRecentInput()								{ return _recentInput; }
 	chrono::steady_clock::time_point GetLastInputTime()			{ return _lastInputTime; }
 	chrono::steady_clock::time_point GetCurrentInputTime()		{ return _currentInputTime; }
 
 	const void SetLastInput(USHORT lastInput)										{ _lastInput = lastInput; }
 	const void SetCurrentInput(USHORT currentInput)									{ _currentInput = currentInput; }
+	const void SetRecentInput(USHORT input)											{ _recentInput->push_back(input); }
 	const void SetLastInput(chrono::steady_clock::time_point lastInputTime)			{ _lastInputTime = lastInputTime; }
 	const void SetCurrentInput(chrono::steady_clock::time_point currentInputTime)	{ _currentInputTime = currentInputTime; }
 
+	const void ClearRecentInput()								{ _recentInput->clear(); }
+
+
 
 	//chrono::duration_cast<chrono::milliseconds>(timeSinceLastInput).count()
-
-	void StartTimer();
 
 	IMessageable* player;
 
@@ -52,12 +60,14 @@ private:
 
   KeyMap* _keyMap = new KeyMap(INPUTMETHOD_KEYBOARD);
 
-  vector <USHORT>	_recentInput;
+  vector<USHORT>*	_recentInput = new vector <USHORT>;
   USHORT			_lastInput;
   USHORT			_currentInput;
 
   chrono::steady_clock::time_point		_lastInputTime;
   chrono::steady_clock::time_point		_currentInputTime;
   const chrono::steady_clock::duration	_timeSinceLastInput = _lastInputTime - _currentInputTime;
+
+  thread* _timer = nullptr;
 };
 

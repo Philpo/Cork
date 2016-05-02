@@ -46,6 +46,9 @@
     <Filter Include="Input\InputMethods\Raw">
       <UniqueIdentifier>{95799a69-a0d8-475d-9a91-679a5184837d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input\Thread">
+      <UniqueIdentifier>{c3ed9d31-0bea-4dec-9060-71f766499435}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h">
@@ -186,6 +189,12 @@
     <ClInclude Include="IInputMethod.h">
       <Filter>Input\InputMethods</Filter>
     </ClInclude>
+    <ClInclude Include="Functor.h">
+      <Filter>Input\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadWrapper.h">
+      <Filter>Input\Thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -286,6 +295,12 @@
     </ClCompile>
     <ClCompile Include="IInputMethod.cpp">
       <Filter>Input\InputMethods</Filter>
+    </ClCompile>
+    <ClCompile Include="Functor.cpp">
+      <Filter>Input\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadWrapper.cpp">
+      <Filter>Input\Thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,6 +11,20 @@ IRawDevice::~IRawDevice()
 {
 	delete _keyMap;
 	_keyMap = nullptr;
+
+	//delete threadTimer;
+	//threadTimer = nullptr;
+
+	////stop thread, wait for it to complete and then delete
+	//functorTimer.threadRunning = false;
+	//while (!functorTimer.threadExited)
+	//{
+	//	if (functorTimer.threadExited)
+	//	{
+	//		delete _timer;
+	//		_timer = nullptr;
+	//	}
+	//}
 }
 
 /*		With more time a combo system could be added. This would require a method of
@@ -24,27 +38,16 @@ IRawDevice::~IRawDevice()
  *		Once X amount of time has passed without any input the vector should be cleared.
  */
 
-void IRawDevice::NewInput(USHORT input)
+void IRawDevice::RecordInput(USHORT input)
 {
+
+	/*
+	*		By creating an array of all input conbos can be tracked.
+	*		After a certain period of time 
+	*
+	*/
+
 	SetLastInput(GetCurrentInput());
 	SetCurrentInput(input);
-
-	GetRecentInput().push_back(input);
-
-	//thread timer(&RawDevice::StartTimer, this);		//http://stackoverflow.com/questions/28574004/how-do-i-use-threading-in-a-class
-
-	ExecuteInputEvent(input);
-}
-
-//void RawDevice::StartTimer()
-//{
-//	Sleep(1000);
-//	recentInput.clear();
-//
-//	//remeber to use guards for threads accessing vector
-//}
-
-void IRawDevice::ExecuteInputEvent(USHORT input)
-{
-	
+	SetRecentInput(input);
 }
