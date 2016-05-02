@@ -3,6 +3,7 @@
 #include <chrono>
 #include <vector>
 #include "ThreadWrapper.h"
+#include <mutex>
 
 using namespace std;
 
@@ -19,14 +20,11 @@ public:
 		ThreadWrapper w(thisThread);
 		threadExited = true;
 	}
-
 	void DetectCombos(vector<USHORT>* recentInput);
 
 	USHORT newInput;
-	void UpdateInput(bool update) { _updateInput = update; }
 	bool threadRunning = true;
 	bool threadExited = false;
-
 
 	chrono::steady_clock::time_point GetLastInputTime()			{ return _lastInputTime; }
 	chrono::steady_clock::time_point GetCurrentInputTime()		{ return _currentInputTime; }
@@ -37,8 +35,6 @@ private:
 	chrono::steady_clock::time_point		_lastInputTime;
 	chrono::steady_clock::time_point		_currentInputTime;
 	const chrono::steady_clock::duration	_timeSinceLastInput = _lastInputTime - _currentInputTime;
-	const chrono::steady_clock::duration	_conboTimeLimit = chrono::milliseconds(500);
-
-	bool _updateInput = new bool;
+	const chrono::steady_clock::duration	_comboTimeLimit = chrono::milliseconds(500);
 };
 

@@ -9,6 +9,7 @@
 #include "Functor.h"
 #include <string>
 #include <iostream>
+#include <mutex>
 
 using namespace std;
 
@@ -40,7 +41,7 @@ public:
 
 	const void ClearRecentInput()								{ _recentInput->clear(); }
 
-
+	mutex guard;
 
 	//chrono::duration_cast<chrono::milliseconds>(timeSinceLastInput).count()
 

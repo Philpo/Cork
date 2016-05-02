@@ -50,6 +50,10 @@ void IRawDevice::RecordInput(USHORT input)
 
 	SetLastInput(GetCurrentInput());
 	SetCurrentInput(input);
-	SetRecentInput(input);
-	functorTimer->UpdateInput(true);
+	
+	guard.lock();
+	{
+		SetRecentInput(input);
+	}
+	guard.unlock();
 }
