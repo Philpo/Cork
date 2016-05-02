@@ -25,6 +25,7 @@
     <ClInclude Include="DirectX11XMLMeshLoader.h" />
     <ClInclude Include="EntityLoader.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="Functor.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="DirectX11TypeDefs.h" />
     <ClInclude Include="GraphicsTypeDefs.h" />
@@ -35,7 +36,7 @@
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
     <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="InputMethod.h" />
+    <ClInclude Include="IInputMethod.h" />
     <ClInclude Include="IPass.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="ITexture.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="TestInputComponent.h" />
+    <ClInclude Include="ThreadWrapper.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Vector3.h" />
@@ -73,9 +75,10 @@
     <ClCompile Include="DirectxX11Shader.cpp" />
     <ClCompile Include="EntityLoader.cpp" />
     <ClCompile Include="Factory.cpp" />
+    <ClCompile Include="Functor.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="InputMethod.cpp" />
+    <ClCompile Include="IInputMethod.cpp" />
     <ClCompile Include="KeyMap.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
@@ -89,6 +92,7 @@
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="TestInputComponent.cpp" />
+    <ClCompile Include="ThreadWrapper.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Window.cpp" />

@@ -8,11 +8,24 @@ RawInput::RawInput()
   InitializeInput(INPUTMETHOD_KEYBOARD);
 }
 
-RawInput::RawInput(HWND window)
-{
-	_window = window;
-	InitializeInput(INPUTMETHOD_KEYBOARD);
-}
+//RawInput::RawInput(HWND window)
+//{
+//	_window = window;
+//	InitializeInput(INPUTMETHOD_KEYBOARD);
+//}
+
+
+//----------||SINGLETON||----------
+//RawInput* RawInput::_instance = 0;
+//
+//RawInput* RawInput::Instance()
+//{
+//	if (_instance == 0)
+//	{
+//		_instance = new RawInput;
+//	}
+//	return _instance;
+//}
 
 void RawInput::InitializeInput(string inputType)
 {

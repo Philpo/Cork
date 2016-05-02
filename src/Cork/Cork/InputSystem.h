@@ -18,18 +18,9 @@ public:
 	~InputSystem();
 
 	void setCurrentWindow(HWND window) { _window = window; }
-	HWND GetCurrentWindow = _window;
+	HWND GetCurrentWindow()	{return _window;}
 
 	const IRawDevice* GetRawInputDevice(string inputType);
-
-	//vector<InputMethod*> inputMethods;
-	//bool IsInputMethodInUse(InputMethod*);
-
-	//bool InputMethodsInUse(InputMethod*);
-	//InputMethod* GetInputMethod(string inputMethod)
-	//{
-	//	if (inputMethod == "rawInput")		{	return _rawInput;	}
-	//};
 
 	bool CheckInputMethod(string inputMethod)
 	{
@@ -47,12 +38,18 @@ private:
     MessageHandler::forwardMessage(message);
   }
 
-	//|| TODO || make this into an vector so it doesn't need to be updated each time
+	//|| TODO || make this into a vector so it doesn't need to be updated each time
 
 	RawInput* _rawInput = nullptr;
+	//InputMethod* _rawInput = nullptr;
 	//InputMethod* _xInput = nullptr;
 	//InputMethod* _directInput = nullptr;
+
+	//vector <inputMethod*> _inputMethods;
+
+
 	HWND _window;
+
   vector < string >  temp;
 };
 
