@@ -24,6 +24,7 @@ public:
 
 	USHORT GetLastInput()										{ return _lastInput; }
 	USHORT GetCurrentInput()									{ return _currentInput; }
+	vector<USHORT>GetRecentInput()								{ return _recentInput; }
 	chrono::steady_clock::time_point GetLastInputTime()			{ return _lastInputTime; }
 	chrono::steady_clock::time_point GetCurrentInputTime()		{ return _currentInputTime; }
 
@@ -31,6 +32,7 @@ public:
 	const void SetCurrentInput(USHORT currentInput)									{ _currentInput = currentInput; }
 	const void SetLastInput(chrono::steady_clock::time_point lastInputTime)			{ _lastInputTime = lastInputTime; }
 	const void SetCurrentInput(chrono::steady_clock::time_point currentInputTime)	{ _currentInputTime = currentInputTime; }
+
 
 	//chrono::duration_cast<chrono::milliseconds>(timeSinceLastInput).count()
 

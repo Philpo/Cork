@@ -20,29 +20,17 @@ InputSystem::InputSystem(HWND window)
 
 	_rawInput = new RawInput;
 
-	//inputMethods.push_back(new RawInput);
-	//inputMethods.push_back(new XInput);
-	//inputMethods.push_back(new DirectInput);
-
-
+	//_inputMethods.push_back(new RawInput);
+	//_inputMethods.push_back(new XInput);
+	//_inputMethods.push_back(new DirectInput);
 }
 
 
 InputSystem::~InputSystem()
 {
-	delete _rawInput;
-	_rawInput = nullptr;
+	//delete _rawInput;
+	//_rawInput = nullptr;
 }
-
-
-//bool InputSystem::IsInputMethodInUse(InputMethod* inputMethod)
-//{
-//	//http://stackoverflow.com/questions/571394/how-to-find-an-item-in-a-stdvector
-//	if (find(inputMethods.begin(), inputMethods.end(), inputMethod) != inputMethods.end())
-//		return true;
-//	else
-//		return false;
-//}
 
 
 //

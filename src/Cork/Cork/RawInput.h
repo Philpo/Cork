@@ -7,7 +7,7 @@
 #include <string>
 #include "IRawDevice.h"
 #include "RawKeyboard.h"
-#include "InputMethod.h"
+#include "IInputMethod.h"
 #include "IComponent.h"
 #include "MessageHandler.h"
 #include "utils.h"
@@ -15,12 +15,15 @@
 using namespace std;
 
 
-class RawInput : public InputMethod, public IComponent
+class RawInput : public IInputMethod, public IComponent
 {
 public:
+	//RawInput(HWND currentWindow);
 	RawInput();
-	RawInput(HWND currentWindow);
 	~RawInput();
+
+	//--------SINGLETON---------//
+	//static RawInput* Instance();
 
 	void InitializeInput(string inputType);
 	IRawDevice* GetKeyboard() { return _keyboard; }
@@ -38,15 +41,21 @@ public:
 
   void setPlayer(IMessageable* const player) { ((RawKeyboard*) _keyboard)->player = player; }
 
+protected:
+	//SINGLETON
+	//RawInput();
 
 private:
-
+	//SINGLETON
+	//static RawInput* _instance;
   void receiveMessage(IMessage& message)
   {
     message.setTarget(_keyboard);
     MessageHandler::forwardMessage(message);
   }
 	HWND _window = 0;
+
+	//		||TODO|| These need to be made into vectors to allow for multipls of X devices
 
 	IRawDevice* _keyboard = nullptr;
 	IRawDevice* _Joystick = nullptr;
@@ -56,6 +65,15 @@ private:
 	//vector<IRawDevice*> _joystick;
 	//vector<IRawDevice*> _mouse;
 	//vector<IRawDevice*> _misc;
+
+	/*
+	 *		||OR||, storing all devices in one vector would suit the better open/close princliple by preventing
+	 *		the need for new vectors to be manually create. This shouldn't however be needed since the _misc vector
+	 *		would hold all other devices.
+	 *
+	 */
+
+	//vector<IRawDevice*> _rawDeviceVect;
 
   vector < string >  _temp;
 };

@@ -35,7 +35,7 @@
     <ClInclude Include="IMessage.h" />
     <ClInclude Include="IMessageable.h" />
     <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="InputMethod.h" />
+    <ClInclude Include="IInputMethod.h" />
     <ClInclude Include="IPass.h" />
     <ClInclude Include="IShader.h" />
     <ClInclude Include="ITexture.h" />
@@ -75,7 +75,7 @@
     <ClCompile Include="Factory.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="InputMethod.cpp" />
+    <ClCompile Include="IInputMethod.cpp" />
     <ClCompile Include="KeyMap.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
