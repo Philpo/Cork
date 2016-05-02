@@ -23,7 +23,7 @@ public:
 	void DetectCombos(vector<USHORT>* recentInput);
 
 	USHORT newInput;
-	bool updateInput = false;
+	void UpdateInput(bool update) { _updateInput = update; }
 	bool threadRunning = true;
 	bool threadExited = false;
 
@@ -38,6 +38,7 @@ private:
 	chrono::steady_clock::time_point		_currentInputTime;
 	const chrono::steady_clock::duration	_timeSinceLastInput = _lastInputTime - _currentInputTime;
 	const chrono::steady_clock::duration	_conboTimeLimit = chrono::milliseconds(500);
-		
+
+	bool _updateInput = new bool;
 };
 

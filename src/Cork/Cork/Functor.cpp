@@ -14,9 +14,9 @@ void Functor::DetectCombos(vector<USHORT>* recentInput)
 {
 	while (threadRunning)
 	{
-		if (updateInput)
+		if (_updateInput == true)
 		{
-			updateInput = false;
+			UpdateInput(false);
 
 			recentInput->push_back(newInput);
 			SetLastInputTime(GetLastInputTime());
