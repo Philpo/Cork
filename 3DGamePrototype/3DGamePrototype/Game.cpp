@@ -252,7 +252,7 @@ void Game::update(double timeSinceLastFrame) {
     }
   }
   for (auto bullet : bulletsToRemove) {
-    remove<GameObject*>(boxPool->getObjects(), bullet);
+    MessageHandler::forwardMessage(Message(REMOVE_BULLET_MESSAGE, bullet, camera->getMessageHandler(REMOVE_BULLET_MESSAGE)));
   }
   for (auto box : boxesToRemove) {
     remove<GameObject* const>(boxes, box);
