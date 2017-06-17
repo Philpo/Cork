@@ -20,8 +20,8 @@ public:
   Scheduler(double frameRateTarget, const wstring caption);
   ~Scheduler();
 
-  void scheduleComponent(const string& messageType, IComponent* const component) { pollEveryFrame.insert(pair<string, IComponent* const>(messageType, component)); }
-  void unscheduleComponent(const string& messageType) { pollEveryFrame.erase(messageType); }
+  void scheduleComponent(size_t messageType, IComponent* const component) { pollEveryFrame.insert(pair<size_t, IComponent* const>(messageType, component)); }
+  void unscheduleComponent(size_t messageType) { pollEveryFrame.erase(messageType); }
   void setGameLoopFunction(GameLoopFunction function) { this->function = function; }
 
   WPARAM gameLoop();
@@ -30,7 +30,7 @@ private:
   __int64 counterStart; 
   wstring caption;
   GameLoopFunction function;
-  map<string, IComponent* const> pollEveryFrame;
+  map<size_t, IComponent* const> pollEveryFrame;
 
   HRESULT startCounter();
   double getCounter();

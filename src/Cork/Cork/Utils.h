@@ -4,39 +4,39 @@
 #include <vector>
 
 // general message types for use in any game
-const std::string DRAW_MESSAGE = "DrawMessage";
-const std::string ADD_FORCE_MESSAGE = "AddForceMessage";
-const std::string POLL_INPUT_MESSAGE = "PollInputMessage";
-const std::string INPUT_RECEIVED_MESSAGE = "InputReceivedMessage";
-const std::string APPLY_FORCE_MESSAGE = "ApplyForceMessage"; 
-const std::string UPDATE_AFTER_COLLISION_MESSAGE = "UpdateAfterCollisionMessage";
-const std::string JUMP_MESSAGE = "JumpMessage";
+const std::size_t DRAW_MESSAGE = std::hash<std::string>{}("DrawMessage");
+const std::size_t ADD_FORCE_MESSAGE = std::hash<std::string>{}("AddForceMessage");
+const std::size_t POLL_INPUT_MESSAGE = std::hash<std::string>{}("PollInputMessage");
+const std::size_t INPUT_RECEIVED_MESSAGE = std::hash<std::string>{}("InputReceivedMessage");
+const std::size_t APPLY_FORCE_MESSAGE = std::hash<std::string>{}("ApplyForceMessage");
+const std::size_t UPDATE_AFTER_COLLISION_MESSAGE = std::hash<std::string>{}("UpdateAfterCollisionMessage");
+const std::size_t JUMP_MESSAGE = std::hash<std::string>{}("JumpMessage");
 
 // general component types for use in any game
-const std::string GRAPHICS_COMPONENT = "GraphicsComponent";
-const std::string PHYSICS_COMPONENT = "PhysicsComponent";
-const std::string INPUT_COMPONENT = "InputComponent";
-const std::string APPLY_FORCE_COMPONENT = "ApplyForceComponent";
-const std::string TRANSFORM_COMPONENT = "TransformComponent";
-const std::string MESH_COMPONENT = "MeshComponent";
-const std::string CAMERA_COMPONENT = "CameraComponent";
-const std::string BOUNDING_BOX_COMPONENT = "BoundingBoxComponent";
-const std::string PARTICLE_COMPONENT = "ParticleComponent";
+const std::size_t GRAPHICS_COMPONENT = std::hash<std::string>{}("GraphicsComponent");
+const std::size_t PHYSICS_COMPONENT = std::hash<std::string>{}("PhysicsComponent");
+const std::size_t INPUT_COMPONENT = std::hash<std::string>{}("InputComponent");
+const std::size_t APPLY_FORCE_COMPONENT = std::hash<std::string>{}("ApplyForceComponent");
+const std::size_t TRANSFORM_COMPONENT = std::hash<std::string>{}("TransformComponent");
+const std::size_t MESH_COMPONENT = std::hash<std::string>{}("MeshComponent");
+const std::size_t CAMERA_COMPONENT = std::hash<std::string>{}("CameraComponent");
+const std::size_t BOUNDING_BOX_COMPONENT = std::hash<std::string>{}("BoundingBoxComponent");
+const std::size_t PARTICLE_COMPONENT = std::hash<std::string>{}("ParticleComponent");
 
 // general input events for use in any game
-const std::string NONE = "None";
-const std::string MOVE_UP = "MoveUp";
-const std::string MOVE_DOWN = "MoveDown";
-const std::string MOVE_LEFT = "MoveLeft";
-const std::string MOVE_RIGHT = "MoveRight";
-const std::string MOVE_FORWARD = "MoveForward";
-const std::string MOVE_BACK = "MoveBack";
-const std::string ROTATE_YAW_CLOCKWISE = "RotateYawClockwise";
-const std::string ROTATE_YAW_ANTICLOCKWISE = "RotateYawAntiClockwise";
-const std::string ROTATE_PITCH_UP = "RotatePitchUp";
-const std::string ROTATE_PITCH_DOWN = "RotatePitchDown";
-const std::string FIRE = "Fire";
-const std::string JUMP = "Jump";
+const std::size_t NONE = std::hash<std::string>{}("None");
+const std::size_t MOVE_UP = std::hash<std::string>{}("MoveUp");
+const std::size_t MOVE_DOWN = std::hash<std::string>{}("MoveDown");
+const std::size_t MOVE_LEFT = std::hash<std::string>{}("MoveLeft");
+const std::size_t MOVE_RIGHT = std::hash<std::string>{}("MoveRight");
+const std::size_t MOVE_FORWARD = std::hash<std::string>{}("MoveForward");
+const std::size_t MOVE_BACK = std::hash<std::string>{}("MoveBack");
+const std::size_t ROTATE_YAW_CLOCKWISE = std::hash<std::string>{}("RotateYawClockwise");
+const std::size_t ROTATE_YAW_ANTICLOCKWISE = std::hash<std::string>{}("RotateYawAntiClockwise");
+const std::size_t ROTATE_PITCH_UP = std::hash<std::string>{}("RotatePitchUp");
+const std::size_t ROTATE_PITCH_DOWN = std::hash<std::string>{}("RotatePitchDown");
+const std::size_t FIRE = std::hash<std::string>{}("Fire");
+const std::size_t JUMP = std::hash<std::string>{}("Jump");
 
 // input methods
 const std::string INPUTMETHOD_KEYBOARD = "Keyboard";
@@ -57,7 +57,7 @@ T convertStringToNumber(const std::string& toConvert) {
 }
 
 template <class T>
-bool contains(const std::vector<T>& toCheck, const T value) {
+bool contains(const std::vector<T>& toCheck, const T& value) {
   for (auto t : toCheck) {
     if (t == value) {
       return true;

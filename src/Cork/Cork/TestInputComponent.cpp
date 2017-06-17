@@ -1,6 +1,6 @@
 #include "TestInputComponent.h"
 
-const vector<string> TestInputComponent::SUPPORTED_MESSAGES = { POLL_INPUT_MESSAGE };
+const vector<size_t> TestInputComponent::SUPPORTED_MESSAGES = { POLL_INPUT_MESSAGE };
 
 TestInputComponent::TestInputComponent() : player(nullptr) {
   //MessageHandler::addForwardingMapping(POLL_INPUT_MESSAGE, this);

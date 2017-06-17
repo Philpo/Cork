@@ -6,19 +6,19 @@
 
 using namespace rapidxml;
 
-const std::string BEGIN_FRAME_MESSAGE = "BeginFrameMessage";
-const std::string BEGIN_PASS_MESSAGE = "BeginPassMessage";
-const std::string SWAP_BUFFER_MESSAGE = "SwapBufferMessage";
-const std::string SET_CONSTANT_BUFFER_MESSAGE = "SetConstantBufferMessage";
-const std::string SET_SHADER_MESSAGE = "SetShaderMessage";
+const std::size_t BEGIN_FRAME_MESSAGE = std::hash<std::string>{}("BeginFrameMessage");
+const std::size_t BEGIN_PASS_MESSAGE = std::hash<std::string>{}("BeginPassMessage");
+const std::size_t SWAP_BUFFER_MESSAGE = std::hash<std::string>{}("SwapBufferMessage");
+const std::size_t SET_CONSTANT_BUFFER_MESSAGE = std::hash<std::string>{}("SetConstantBufferMessage");
+const std::size_t SET_SHADER_MESSAGE = std::hash<std::string>{}("SetShaderMessage");
 
-const std::string LOAD_TEXTURE_MESSAGE = "LoadTextureMessage";
-const std::string LOAD_MESH_MESSAGE = "LoadMeshMessage";
-const std::string LOAD_SHADER_MESSAGE = "LoadShaderMessage";
-const std::string LOAD_PASS_MESSAGE = "LoadPassMessage";
-const std::string CREATE_RENDER_TARGET_MESSAGE = "CreateRenderTargetMessage";
-const std::string CREATE_DEPTH_BUFFER_MESSAGE = "CreateDepthBufferMessage";
-const std::string CREATE_VIEWPORT_MESSAGE = "CreateViewportMessage";
+const std::size_t LOAD_TEXTURE_MESSAGE = std::hash<std::string>{}("LoadTextureMessage");
+const std::size_t LOAD_MESH_MESSAGE = std::hash<std::string>{}("LoadMeshMessage");
+const std::size_t LOAD_SHADER_MESSAGE = std::hash<std::string>{}("LoadShaderMessage");
+const std::size_t LOAD_PASS_MESSAGE = std::hash<std::string>{}("LoadPassMessage");
+const std::size_t CREATE_RENDER_TARGET_MESSAGE = std::hash<std::string>{}("CreateRenderTargetMessage");
+const std::size_t CREATE_DEPTH_BUFFER_MESSAGE = std::hash<std::string>{}("CreateDepthBufferMessage");
+const std::size_t CREATE_VIEWPORT_MESSAGE = std::hash<std::string>{}("CreateViewportMessage");
 
 struct TextureInfo {
   TextureInfo(std::string& type, std::string& filePath, ITexture*& texture) : type(type), filePath(filePath), texture(texture) {}

@@ -11,13 +11,13 @@ public:
   TestInputComponent();
   ~TestInputComponent();
 
-  const string& getType() const override { return INPUT_COMPONENT; }
-  const vector<string>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
+  size_t getType() const override { return INPUT_COMPONENT; }
+  const vector<size_t>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
 
   void setPlayer(IMessageable* const player) { this->player = player; }
 private:
   IMessageable* player;
-  static const vector<string> SUPPORTED_MESSAGES;
+  static const vector<size_t> SUPPORTED_MESSAGES;
 
   //SHORT inputData = 0;
 

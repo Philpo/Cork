@@ -4,7 +4,7 @@
 unique_ptr<DirectX11Graphics> DirectX11Graphics::instance;
 int DirectX11Graphics::textureId = 0;
 int DirectX11Graphics::shaderId = 0;
-const vector<string> DirectX11Graphics::SUPPORTED_MESSAGES = { 
+const vector<size_t> DirectX11Graphics::SUPPORTED_MESSAGES = { 
   BEGIN_FRAME_MESSAGE
 , BEGIN_PASS_MESSAGE
 , SWAP_BUFFER_MESSAGE

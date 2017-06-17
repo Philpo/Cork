@@ -11,15 +11,17 @@ namespace CorkUnitTests {
 
     TEST_CASE("test service locator getComponent") {
       SECTION("test mapped component") {
-        ServiceLocator::addMessageHandlerFunction("a", std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
-        IComponent* c = ServiceLocator::getMessageHandler("a");
+        size_t type = std::hash<string>{}("a");
+        ServiceLocator::addMessageHandlerFunction(type, std::bind(&Factory::getBasicInputComponent, factory, std::placeholders::_1));
+        IComponent* c = ServiceLocator::getMessageHandler(type);
         REQUIRE((c != nullptr));
         REQUIRE(typeid(*c) == typeid(TestInputComponent));
         ServiceLocator::cleanup();
       }
       SECTION("test unmapped component") {
         INFO("test");
-        IComponent* c = ServiceLocator::getMessageHandler("b");
+        size_t type = std::hash<string>{}("b");
+        IComponent* c = ServiceLocator::getMessageHandler(type);
         REQUIRE((c == nullptr));
       }
     }

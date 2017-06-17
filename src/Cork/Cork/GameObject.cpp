@@ -2,8 +2,8 @@
 
 GameObject::~GameObject() {}
 
-void GameObject::addMessageHandler(const string& type, IComponent* const component) {
-  components.insert(pair<string, IComponent* const>(type, component));
+void GameObject::addMessageHandler(size_t type, IComponent* const component) {
+  components.insert(pair<size_t, IComponent* const>(type, component));
   supportedMessages.push_back(type);
 }
 

@@ -1,10 +1,10 @@
 #include "BasicMovementComponent.h"
 
-const vector<string> BasicMovementComponent::SUPPORTED_MESSAGES = { INPUT_RECEIVED_MESSAGE };
+const vector<size_t> BasicMovementComponent::SUPPORTED_MESSAGES = { INPUT_RECEIVED_MESSAGE };
 
 void BasicMovementComponent::receiveMessage(IMessage& message) {
   if (target) {
-    string* event = (string*) message.getData(); 
+    size_t* event = (size_t*) message.getData(); 
     Vector3 newPosition, newRotation;
     IDataComponent* component = nullptr;
 

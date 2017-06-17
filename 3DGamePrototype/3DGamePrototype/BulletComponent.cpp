@@ -1,6 +1,6 @@
 #include "BulletComponent.h"
 
-const vector<string> BulletComponent::SUPPORTED_MESSAGES = { ADD_BULLET_MESSAGE, REMOVE_BULLET_MESSAGE };
+const vector<size_t> BulletComponent::SUPPORTED_MESSAGES = { ADD_BULLET_MESSAGE, REMOVE_BULLET_MESSAGE };
 
 void BulletComponent::receiveMessage(IMessage& message) {
   Transform t = *(Transform*) entity->getDataComponent(TRANSFORM_COMPONENT)->getData();

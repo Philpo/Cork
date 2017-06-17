@@ -20,20 +20,20 @@ public:
 
   static void cleanup();
 
-  static void addMessageHandlerFunction(const string& componentType, MessageHandlerFunction function);
-  static void removeMessageHandlerFunction(const string& componentType) { messageHandlerFunctions.erase(componentType); }
-  static IComponent* const getMessageHandler(const string& componentType);
-  static IComponent* const getMessageHandler(const string& componentType, void* data);
+  static void addMessageHandlerFunction(size_t componentType, MessageHandlerFunction function);
+  static void removeMessageHandlerFunction(size_t componentType) { messageHandlerFunctions.erase(componentType); }
+  static IComponent* const getMessageHandler(size_t componentType);
+  static IComponent* const getMessageHandler(size_t componentType, void* data);
   static void deleteMessageHandler(IComponent*& toDelete);
 
-  static void addDataComponentFunction(const string& componentType, DataComponentFunction function);
-  static void removeDataComponentFunction(const string& componentType) { dataComponentFunctions.erase(componentType); }
-  static IDataComponent* const getDataComponent(const string& componentType, void* data);
-  static void deleteDataComponent(const string& componentType, IDataComponent*& toDelete);
+  static void addDataComponentFunction(size_t componentType, DataComponentFunction function);
+  static void removeDataComponentFunction(size_t componentType) { dataComponentFunctions.erase(componentType); }
+  static IDataComponent* const getDataComponent(size_t componentType, void* data);
+  static void deleteDataComponent(size_t componentType, IDataComponent*& toDelete);
 private:
-  static map<string, MessageHandlerFunction> messageHandlerFunctions;
-  static map<string, vector<IComponent* const>> messageHandlers;
+  static map<size_t, MessageHandlerFunction> messageHandlerFunctions;
+  static map<size_t, vector<IComponent* const>> messageHandlers;
 
-  static map<string, DataComponentFunction> dataComponentFunctions;
-  static map<string, vector<IDataComponent* const>> dataComponents;
+  static map<size_t, DataComponentFunction> dataComponentFunctions;
+  static map<size_t, vector<IDataComponent* const>> dataComponents;
 };

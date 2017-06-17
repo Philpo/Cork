@@ -13,13 +13,13 @@ public:
   BulletComponent() {}
   ~BulletComponent() {}
 
-  const string& getType() const override { return BULLET_COMPONENT; }
-  const vector<string>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
+  size_t getType() const override { return BULLET_COMPONENT; }
+  const vector<size_t>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
 
   void setEntity(GameObject* const entity) { this->entity = entity; }
 private:
   void receiveMessage(IMessage& message) override;
 
   GameObject* entity;
-  static const vector<string> SUPPORTED_MESSAGES;
+  static const vector<size_t> SUPPORTED_MESSAGES;
 };

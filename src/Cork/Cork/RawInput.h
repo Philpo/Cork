@@ -34,8 +34,8 @@ public:
 	//vector<IRawDevice*> GetJoystick() { return _joystick; }
 	//vector<IRawDevice*> GetMouse()	 { return _mouse; }
 
-  const std::string& getType() const { return INPUT_COMPONENT; }
-  const std::vector<std::string>& getSupportedMessages() const {
+  size_t getType() const { return INPUT_COMPONENT; }
+  const std::vector<size_t>& getSupportedMessages() const {
     return _temp;
   }
 
@@ -75,6 +75,6 @@ private:
 
 	//vector<IRawDevice*> _rawDeviceVect;
 
-  vector < string >  _temp;
+  vector <size_t>  _temp;
 };
 

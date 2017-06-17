@@ -1,10 +1,10 @@
 #include "ServiceLocator.h"
 
-map<string, MessageHandlerFunction> ServiceLocator::messageHandlerFunctions;
-map<string, vector<IComponent* const>> ServiceLocator::messageHandlers;
+map<size_t, MessageHandlerFunction> ServiceLocator::messageHandlerFunctions;
+map<size_t, vector<IComponent* const>> ServiceLocator::messageHandlers;
 
-map<string, DataComponentFunction> ServiceLocator::dataComponentFunctions;
-map<string, vector<IDataComponent* const>> ServiceLocator::dataComponents;
+map<size_t, DataComponentFunction> ServiceLocator::dataComponentFunctions;
+map<size_t, vector<IDataComponent* const>> ServiceLocator::dataComponents;
 
 void ServiceLocator::cleanup() {
   for (auto kvp : messageHandlers) {
@@ -21,17 +21,17 @@ void ServiceLocator::cleanup() {
   dataComponents.clear();
 }
 
-void ServiceLocator::addMessageHandlerFunction(const string& componentType, MessageHandlerFunction function) {
+void ServiceLocator::addMessageHandlerFunction(size_t componentType, MessageHandlerFunction function) {
   if (messageHandlerFunctions.find(componentType) == messageHandlerFunctions.end()) {
-    messageHandlerFunctions.insert(pair<string, MessageHandlerFunction>(componentType, function));
+    messageHandlerFunctions.insert(pair<size_t, MessageHandlerFunction>(componentType, function));
   }
 }
 
-IComponent* const ServiceLocator::getMessageHandler(const string& componentType) {
+IComponent* const ServiceLocator::getMessageHandler(size_t componentType) {
   return getMessageHandler(componentType, nullptr);
 }
 
-IComponent* const ServiceLocator::getMessageHandler(const string& componentType, void* data) {
+IComponent* const ServiceLocator::getMessageHandler(size_t componentType, void* data) {
   IComponent* component = nullptr;
 
   if (messageHandlerFunctions.find(componentType) != messageHandlerFunctions.end()) {
@@ -44,7 +44,7 @@ IComponent* const ServiceLocator::getMessageHandler(const string& componentType,
         }
         else {
           vector<IComponent* const> v = { component };
-          messageHandlers.insert(pair<string, vector<IComponent* const>>(componentType, v));
+          messageHandlers.insert(pair<size_t, vector<IComponent* const>>(componentType, v));
         }
       }
     }
@@ -65,13 +65,13 @@ void ServiceLocator::deleteMessageHandler(IComponent*& toDelete) {
   }
 }
 
-void ServiceLocator::addDataComponentFunction(const string& componentType, DataComponentFunction function) {
+void ServiceLocator::addDataComponentFunction(size_t componentType, DataComponentFunction function) {
   if (dataComponentFunctions.find(componentType) == dataComponentFunctions.end()) {
-    dataComponentFunctions.insert(pair<string, DataComponentFunction>(componentType, function));
+    dataComponentFunctions.insert(pair<size_t, DataComponentFunction>(componentType, function));
   }
 }
 
-IDataComponent* const ServiceLocator::getDataComponent(const string& componentType, void* data) {
+IDataComponent* const ServiceLocator::getDataComponent(size_t componentType, void* data) {
   IDataComponent* component = nullptr;
 
   if (dataComponentFunctions.find(componentType) != dataComponentFunctions.end()) {
@@ -82,14 +82,14 @@ IDataComponent* const ServiceLocator::getDataComponent(const string& componentTy
     }
     else {
       vector<IDataComponent* const> v = { component };
-      dataComponents.insert(pair<string, vector<IDataComponent* const>>(componentType, v));
+      dataComponents.insert(pair<size_t, vector<IDataComponent* const>>(componentType, v));
     }
   }
 
   return component;
 }
 
-void ServiceLocator::deleteDataComponent(const string& componentType, IDataComponent*& toDelete) {
+void ServiceLocator::deleteDataComponent(size_t componentType, IDataComponent*& toDelete) {
   if (dataComponents.find(componentType) != dataComponents.end()) {
     if (remove<IDataComponent* const>(dataComponents[componentType], toDelete)) {
       delete toDelete;

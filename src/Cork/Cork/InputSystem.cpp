@@ -16,7 +16,7 @@ InputSystem::InputSystem(HWND window)
 {
 	setCurrentWindow(window);
 
-  temp.push_back("CheckInputMessage");
+  temp.push_back(std::hash<std::string>{}("CheckInputMessage"));
 
 	_rawInput = new RawInput;
 

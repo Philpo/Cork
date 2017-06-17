@@ -10,15 +10,16 @@ namespace CorkUnitTests {
     TEST_CASE("test message constructors") {
       SECTION("test default constructor") {
         Message m;
-        REQUIRE(m.getType() == "");
+        REQUIRE(m.getType() == -1);
         REQUIRE((m.getData() == nullptr));
         REQUIRE((m.getTarget() == nullptr));
       }
       SECTION("test parameterised constructor") {
         int data = 1;
         GameObject* go = new GameObject;
-        Message m("test", &data, go);
-        REQUIRE(m.getType() == "test");
+        size_t type = std::hash<string>{}("test");
+        Message m(type, &data, go);
+        REQUIRE(m.getType() == type);
         REQUIRE((m.getData() != nullptr));
         REQUIRE(*((int*) m.getData()) == data);
         REQUIRE((m.getTarget() != nullptr));
@@ -31,8 +32,9 @@ namespace CorkUnitTests {
       Message m;
 
       SECTION("test setType") {
-        m.setType("a");
-        REQUIRE(m.getType() == "a");
+        size_t type = std::hash<string>{}("a");
+        m.setType(type);
+        REQUIRE(m.getType() == type);
       }
       SECTION("test setData") {
         int data = 1;

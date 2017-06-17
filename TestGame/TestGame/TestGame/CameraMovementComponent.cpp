@@ -1,10 +1,10 @@
 #include "CameraMovementComponent.h"
 
-const vector<string> CameraMovementComponent::SUPPORTED_MESSAGES = { INPUT_RECEIVED_MESSAGE };
+const vector<size_t> CameraMovementComponent::SUPPORTED_MESSAGES = { INPUT_RECEIVED_MESSAGE };
 
 void CameraMovementComponent::receiveMessage(IMessage& message) {
   if (target) {
-    string* event = (string*) message.getData();
+    size_t* event = (size_t*) message.getData();
     Vector3 newPosition, newRotation;
     IDataComponent* component = nullptr;
     Camera& camera = *(Camera*) target->getDataComponent(CAMERA_COMPONENT)->getData();

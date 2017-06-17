@@ -1,14 +1,13 @@
 #pragma once
-#include <string>
 
-const std::string BASIC_MOVE_COMPONENT = "BasicMoveComponent";
-const std::string CAMERA_MOVE_COMPONENT = "CameraMovementComponent";
-const std::string UPDATE_POSITION_COMPONENT = "UpdatePositionComponent";
-const std::string JUMP_COMPONENT = "JumpComponent";
-const std::string LIGHT_COMPONENT = "LightComponent";
-const std::string JUMP_DATA_COMPONENT = "JumpDataComponent";
-const std::string BULLET_COMPONENT = "BulletComponent";
-const std::string BULLET_DATA_COMPONENT = "BulletDataComponent";
-const std::string ADD_BULLET_MESSAGE = "AddBulletMessage";
-const std::string REMOVE_BULLET_MESSAGE = "RemoveBulletMessage";
-const std::string OBJECT_POOL_DATA_COMPONENT = "ObjectPoolDataComponent";
+const std::size_t BASIC_MOVE_COMPONENT = std::hash<string>{}("BasicMoveComponent");
+const std::size_t CAMERA_MOVE_COMPONENT = std::hash<string>{}("CameraMovementComponent");
+const std::size_t UPDATE_POSITION_COMPONENT = std::hash<string>{}("UpdatePositionComponent");
+const std::size_t JUMP_COMPONENT = std::hash<string>{}("JumpComponent");
+const std::size_t LIGHT_COMPONENT = std::hash<string>{}("LightComponent");
+const std::size_t JUMP_DATA_COMPONENT = std::hash<string>{}("JumpDataComponent");
+const std::size_t BULLET_COMPONENT = std::hash<string>{}("BulletComponent");
+const std::size_t BULLET_DATA_COMPONENT = std::hash<string>{}("BulletDataComponent");
+const std::size_t ADD_BULLET_MESSAGE = std::hash<string>{}("AddBulletMessage");
+const std::size_t REMOVE_BULLET_MESSAGE = std::hash<string>{}("RemoveBulletMessage");
+const std::size_t OBJECT_POOL_DATA_COMPONENT = std::hash<string>{}("ObjectPoolDataComponent");

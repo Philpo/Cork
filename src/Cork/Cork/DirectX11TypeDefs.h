@@ -8,10 +8,10 @@
 
 using namespace DirectX;
 
-const std::string SET_INPUT_LAYOUT_MESSAGE = "SetInputLayoutMessage";
-const std::string LOAD_INPUT_LAYOUT_MESSAGE = "LoadInputLayoutMessage";
-const std::string CREATE_CONSTANT_BUFFER_MESSAGE = "CreateConstantBufferMessage";
-const std::string REGISTER_TEXTURE_REGISTERS_MESSAGE = "RegisterTextureRegistersMessage";
+const std::size_t SET_INPUT_LAYOUT_MESSAGE = std::hash<std::string>{}("SetInputLayoutMessage");
+const std::size_t LOAD_INPUT_LAYOUT_MESSAGE = std::hash<std::string>{}("LoadInputLayoutMessage");
+const std::size_t CREATE_CONSTANT_BUFFER_MESSAGE = std::hash<std::string>{}("CreateConstantBufferMessage");
+const std::size_t REGISTER_TEXTURE_REGISTERS_MESSAGE = std::hash<std::string>{}("RegisterTextureRegistersMessage");
 
 struct InputLayoutInfo {
   InputLayoutInfo(int vertexShader, D3D11_INPUT_ELEMENT_DESC* layout, int numElements, ID3D11InputLayout*& inputLayout) :

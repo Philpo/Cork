@@ -27,8 +27,8 @@ public:
 		return (inputMethod == "rawInput" && _rawInput != nullptr) ? (true) : (false);
 	};
 
-  const std::string& getType() const { return INPUT_COMPONENT; }
-  const std::vector<std::string>& getSupportedMessages() const {
+  size_t getType() const override { return INPUT_COMPONENT; }
+  const std::vector<std::size_t>& getSupportedMessages() const {
     return temp;
   }
   void setPlayer(IMessageable* const player) { _rawInput->setPlayer(player); }
@@ -50,6 +50,6 @@ private:
 
 	HWND _window;
 
-  vector < string >  temp;
+  vector <size_t>  temp;
 };
 

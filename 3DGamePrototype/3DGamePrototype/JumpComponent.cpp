@@ -1,6 +1,6 @@
 #include "JumpComponent.h"
 
-const vector<string> JumpComponent::SUPPORTED_MESSAGES = { JUMP_MESSAGE };
+const vector<size_t> JumpComponent::SUPPORTED_MESSAGES = { JUMP_MESSAGE };
 
 void JumpComponent::receiveMessage(IMessage& message) {
   if (target) {

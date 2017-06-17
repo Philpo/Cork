@@ -19,8 +19,8 @@ public:
 	KeyMap(string inputType);
 	~KeyMap();
 
-	map <string, USHORT> inputMap;
+	map <size_t, USHORT> inputMap;
 
-	void ChangeMappedKey(string command, USHORT newKey);
+	void ChangeMappedKey(size_t command, USHORT newKey);
 };
 

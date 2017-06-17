@@ -15,7 +15,7 @@ class IGraphics : public IComponent {
 public:
   virtual ~IGraphics() {}
 
-  const std::string& getType() const override { return GRAPHICS_COMPONENT; }
+  std::size_t getType() const override { return GRAPHICS_COMPONENT; }
 
   virtual void cleanup() = 0;
 private:

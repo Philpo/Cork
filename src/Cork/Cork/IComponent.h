@@ -6,5 +6,5 @@ class IComponent : public IMessageable {
 public:
   virtual ~IComponent() {}
 
-  virtual const std::string& getType() const = 0;
+  virtual size_t getType() const = 0;
 };

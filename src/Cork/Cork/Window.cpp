@@ -88,7 +88,7 @@ LRESULT CALLBACK wndProc(HWND window, UINT message, WPARAM wParam, LPARAM lParam
                 L"VKey - " + std::to_wstring(raw->data.keyboard.VKey) + L"\n";
               OutputDebugString(information.c_str());
 
-              MessageHandler::forwardMessage(Message("CheckInputMessage", &raw->data.keyboard.VKey, inputSystem));
+              MessageHandler::forwardMessage(Message(std::hash<std::string>{}("CheckInputMessage"), &raw->data.keyboard.VKey, inputSystem));
             }
           }
         }

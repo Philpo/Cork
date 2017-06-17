@@ -10,13 +10,13 @@ public:
   JumpComponent() {}
   ~JumpComponent() {}
 
-  const string& getType() const override { return JUMP_COMPONENT; }
-  const vector<string>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
+  size_t getType() const override { return JUMP_COMPONENT; }
+  const vector<size_t>& getSupportedMessages() const override { return SUPPORTED_MESSAGES; }
 
   void setTarget(GameObject* const target) { this->target = target; }
 private:
   GameObject* target;
-  static const vector<string> SUPPORTED_MESSAGES;
+  static const vector<size_t> SUPPORTED_MESSAGES;
 
   void receiveMessage(IMessage& message) override;
 };

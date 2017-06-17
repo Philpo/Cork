@@ -12,31 +12,35 @@ namespace CorkUnitTests {
     TEST_CASE("test addMessageHandler") {
       GameObject go;
       IComponent* c = new ApplyForceComponent();
-      go.addMessageHandler ("test", c);
-      REQUIRE((go.getMessageHandler("test") != nullptr));
-      REQUIRE(typeid(*go.getMessageHandler("test")) == typeid(*c));
+      size_t type = std::hash<string>{}("test");
+      go.addMessageHandler (type, c);
+      REQUIRE((go.getMessageHandler(type) != nullptr));
+      REQUIRE(typeid(*go.getMessageHandler(type)) == typeid(*c));
       REQUIRE(go.getSupportedMessages().size() == 1);
-      REQUIRE(go.getSupportedMessages()[0] == "test");
+      REQUIRE(go.getSupportedMessages()[0] == type);
       delete c;
     }
 
     TEST_CASE("test getMessageHandler") {
       GameObject go;
-      REQUIRE((go.getMessageHandler("test") == nullptr));
+      size_t type = std::hash<string>{}("test");
+      REQUIRE((go.getMessageHandler(type) == nullptr));
     }
 
     TEST_CASE("test addDataComponent") {
       GameObject go;
       IDataComponent* c = new TransformComponent;
-      go.addDataComponent("test", c);
-      REQUIRE((go.getDataComponent("test") != nullptr));
-      REQUIRE(typeid(*go.getDataComponent("test")) == typeid(*c));
+      size_t type = std::hash<string>{}("test");
+      go.addDataComponent(type, c);
+      REQUIRE((go.getDataComponent(type) != nullptr));
+      REQUIRE(typeid(*go.getDataComponent(type)) == typeid(*c));
       delete c;
     }
 
     TEST_CASE("test getDataComponent") {
       GameObject go;
-      REQUIRE((go.getDataComponent("test") == nullptr));
+      size_t type = std::hash<string>{}("test");
+      REQUIRE((go.getDataComponent(type) == nullptr));
     }
   }
 }

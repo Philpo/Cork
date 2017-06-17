@@ -1,6 +1,6 @@
 #include "ApplyForceComponent.h"
 
-const vector<string> ApplyForceComponent::SUPPORTED_MESSAGES = { APPLY_FORCE_MESSAGE };
+const vector<size_t> ApplyForceComponent::SUPPORTED_MESSAGES = { APPLY_FORCE_MESSAGE };
 const Vector3 ApplyForceComponent::GRAVITY = Vector3(0.0f, -0.918f, 0.0f);
 
 void ApplyForceComponent::receiveMessage(IMessage& message) {

@@ -69,15 +69,15 @@ void EntityLoader::loadEntity(xml_node<>* entityNode, GameObject*& entity) {
   try {
     if (entityNode->first_node("data_components")) {
       for (xml_node<>* componentNode = entityNode->first_node("data_components")->first_node(); componentNode; componentNode = componentNode->next_sibling()) {
-        std::string componentType = componentNode->first_attribute("type")->value();
+        std::size_t componentType = std::hash<std::string>{}(componentNode->first_attribute("type")->value());
         entity->addDataComponent(componentType, ServiceLocator::getDataComponent(componentType, componentNode));
       }
     }
 
     if (entityNode->first_node("message_handlers")) {
       for (xml_node<>* componentNode = entityNode->first_node("message_handlers")->first_node(); componentNode; componentNode = componentNode->next_sibling()) {
-        std::string messageType = componentNode->first_attribute("message_type")->value();
-        std::string componentType = componentNode->first_attribute("type")->value();
+        std::size_t messageType = std::hash<std::string>{}(componentNode->first_attribute("message_type")->value());
+        std::size_t componentType = std::hash<std::string>{}(componentNode->first_attribute("type")->value());
         entity->addMessageHandler(messageType, ServiceLocator::getMessageHandler(componentType, entity));
       }
     }

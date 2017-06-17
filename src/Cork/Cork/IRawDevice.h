@@ -47,15 +47,15 @@ public:
 
 	IMessageable* player;
 
-  const std::string& getType() const		{ return INPUT_COMPONENT; }
-  const std::vector<std::string>& getSupportedMessages() const
+  size_t getType() const		{ return INPUT_COMPONENT; }
+  const std::vector<size_t>& getSupportedMessages() const
   {
     return _temp;
   }
 
 
 private:
-  vector < string >  _temp;
+  vector <size_t>  _temp;
 
   KeyMap* _keyMap = new KeyMap(INPUTMETHOD_KEYBOARD);
 

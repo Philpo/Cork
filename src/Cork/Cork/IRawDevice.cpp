@@ -3,7 +3,7 @@
 
 IRawDevice::IRawDevice()
 {
-  _temp.push_back("CheckInputMessage");
+  _temp.push_back(std::hash<std::string>{}("CheckInputMessage"));
   UsingComboSystem(true);
 }
 
