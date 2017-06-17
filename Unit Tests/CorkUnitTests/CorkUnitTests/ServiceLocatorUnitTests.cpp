@@ -18,6 +18,7 @@ namespace CorkUnitTests {
         ServiceLocator::cleanup();
       }
       SECTION("test unmapped component") {
+        INFO("test");
         IComponent* c = ServiceLocator::getMessageHandler("b");
         REQUIRE((c == nullptr));
       }
